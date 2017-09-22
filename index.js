@@ -1,7 +1,11 @@
-const express = require('express');
+const express = require('express'),
+	bodyParser = require('body-parser');
+
 const app = express();
 
+
 app.use(express.static('public'));
+app.use(bodyParser.json());
 
 app.get('/', (req, res) => {
 	res.send(`<!doctype html>
@@ -18,6 +22,7 @@ app.get('/', (req, res) => {
 app.get('/error', (req, res) => {
 	throw Error('Oops!');
 });
+app.use(require('./routes'));
 
 app.get('/transfer', (req, res) => {
 	const {amount, from, to} = req.query;
