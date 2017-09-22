@@ -133,7 +133,7 @@ class Card {
 		})
 	}
 
-	//load from storage
+	//load from storagegit
 	_load(){
 		let ctrl = this;
 		fs.createReadStream('source/cards.json', {encoding: 'utf8'})
@@ -146,11 +146,16 @@ class Card {
 	//save to json file (storage??)
 	//maybe save ascync with check changes & aftertimeout
 	_save () {
-		streamify(this.objects)
-			.pipe(JSONStream.stringify())
-			.pipe(fs.createWriteStream('source/cards.json'))
-			.on('error', (error) => console.log(error)
-		);
+
+		fs.writeFile('source/cards.json', JSON.stringify(this.objects), err => {
+			if (err) throw err;
+		});
+
+		// streamify(this.objects)
+		// 	.pipe(JSONStream.stringify())
+		// 	.pipe(fs.createWriteStream('source/cards.json'))
+		// 	.on('error', (error) => console.log(error)
+		// );
 	}
 }
 
