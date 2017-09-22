@@ -19,9 +19,15 @@ app.get('/', (req, res) => {
 	</html>`);
 });
 
+
+app.get('/ping', (req, res) => {
+	res.status(200).json({'ping': 'pong'})
+});
+
 app.get('/error', (req, res) => {
 	throw Error('Oops!');
 });
+
 app.use(require('./routes'));
 
 app.get('/transfer', (req, res) => {
@@ -37,3 +43,5 @@ app.get('/transfer', (req, res) => {
 app.listen(3000, () => {
 	console.log('YM Node School App listening on port 3000!');
 });
+
+module.exports = app;

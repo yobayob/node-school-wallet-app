@@ -5,7 +5,7 @@
   "author": "",
   "scripts": {
     "start": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha tests/*.js"
   },
   "repository": {
     "type": "git",
@@ -23,6 +23,9 @@
     "jsonschema": "^1.2.0"
   },
   "devDependencies": {
-    "eslint": "^4.7.2"
+    "chai": "^4.1.2",
+    "eslint": "^4.7.2",
+    "mocha": "^3.5.3",
+    "supertest": "^3.0.0"
   }
 }

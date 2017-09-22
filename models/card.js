@@ -5,7 +5,7 @@ const cardSchema = {
 	type: 'object',
 	properties: {
 		cardNumber: {
-			type: 'number',
+			type: 'string',
 			required: true
 		},
 		balance: {
@@ -18,7 +18,6 @@ const cardSchema = {
 
 // https://gist.github.com/DiegoSalazar/4075533
 function luhn(value) {
-	value = value.toString();
 	if (/[^0-9-\s]+/.test(value)) return false;
 	// The Luhn Algorithm. It's so pretty.
 	let nCheck = 0,
