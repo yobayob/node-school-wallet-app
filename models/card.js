@@ -1,5 +1,10 @@
-const fs = require('fs');
-const jsonSchema = require('commonjs-utils/lib/json-schema');
+const
+	fs = require('fs'),
+	jsonSchema = require('commonjs-utils/lib/json-schema'),
+	JSONStream = require('JSONStream'),
+	es = require('event-stream'),
+	streamify = require('stream-array');
+
 
 const cardSchema = {
 	type: 'object',
@@ -131,21 +136,21 @@ class Card {
 	//load from storage
 	_load(){
 		let ctrl = this;
-		fs.readFile('source/cards.json', (err, content)=>{
-			if (err) {
-				throw new (err)
-			}
-			ctrl.objects = JSON.parse(content);
-		})
+		fs.createReadStream('source/cards.json', {encoding: 'utf8'})
+			.pipe(JSONStream.parse('*'))
+			.pipe(es.mapSync( data => ctrl.objects.push(data))
+			.on('error', (error) => console.log(error))
+		);
 	}
 
 	//save to json file (storage??)
 	//maybe save ascync with check changes & aftertimeout
 	_save () {
-		fs.writeFile('source/cards.json', JSON.stringify(this.objects), err => {
-			if (err) throw err;
-		});
-
+		streamify(this.objects)
+			.pipe(JSONStream.stringify())
+			.pipe(fs.createWriteStream('source/cards.json'))
+			.on('error', (error) => console.log(error)
+		);
 	}
 }
 
