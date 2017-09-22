@@ -92,7 +92,7 @@ class Card {
 		return new Promise((resolve, reject) => {
 			try {
 				if (parseInt(id)<0){
-					reject({'id': 'Card ID incorrect'})
+					reject({'id': 'Card not found'});
 					return
 				}
 				let card = ctrl.objects.splice(id, 1);
@@ -101,7 +101,7 @@ class Card {
 					resolve(card);
 					return
 				}
-				reject({'id': 'Card with current id not found'})
+				reject({'id': 'Card not found'})
 			}
 			catch (e) {
 				reject(e)

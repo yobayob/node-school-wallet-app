@@ -19,7 +19,7 @@ router.post('/cards', (req, res) => {
 router.delete('/cards/:id', (req, res) => {
 	mockDB.model('Card').remove(req.params.id).then(
 		card => res.status(200).json(card),
-		error => res.status(400).json(error)
+		error => res.status(404).json(error)
 	);
 });
 
