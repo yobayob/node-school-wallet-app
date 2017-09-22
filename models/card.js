@@ -55,10 +55,17 @@ class Card {
 
 			if (!v.valid){
 				let errors = {};
-					v.errors.forEach( item => (errors[item.property] !== undefined)
+				// serialize error with schema validation
+				v.errors.forEach( item => (errors[item.property] !== undefined)
 						? errors[item.property].push(item.message)
 						: errors[item.property]=[item.message, ]);
-					reject(errors);
+
+				// fuuu
+				if (errors['']!== undefined){
+					errors.non_field_errors = errors[''];
+					delete errors[''];
+				}
+				reject(errors);
 				return
 			}
 
@@ -134,6 +141,7 @@ class Card {
 	}
 
 	//save to json file (storage??)
+	//maybe save ascync with check changes & aftertimeout
 	_save () {
 		fs.writeFile('source/cards.json', JSON.stringify(this.objects), err => {
 			if (err) throw err;
