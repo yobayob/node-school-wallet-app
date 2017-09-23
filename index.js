@@ -19,11 +19,6 @@ app.get('/', (req, res) => {
 	</html>`);
 });
 
-
-app.get('/ping', (req, res) => {
-	res.status(200).json({'ping': 'pong'})
-});
-
 app.get('/error', (req, res) => {
 	throw Error('Oops!');
 });

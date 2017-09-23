@@ -1,12 +1,10 @@
-const
-	fs = require('fs'),
-	jsonSchema = require('commonjs-utils/lib/json-schema'),
-	JSONStream = require('JSONStream'),
-	es = require('event-stream'),
-	streamify = require('stream-array');
-
+const fs = require('fs'),
+jsonSchema = require('commonjs-utils/lib/json-schema'),
+JSONStream = require('JSONStream'),
+es = require('event-stream');
 
 const cardSchema = {
+	additionalProperties: false,
 	type: 'object',
 	properties: {
 		cardNumber: {
@@ -18,7 +16,6 @@ const cardSchema = {
 			required: true
 		}
 	},
-	additionalProperties: false
 };
 
 // https://gist.github.com/DiegoSalazar/4075533
@@ -74,13 +71,13 @@ class Card {
 			}
 
 			if (!luhn(o.cardNumber)){
-				reject({cardNumber: 'Can\'t pass the LUHN algorithm '});
+				reject({cardNumber: ['Can\'t pass the LUHN algorithm', ]});
 				return
 			}
 
 
 			if (-1!==ctrl.objects.findIndex(item => item.cardNumber === o.cardNumber)) {
-				reject({cardNumber: 'Card with this id exists'});
+				reject({cardNumber: ['Card with this id exists']});
 				return
 			}
 
@@ -98,21 +95,21 @@ class Card {
 	}
 
 	//remove object by index
-	remove(id){
+	deleteByIndex(id){
 		let ctrl = this;
 		return new Promise((resolve, reject) => {
 			try {
 				if (parseInt(id)<0){
-					reject({'id': 'Card not found'});
+					reject({'id': ['Card not found']});
 					return
 				}
 				let card = ctrl.objects.splice(id, 1);
 				if (card.length>0){
 					ctrl._save();
-					resolve(card);
+					resolve(card[0]);
 					return
 				}
-				reject({'id': 'Card not found'})
+				reject({'id': ['Card not found']})
 			}
 			catch (e) {
 				reject(e)
@@ -148,7 +145,7 @@ class Card {
 	_save () {
 
 		fs.writeFile('source/cards.json', JSON.stringify(this.objects), err => {
-			if (err) throw err;
+			if (err) throw (err);
 		});
 
 		// streamify(this.objects)
@@ -159,5 +156,4 @@ class Card {
 	}
 }
 
-const objectManager = new Card();
-module.exports = objectManager;
+module.exports = new Card();

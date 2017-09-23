@@ -4,6 +4,7 @@ env:
   browser: true
   node: true
   es6: true
+  mocha: true
 ecmaFeatures:
   arrowFunctions: true,
   binaryLiterals: false,
@@ -31,7 +32,11 @@ ecmaFeatures:
   experimentalObjectRestSpread: false,
 globals:
   define: true
-
+parserOptions:
+  ecmaVersion: 6
+  sourceType: module
+  ecmaFeatures:
+    jsx": true
 extends:
   "eslint:recommended"
 

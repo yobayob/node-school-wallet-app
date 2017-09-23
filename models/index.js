@@ -1,9 +1,3 @@
-const card = require('./card');
-
-// BECAUSE I'M CRAZY AHAHAHAHA
-
-const mockDB = {
-	Card: card
+module.exports = {
+	Card: require('./card')
 };
-
-module.exports = mockDB;
