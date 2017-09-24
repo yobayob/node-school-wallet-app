@@ -37,7 +37,6 @@ class Card {
 				return
 			}
 
-
 			if (-1!==ctrl.objects.findIndex(item => item.cardNumber === o.cardNumber)) {
 				reject({cardNumber: ['Card with this id exists']});
 				return
@@ -92,7 +91,7 @@ class Card {
 		})
 	}
 
-	//load from storagegit
+	//load from storage
 	_load(){
 		let ctrl = this;
 		fs.createReadStream('source/cards.json', {encoding: 'utf8'})
@@ -109,12 +108,6 @@ class Card {
 			if (err) throw (err);
 		});
 
-		// be-be-be
-		// streamify(this.objects)
-		// 	.pipe(JSONStream.stringify())
-		// 	.pipe(fs.createWriteStream('source/cards.json'))
-		// 	.on('error', (error) => console.log(error)
-		// );
 	}
 }
 

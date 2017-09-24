@@ -1,6 +1,7 @@
 const jsonSchema = require('commonjs-utils/lib/json-schema');
 
-//middleware for check request data with schema
+//middleware for validate json data in request body
+//return errors as json -- {"field1: ["err1", "err2", ...], "field2": [...], "non_field_errors": [...]}
 module.exports = (schema) => {
 	return (req, res, next) => {
 		let v = jsonSchema.validate(req.body, schema);
