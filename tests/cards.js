@@ -33,8 +33,8 @@ describe('Cards', () => {
 			.set('Content-Type', 'application/json')
 			.send({'cardNumber': '5469550034235124', balance: 800})
 			.expect(200, {
-				"cardNumber": "5469550034235124",
-				"balance": 800
+				'cardNumber': '5469550034235124',
+				'balance': 800
 			}, done);
 	});
 	it('Remove', (done) => {
@@ -42,8 +42,8 @@ describe('Cards', () => {
 			.delete('/cards/2')
 			.set('Content-Type', 'application/json')
 			.expect(200, {
-				"cardNumber": "5469550034235124",
-				"balance": 800
+				'cardNumber': '5469550034235124',
+				'balance': 800
 			}, done);
 	});
 	it('Luhn failed', (done) => {

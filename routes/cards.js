@@ -1,23 +1,23 @@
-const router = require('express').Router();
-const Card = require('../models').Card;
-
+const router = require('express').Router(),
+	models = require('../models'),
+	validate = require('../middlewares/validator');
 
 router.get('/cards', (req, res) => {
-	Card.all().then(
+	models.Card.all().then(
 		cards => res.status(200).json(cards),
 		error => res.status(400).json(error)
 	)
 });
 
-router.post('/cards', (req, res) => {
-	Card.create(req.body).then(
+router.post('/cards', validate(models.Card.schema), (req, res) => {
+	models.Card.create(req.body).then(
 		card => res.status(200).json(card),
 		error => res.status(400).json(error)
 	);
 });
 
 router.delete('/cards/:id', (req, res) => {
-	Card.deleteByIndex(req.params.id).then(
+	models.Card.deleteByIndex(req.params.id).then(
 		card => res.status(200).json(card),
 		error => res.status(404).json(error)
 	);

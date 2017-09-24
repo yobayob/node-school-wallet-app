@@ -1,7 +1,7 @@
 const fs = require('fs'),
-jsonSchema = require('commonjs-utils/lib/json-schema'),
-JSONStream = require('JSONStream'),
-es = require('event-stream');
+	JSONStream = require('JSONStream'),
+	es = require('event-stream'),
+	luhn = require('../libs/utils').checkLuhn;
 
 const cardSchema = {
 	additionalProperties: false,
@@ -18,27 +18,6 @@ const cardSchema = {
 	},
 };
 
-// https://gist.github.com/DiegoSalazar/4075533
-function luhn(value) {
-	if (/[^0-9-\s]+/.test(value)) return false;
-	// The Luhn Algorithm. It's so pretty.
-	let nCheck = 0,
-		bEven = false;
-
-	for (let n = value.length - 1; n >= 0; n--) {
-		let cDigit = value.charAt(n),
-			nDigit = parseInt(cDigit, 10);
-		if (bEven) {
-			if ((nDigit *= 2) > 9) nDigit -= 9;
-		}
-
-		nCheck += nDigit;
-		bEven = !bEven;
-	}
-	return (nCheck % 10) === 0;
-}
-
-
 class Card {
 
 	constructor(){
@@ -52,23 +31,6 @@ class Card {
 		let ctrl = this;
 
 		return new Promise((resolve, reject) => {
-			let v = jsonSchema.validate(o, ctrl.schema);
-
-			if (!v.valid){
-				let errors = {};
-				// serialize error with schema validation
-				v.errors.forEach( item => (errors[item.property] !== undefined)
-						? errors[item.property].push(item.message)
-						: errors[item.property]=[item.message, ]);
-
-				// fuuu
-				if (errors['']!== undefined){
-					errors.non_field_errors = errors[''];
-					delete errors[''];
-				}
-				reject(errors);
-				return
-			}
 
 			if (!luhn(o.cardNumber)){
 				reject({cardNumber: ['Can\'t pass the LUHN algorithm', ]});
@@ -141,13 +103,13 @@ class Card {
 	}
 
 	//save to json file (storage??)
-	//maybe save ascync with check changes & aftertimeout
+	//maybe save ascync with check changes & after timeout
 	_save () {
-
 		fs.writeFile('source/cards.json', JSON.stringify(this.objects), err => {
 			if (err) throw (err);
 		});
 
+		// be-be-be
 		// streamify(this.objects)
 		// 	.pipe(JSONStream.stringify())
 		// 	.pipe(fs.createWriteStream('source/cards.json'))

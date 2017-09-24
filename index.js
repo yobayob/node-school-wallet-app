@@ -1,11 +1,11 @@
 const express = require('express'),
-	bodyParser = require('body-parser');
-
-const app = express();
+	bodyParser = require('body-parser'),
+	app = express();
 
 
 app.use(express.static('public'));
 app.use(bodyParser.json());
+
 
 app.get('/', (req, res) => {
 	res.send(`<!doctype html>
