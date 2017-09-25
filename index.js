@@ -1,11 +1,13 @@
 const express = require('express'),
 	bodyParser = require('body-parser'),
-	app = express();
-
+	logger = require('./middlewares/logger'),
+	app = express(),
+	methodOverride = require('method-override');
 
 app.use(express.static('public'));
 app.use(bodyParser.json());
-
+app.use(methodOverride());
+app.use(logger);
 
 app.get('/', (req, res) => {
 	res.send(`<!doctype html>

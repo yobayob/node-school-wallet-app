@@ -5,5 +5,6 @@ router.use('/ping', (req, res) => {
 	res.status(200).json({'ping': 'pong'})
 });
 
+
 router.use('', require('./cards'));
 module.exports = router;

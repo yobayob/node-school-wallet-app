@@ -35,7 +35,6 @@ const bankUtils = {
 			nCheck += nDigit;
 			bEven = !bEven;
 		}
-
 		return (nCheck % 10) === 0;
 	},
 
