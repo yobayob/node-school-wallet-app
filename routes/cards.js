@@ -1,26 +1,39 @@
-const router = require('express').Router(),
-	models = require('../models'),
-	validate = require('../middlewares/validator');
+const router = require('koa-router')(),
+	models = require('../models');
 
-router.get('/cards', (req, res) => {
-	models.Card.all().then(
-		cards => res.status(200).json(cards),
-		error => res.status(400).json(error)
-	)
+
+router.get('/cards', async ctx => {
+	const cards = await models.Card.all();
+	try {
+		ctx.status = 200;
+		ctx.body = cards
+	} catch (error){
+		ctx.status = 400;
+		ctx.body = error
+	}
 });
 
-router.post('/cards', validate(models.Card.schema), (req, res) => {
-	models.Card.create(req.body).then(
-		card => res.status(200).json(card),
-		error => res.status(400).json(error)
-	);
+router.post('/cards', async ctx => {
+	const card = await models.Card.create(ctx.request.body);
+	try {
+		ctx.status = 200;
+		ctx.body = card
+	} catch (error) {
+		console.log(error)
+		ctx.status = 400;
+		ctx.body = error
+	}
 });
 
-router.delete('/cards/:id', (req, res) => {
-	models.Card.deleteByIndex(req.params.id).then(
-		card => res.status(200).json(card),
-		error => res.status(404).json(error)
-	);
+router.delete('/cards/:id', async ctx => {
+	const card = await models.Card.deleteByIndex(ctx.params.id);
+	try {
+		ctx.status = 200;
+		ctx.body = card
+	} catch(error){
+		ctx.status = 404;
+		ctx.body = error
+	}
 });
 
 module.exports = router;

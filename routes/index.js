@@ -1,10 +1,18 @@
-const router = require('express').Router();
+const router = require('koa-router')(),
+	bodyParser = require('koa-bodyparser'),
+	jsonMiddleware = require('koa-json'),
+	cards = require('./cards');
 
 // for test available api
-router.use('/ping', (req, res) => {
-	res.status(200).json({'ping': 'pong'})
+router.use(bodyParser(), jsonMiddleware());
+
+router.get('/ping', ctx => {
+	ctx.status = 200;
+	ctx.body = {'ping':'pong'}
 });
 
+router
+	.use(cards.routes())
+	.use(cards.allowedMethods());
 
-router.use('', require('./cards'));
 module.exports = router;
