@@ -104,7 +104,7 @@ class Card {
 	//save to json file (storage??)
 	//maybe save ascync with check changes & after timeout
 	_save () {
-		fs.writeFile('source/cards.json', JSON.stringify(this.objects), err => {
+		fs.writeFileSync('source/cards.json', JSON.stringify(this.objects), err => {
 			if (err) throw (err);
 		});
 
