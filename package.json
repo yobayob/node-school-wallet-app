@@ -5,7 +5,7 @@
   "author": "",
   "scripts": {
     "start": "ts-node src/index.ts",
-    //"test": "mocha tests/*.js"
+    "test": "mocha tests/*.js"
   },
   "repository": {
     "type": "git",

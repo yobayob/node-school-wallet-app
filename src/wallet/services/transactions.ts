@@ -1,24 +1,24 @@
 import { writeFile, readFile } from 'fs';
 import { Inject, Singleton } from 'typescript-ioc';
-import { Card } from '../models'
-
+import { Transaction, Card } from '../models'
+import {CardManager} from './cards'
 
 @Singleton
-export class CardManager {
-	private objects: Card[];
-	private name = 'src/source/cards.json';
+export class TransactionManager {
+	private objects: Transaction[];
+	private name = 'src/source/transactions.json';
 
-	constructor() {
+	constructor(@Inject private cards: CardManager) {
 		this.loadFile().then(
 			data => this.objects = data
 		)
 	}
 
-	public async all() {
+	public async all(card: Card) {
 		const self = this;
-		return new Promise<Card[]>((resolve, reject) => {
+		return new Promise<Transaction[]>(async (resolve, reject) => {
 			try {
-				resolve(self.objects);
+				resolve(self.objects.filter(item =>item.cardId === card.id ));
 			} catch (e) {
 				reject(e)
 			}
@@ -27,29 +27,19 @@ export class CardManager {
 
 	public async create(o: {balance: number, cardNumber: string}) {
 		const self = this;
-		return new Promise<Card>((resolve, reject) => {
+		return new Promise<Transaction>((resolve, reject) => {
 			try {
-				resolve(new Card(o))
+				const card = new Transaction(o);
+				resolve(card)
 			} catch (err) {
 				reject(err)
 			}
 		})
 	}
 
-	public async deleteByIndex(id: number) {
+	public async loadFile(): Promise<Transaction[]>  {
 		const self = this;
-		return new Promise((resolve, reject) => {
-			try {
-				resolve()
-			} catch (err) {
-				reject(err)
-			}
-		})
-	}
-
-	public async loadFile(): Promise<Card[]>  {
-		const self = this;
-		return new Promise<Card[]> ((resolve, reject) => {
+		return new Promise<Transaction[]> ((resolve, reject) => {
 			readFile(`${self.name}`, (err, data) => {
 			if (err) {
 				reject(err)
@@ -59,12 +49,13 @@ export class CardManager {
 			try {
 				objects = JSON.parse(data.toString());
 				for (const o of objects){
-					cards.push(new Card(o))
+					cards.push(new Transaction(o))
 				}
 				resolve(cards);
 			} catch (err) {
 				reject(err)
 			}
+			console.log('Source readed');
 			resolve(objects)
 		})
 		})
@@ -81,4 +72,5 @@ export class CardManager {
 			})
 		})
 	}
+
 }
