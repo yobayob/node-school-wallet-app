@@ -1,2 +1,2 @@
-export * from './card';
-export * from './transaction';
+export {Card} from './card';
+export {Transaction} from './transaction';

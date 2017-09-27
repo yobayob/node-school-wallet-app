@@ -1,4 +1,7 @@
+import { Card } from './card';
+
 export class Transaction {
+	public _card?:  	Card;
 	public id: 		number;
 	public cardId: 	number;
 	public type: 	string;
@@ -6,7 +9,7 @@ export class Transaction {
 	public time: 	string;
 	public sum: 	string;
 
-	constructor(o:any){
+	constructor(o: any) {
 		this.id = o.id;
 		this.cardId = o.cardId;
 		this.type = o.type;
@@ -15,7 +18,9 @@ export class Transaction {
 		this.sum = o.sum;
 	}
 
-	async card(){
-
+	async card() {
+		if (this._card) {
+			return this._card
+		}
 	}
 }

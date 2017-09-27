@@ -44,7 +44,7 @@ export class CardsController {
 
 	public async deleteCard(ctx: Context) {
 		try {
-			let cardId = parseInt(ctx.params.cardId);
+			const cardId = parseInt(ctx.params.cardId, 10);
 			await this.cards.remove(cardId);
 			ctx.status = 200;
 		} catch (err) {
@@ -52,3 +52,4 @@ export class CardsController {
 		}
 	}
 }
+

@@ -5,7 +5,7 @@ import * as Router from 'koa-router';
 import * as controllers from './wallet/controllers'
 import { Inject } from 'typescript-ioc';
 import { IRouterContext } from 'koa-router'
-import {Wallet} from './wallet/app';
+import { Wallet } from './wallet/wallet';
 
 export class App {
 
@@ -18,7 +18,7 @@ export class App {
 		app.use(bodyParser());
 
 		this.wallet.register(app);
-		
+
 		app.use(router.routes());
 		app.use(router.allowedMethods());
 		return Promise.resolve(app);

@@ -9,7 +9,7 @@ export abstract class Application {
 		this.$onInit()
 	}
 
-	public $onInit(){}
+	public $onInit() {}
 
 	public register(app: App) {
 		app.use(this.router.routes());

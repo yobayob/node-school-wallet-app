@@ -2,7 +2,7 @@ import {writeFile, readFile} from 'fs';
 import {Inject, Singleton} from 'typescript-ioc';
 import {Card} from '../models'
 import {checkLuhn} from '../../common/utils';
-import * as ts from "typescript/lib/tsserverlibrary";
+import * as ts from 'typescript/lib/tsserverlibrary';
 import Err = ts.server.Msg.Err;
 
 
@@ -49,11 +49,11 @@ export class CardManager {
 		return new Promise<Card>((resolve, reject) => {
 			try {
 				if (!checkLuhn(o.cardNumber)) {
-					reject({"error": "Luhn invalid"});
+					reject({'error': 'Luhn invalid'});
 					return
 				}
 				if (-1 !== self.objects.findIndex(item => item.cardNumber === o.cardNumber)) {
-					reject({"error": "Card exists"});
+					reject({'error': 'Card exists'});
 					return
 				}
 				const id = self.objects[self.objects.length - 1].id + 1;
@@ -73,8 +73,8 @@ export class CardManager {
 		return new Promise((resolve, reject) => {
 			try {
 				const index = self.objects.findIndex(item => item.id === id);
-				if (index===-1){
-					reject({"error":"Card not found"});
+				if (index === -1) {
+					reject({'error': 'Card not found'});
 					return
 				}
 				self.objects.splice(index, 1);
@@ -111,7 +111,7 @@ export class CardManager {
 
 	private saveFile() {
 
-		writeFile(`${this.name}`, JSON.stringify(this.objects), err=> {
+		writeFile(`${this.name}`, JSON.stringify(this.objects), err => {
 			if (err) {
 				console.log(err)
 			}
