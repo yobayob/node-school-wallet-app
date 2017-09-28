@@ -1,5 +1,7 @@
-import { CardManager } from '../services/cards'
-import { Container } from 'typescript-ioc';
+import {CardManager} from '../services/cards'
+import {Container} from 'typescript-ioc';
+import {Document, Schema, Model, model} from 'mongoose';
+
 
 export class Card {
 
@@ -9,9 +11,7 @@ export class Card {
 	public balance: number;
 	public cardNumber: string;
 
-	constructor(
-		o: {balance: number, cardNumber: string, id?: number}
-	) {
+	constructor(o: { balance: number, cardNumber: string, id?: number }) {
 		this.id = o.id || -1;
 		this.balance = o.balance;
 		this.cardNumber = o.cardNumber;
@@ -29,3 +29,4 @@ export class Card {
 		})
 	}
 }
+

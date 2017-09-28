@@ -1,4 +1,3 @@
-import { Logger } from 'log4ts';
 import {writeFile, readFile} from 'fs';
 import {Inject, Singleton} from 'typescript-ioc';
 import {Card} from '../models'
