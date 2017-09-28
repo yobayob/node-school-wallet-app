@@ -1,9 +1,11 @@
+import { Logger } from 'log4ts';
 import {writeFile, readFile} from 'fs';
 import {Inject, Singleton} from 'typescript-ioc';
 import {Card} from '../models'
 import {checkLuhn} from '../../common/utils';
 import * as ts from 'typescript/lib/tsserverlibrary';
 import Err = ts.server.Msg.Err;
+import {log} from '../../common/logger'
 
 
 @Singleton
@@ -32,13 +34,16 @@ export class CardManager {
 		const self = this;
 		return new Promise<Card>((resolve, reject) => {
 			try {
+				console.log(id)
 				const card = self.objects.find(item => item.id === id);
 				if (!card) {
 					reject(card);
 					return
 				}
+				console.log(card);
 				resolve(card)
 			} catch (err) {
+				console.log(err);
 				reject(err)
 			}
 		});
@@ -56,11 +61,14 @@ export class CardManager {
 					reject({'error': 'Card exists'});
 					return
 				}
-				const id = self.objects[self.objects.length - 1].id + 1;
 				const card = new Card(o);
-				card.id = id;
+				self.objects.length > 0
+					? card.id = self.objects[self.objects.length - 1].id + 1
+					: card.id = 1;
+
 				this.objects.push(card);
 				this.saveFile();
+				log.info(`Card ${card.id} created`);
 				resolve(card)
 			} catch (err) {
 				reject(err)
@@ -79,6 +87,7 @@ export class CardManager {
 				}
 				self.objects.splice(index, 1);
 				self.saveFile();
+				log.info(`Card ${id} removed`);
 				resolve()
 			} catch (err) {
 				reject(err)
@@ -86,7 +95,7 @@ export class CardManager {
 		})
 	}
 
-	public async loadFile(): Promise<Card[]> {
+	private async loadFile(): Promise<Card[]> {
 		const self = this;
 		return new Promise<Card[]>((resolve, reject) => {
 			readFile(`${self.name}`, (err, data) => {
@@ -104,17 +113,23 @@ export class CardManager {
 				} catch (err) {
 					reject(err)
 				}
+				log.info(`${this.name} loaded`);
 				resolve(objects)
 			})
 		})
 	}
 
-	private saveFile() {
+	public async reload() {
+		const obj = await this.loadFile();
+		this.objects = obj
+	}
 
+	public saveFile() {
 		writeFile(`${this.name}`, JSON.stringify(this.objects), err => {
 			if (err) {
 				console.log(err)
 			}
-		})
+		});
+		log.info(`${this.name} saved`);
 	}
 }

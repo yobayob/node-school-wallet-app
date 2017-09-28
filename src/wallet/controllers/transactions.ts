@@ -7,13 +7,11 @@ import {Validate} from '../../common/utils'
 const createTransactionSchema = {
 	additionalProperties: false,
 	type: 'object',
-	required: ['cardId', 'type', 'data', 'time', 'sum'],
+	required: ['type', 'data', 'time', 'sum'],
 	properties: {
-		cardId: {
-			type: 'number'
-		},
 		type: {
-			type: 'string'
+			type: 'string',
+			enum: ['paymentMobile', 'prepaidCard', 'card2Card']
 		},
 		data: {
 			type: 'string'
@@ -38,8 +36,8 @@ export class TransactionController {
 	public async getAllCardTransaction(ctx: Context) {
 		try {
 			const card = await this.card.get(parseInt(ctx.params.cardId, 10));
-			const transactions = await this.transaction.all(card);
-			ctx.body = transactions
+			const trans = await this.transaction.all(card);
+			ctx.body = trans
 		} catch (err) {
 			ctx.body = err;
 			ctx.status = 400

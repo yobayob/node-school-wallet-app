@@ -1,7 +1,13 @@
+import { TransactionManager } from '../services/transactions'
+import { Container } from 'typescript-ioc';
 import { Card } from './card';
+import * as ts from 'typescript/lib/tsserverlibrary';
+import Err = ts.server.Msg.Err;
 
 export class Transaction {
-	public _card?:  	Card;
+
+	// private service: TransactionManager = Container.get(TransactionManager);  // dependcy injection
+
 	public id: 		number;
 	public cardId: 	number;
 	public type: 	string;
@@ -18,9 +24,14 @@ export class Transaction {
 		this.sum = o.sum;
 	}
 
-	async card() {
-		if (this._card) {
-			return this._card
-		}
+	toJSON() {
+		return ({
+			id: this.id,
+			cardId: this.cardId,
+			type: this.type,
+			data: this.data,
+			time: this.time,
+			sum: this.sum
+		})
 	}
 }

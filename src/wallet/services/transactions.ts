@@ -1,15 +1,15 @@
 import {writeFile, readFile} from 'fs';
 import {Inject, Singleton} from 'typescript-ioc';
 import {Transaction, Card} from '../models'
-import {CardManager} from './cards'
 import {TransactionInterface} from '../../common/interfaces/models'
+import {log} from '../../common/logger'
 
 @Singleton
 export class TransactionManager {
 	private objects: Transaction[];
 	private name = 'src/source/transactions.json';
 
-	constructor(@Inject private cards: CardManager) {
+	constructor() {
 		this.loadFile().then(
 			data => this.objects = data
 		)
@@ -26,24 +26,24 @@ export class TransactionManager {
 		})
 	}
 
-	public async create(c: Card, t: TransactionInterface) {
+	public async create(card: Card, t: TransactionInterface) {
 		const self = this;
 		return new Promise<Transaction>((resolve, reject) => {
 			try {
-				if (t.cardId !== c.id || c.id < 0) {
-					reject('Card id incorrect')
-				}
+				t.cardId = card.id;
 				const trans = new Transaction(t);
-				trans._card = c;
 				self.objects.length > 0
 					? trans.id = self.objects[self.objects.length - 1].id + 1
 					: trans.id = 1;
 
 				self.objects.push(trans);
+				card.balance = card.balance + parseFloat(trans.sum);
+				card.save();
 				self.saveFile();
+				log.info(`Create transaction ${trans.id} for card ${card.id}`);
 				resolve(trans)
 			} catch (err) {
-				console.log(err);
+				log.error(`create transaction error`, err);
 				reject(err)
 			}
 		})
@@ -57,17 +57,18 @@ export class TransactionManager {
 					reject(err)
 				}
 				let objects;
-				const cards = [];
+				const trans = [];
 				try {
 					objects = JSON.parse(data.toString());
 					for (const o of objects) {
-						cards.push(new Transaction(o))
+						trans.push(new Transaction(o))
 					}
-					resolve(cards);
+					resolve(trans);
 				} catch (err) {
+					log.error(`load file error`, err);
 					reject(err)
 				}
-				console.log('Source readed');
+				log.info(`${this.name} loaded`);
 				resolve(objects)
 			})
 		})
@@ -78,6 +79,7 @@ export class TransactionManager {
 			if (err) {
 				throw(err)
 			}
-		})
+		});
+		log.info(`${this.name} saved`);
 	}
 }
