@@ -1,4 +1,3 @@
-import { Logger } from 'log4ts';
 import {writeFile, readFile} from 'fs';
 import {Inject, Singleton} from 'typescript-ioc';
 import {Card} from '../models'
@@ -34,16 +33,14 @@ export class CardManager {
 		const self = this;
 		return new Promise<Card>((resolve, reject) => {
 			try {
-				console.log(id)
 				const card = self.objects.find(item => item.id === id);
 				if (!card) {
 					reject(card);
 					return
 				}
-				console.log(card);
 				resolve(card)
 			} catch (err) {
-				console.log(err);
+				log.error(`Get card ${id} failed`, err);
 				reject(err)
 			}
 		});
@@ -127,7 +124,7 @@ export class CardManager {
 	public saveFile() {
 		writeFile(`${this.name}`, JSON.stringify(this.objects), err => {
 			if (err) {
-				console.log(err)
+				log.error(`Save ${this.name} failed`, err)
 			}
 		});
 		log.info(`${this.name} saved`);
