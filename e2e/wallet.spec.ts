@@ -6,8 +6,8 @@ import * as sinon from 'sinon';
 import {agent} from 'supertest';
 import {instance, mock, verify, when} from 'ts-mockito';
 import {Container} from 'typescript-ioc';
-import {Card} from '../src/wallet/models'
-import {App} from '../src/app';
+import {Card} from '../src/backend/wallet/models'
+import {App} from '../src/backend/app';
 import {writeFileSync} from 'fs';
 
 describe('E2E: Cards', () => {
@@ -19,8 +19,8 @@ describe('E2E: Cards', () => {
 	const balance = 500;
 
 	function clean() {
-		writeFileSync(`src/source/cards.json`, JSON.stringify([]));
-		writeFileSync(`src/source/transactions.json`, JSON.stringify([]));
+		writeFileSync(`src/backend/source/cards.json`, JSON.stringify([]));
+		writeFileSync(`src/backend/source/transactions.json`, JSON.stringify([]));
 	}
 
 	before(async () => {

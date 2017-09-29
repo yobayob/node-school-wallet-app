@@ -1,8 +1,11 @@
 {
   "compilerOptions": {
     /* Basic Options */
-    "target": "es6", /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', or 'ESNEXT'. */
+    "target": "ES5", /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', or 'ESNEXT'. */
     "module": "commonjs", /* Specify module code generation: 'commonjs', 'amd', 'system', 'umd' or 'es2015'. */
+	"sourceMap": false,
+	"jsx": "react",
+	"allowJs": false,
     "lib": [
       "dom",
       "es5",
@@ -27,5 +30,12 @@
     "scripts",
     "test",
     "e2e"
-  ]
+  ],
+  "awesomeTypescriptLoaderOptions":{
+	"useBabel": true,
+	"babelOptions": {
+	  "presets": ["es2015"],
+	  "plugins": ["transform-runtime"]
+      }
+  }
 }

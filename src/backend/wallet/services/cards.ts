@@ -10,7 +10,7 @@ import {log} from '../../common/logger'
 @Singleton
 export class CardManager {
 	private objects: Card[];
-	private name = 'src/source/cards.json';
+	private name = 'src/backend/source/cards.json';
 
 	constructor() {
 		this.loadFile().then(

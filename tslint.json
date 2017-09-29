@@ -1,4 +1,5 @@
 {
+  "extends": ["tslint:latest", "tslint-react"],
   "rules": {
     "callable-types": true,
     "class-name": true,

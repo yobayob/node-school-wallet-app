@@ -6,6 +6,7 @@ import * as controllers from './wallet/controllers'
 import { Inject } from 'typescript-ioc';
 import { IRouterContext } from 'koa-router'
 import { Wallet } from './wallet/wallet';
+import * as serve from 'koa-static';
 
 export class App {
 
@@ -13,14 +14,10 @@ export class App {
 
 	private async createApp() {
 		const app: Koa = new Koa();
-		const router: Router = new Router();
 		app.use(logger());
 		app.use(bodyParser());
-
+		app.use(serve('dist/frontend'));
 		this.wallet.register(app);
-
-		app.use(router.routes());
-		app.use(router.allowedMethods());
 		return Promise.resolve(app);
 	}
 

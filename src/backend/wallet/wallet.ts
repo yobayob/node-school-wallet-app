@@ -1,22 +1,22 @@
-import { ApplicationSchema } from '../common/interfaces/application'
-import { Inject, Singleton } from 'typescript-ioc';
+import {ApplicationSchema} from '../common/interfaces/application'
+import {Inject, Singleton} from 'typescript-ioc';
 import * as controllers from './controllers';
 import * as Router from 'koa-router';
 import * as App from 'koa';
 
 /*
-Module wallet - all business logic for cards and transaction
+ Module wallet - all business logic for cards and transaction
  */
 @Singleton
 export class Wallet implements ApplicationSchema {
 
-	constructor(
-		@Inject public router: Router,
-		@Inject private cardsController: controllers.CardsController,
-		@Inject private transactionController: controllers.TransactionController
-	) {}
+	constructor(@Inject private router: Router,
+				@Inject private cardsController: controllers.CardsController,
+				@Inject private transactionController: controllers.TransactionController) {
+	}
 
 	$setRoutes() {
+
 		this.router.get('/cards',
 			async (ctx) => this.cardsController
 				.getAllCards(ctx));

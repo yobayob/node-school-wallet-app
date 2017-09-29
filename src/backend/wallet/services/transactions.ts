@@ -7,7 +7,7 @@ import {log} from '../../common/logger'
 @Singleton
 export class TransactionManager {
 	private objects: Transaction[];
-	private name = 'src/source/transactions.json';
+	private name = 'src/backend/source/transactions.json';
 
 	constructor() {
 		this.loadFile().then(
