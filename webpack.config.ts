@@ -2,9 +2,6 @@ import * as path from 'path';
 import * as webpack from 'webpack';
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-// const ExtractTextPlugin = require('extract-text-webpack-plugin');
-// const BabiliPlugin = require("babili-webpack-plugin");
-
 const config: webpack.Configuration[] = [
 	{
 		entry: ['./src/backend/index.ts'],
@@ -23,18 +20,9 @@ const config: webpack.Configuration[] = [
 						'awesome-typescript-loader',
 					],
 				},
-				// {
-				// 	test: /\.js?$/,
-				// 	use: [
-				// 		'babel-loader',
-				// 	],
-				// },
 			],
 		},
 		devtool: 'source-map',
-		plugins: [
-			// new BabiliPlugin(),
-		],
 		target: 'node',
 	}, {
 		entry: ['./src/frontend/index.ts'],
@@ -56,7 +44,6 @@ const config: webpack.Configuration[] = [
 					test: /\.tsx?$/,
 					use: [
 						'awesome-typescript-loader',
-						//'babel-loader',
 					],
 				}, {
 					test: /\.css$/,
@@ -69,11 +56,9 @@ const config: webpack.Configuration[] = [
 			],
 		},
 		plugins: [
-			// new ExtractTextPlugin('style.css'),
 			new HtmlWebpackPlugin({
 				title: 'Yamoney Node.js School',
 			}),
-			//new webpack.optimize.UglifyJsPlugin(),
 		],
 		devtool: 'source-map',
 	}];
