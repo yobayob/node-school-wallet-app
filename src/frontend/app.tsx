@@ -1,19 +1,13 @@
+import {Route, IndexRoute, Router} from 'react-router';
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import {Provider} from 'react-redux';
-import {createStore} from 'redux';
+import Master from './components/Master';
+import About from './components/About';
+import Home from './components/Home';
 
-import reducers from './reducers';
-const STORE = createStore(reducers);
-
-import {App} from './containers';
-
-const Main = () => (
-	<Provider store={ STORE }>
-		<App />
-	</Provider>
+const routes = () => (
+	<Route path='/' component={Master}>
+		<IndexRoute component={Home}/>
+		<Route path='/about' component={About}/>
+	</Route>
 );
-
-ReactDOM.render(<Main />, document.body);
-
-
+export default routes;

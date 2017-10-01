@@ -1,7 +1,6 @@
 import * as path from 'path';
 import * as webpack from 'webpack';
-
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const nodeExternals = require('webpack-node-externals');
 const config: webpack.Configuration[] = [
 	{
 		entry: ['./src/backend/index.ts'],
@@ -15,20 +14,22 @@ const config: webpack.Configuration[] = [
 		module: {
 			rules: [
 				{
-					test: /\.ts?$/,
+					test: /\.ts|tsx?$/,
+					exclude: ['node_modules'],
 					use: [
 						'awesome-typescript-loader',
 					],
 				},
 			],
 		},
+		externals: [nodeExternals()],
 		devtool: 'source-map',
 		target: 'node',
 	}, {
 		entry: ['./src/frontend/index.ts'],
 		output: {
 			path: path.resolve(__dirname, 'dist/frontend'),
-			filename: 'frontend.js',
+			filename: 'bundle.js',
 		},
 		devServer: {
 			contentBase: './',
@@ -42,11 +43,13 @@ const config: webpack.Configuration[] = [
 			rules: [
 				{
 					test: /\.tsx?$/,
+					exclude: ['node_modules'],
 					use: [
 						'awesome-typescript-loader',
 					],
 				}, {
 					test: /\.css$/,
+					exclude: ['node_modules'],
 					use: [
 						'style-loader',
 						'css-loader',
@@ -55,11 +58,7 @@ const config: webpack.Configuration[] = [
 				},
 			],
 		},
-		plugins: [
-			new HtmlWebpackPlugin({
-				title: 'Yamoney Node.js School',
-			}),
-		],
+		plugins: [],
 		devtool: 'source-map',
 	}];
 

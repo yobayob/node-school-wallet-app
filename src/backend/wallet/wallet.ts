@@ -10,10 +10,11 @@ import * as App from 'koa';
 @Singleton
 export class Wallet implements ApplicationSchema {
 
-	constructor(@Inject private router: Router,
-				@Inject private cardsController: controllers.CardsController,
-				@Inject private transactionController: controllers.TransactionController) {
-	}
+	constructor(
+		@Inject private router: Router,
+		@Inject private cardsController: controllers.CardsController,
+		@Inject private transactionController: controllers.TransactionController
+	) {}
 
 	$setRoutes() {
 

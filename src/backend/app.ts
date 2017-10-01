@@ -1,16 +1,18 @@
 import * as Koa from 'koa';
 import * as bodyParser from 'koa-bodyparser';
 import * as logger from 'koa-logger';
-import * as Router from 'koa-router';
-import * as controllers from './wallet/controllers'
 import { Inject } from 'typescript-ioc';
-import { IRouterContext } from 'koa-router'
 import { Wallet } from './wallet/wallet';
+import { Render } from './render';
 import * as serve from 'koa-static';
+import 'path'
 
 export class App {
 
-	constructor(@Inject private wallet: Wallet) { }
+	constructor(
+		@Inject private wallet: Wallet,
+		@Inject private render: Render,
+	) { }
 
 	private async createApp() {
 		const app: Koa = new Koa();
@@ -18,6 +20,7 @@ export class App {
 		app.use(bodyParser());
 		app.use(serve('dist/frontend'));
 		this.wallet.register(app);
+		this.render.register(app);
 		return Promise.resolve(app);
 	}
 

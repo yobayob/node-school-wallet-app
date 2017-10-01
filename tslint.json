@@ -1,6 +1,7 @@
 {
   "extends": ["tslint:latest", "tslint-react"],
   "rules": {
+	"no-submodule-imports": false,
     "callable-types": true,
     "class-name": true,
     "comment-format": [
@@ -89,6 +90,9 @@
         "variable-declaration": "nospace"
       }
     ],
+	"no-any": false,
+	"no-default-export": false,
+	"ordered-imports": false,
     "typeof-compare": true,
     "unified-signatures": true,
     "variable-name": false,
