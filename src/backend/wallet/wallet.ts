@@ -30,11 +30,11 @@ export class Wallet implements ApplicationSchema {
 			async (ctx) => this.cardsController
 				.deleteCard(ctx));
 
-		this.router.get('/cards/:cardId/transaction',
+		this.router.get('/cards/:cardId/transactions',
 			async (ctx) => this.transactionController
 				.getAllCardTransaction(ctx));
 
-		this.router.post('/cards/:cardId/transaction',
+		this.router.post('/cards/:cardId/transactions',
 			async (ctx) => this.transactionController
 				.createCardTransaction(ctx));
 	}

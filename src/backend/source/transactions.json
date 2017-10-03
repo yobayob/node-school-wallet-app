@@ -1,1 +1,1 @@
-[{"id":1,"cardId":1,"type":"paymentMobile","data":"3432423423423423","time":"2018-09-10 02:02:02","sum":100}]
+[{"id":1,"cardId":1,"type":"paymentMobile","data":"3432423423423423","time":"2018-09-10 02:02:02","sum":100},{"id":2,"cardId":1,"type":"prepaidCard","data":"123456789","time":"2017-08-9T05:28:31+03:00","sum":100}]

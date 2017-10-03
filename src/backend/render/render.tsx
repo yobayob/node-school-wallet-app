@@ -1,9 +1,9 @@
 import * as React from 'react';
 import {renderToString} from 'react-dom/server';
-import {RouterContext} from 'react-router';
+import {App} from '../../frontend/components'
 
-export default (renderProps: any) => (
+export default () => (
 	renderToString(
-		<RouterContext {...renderProps} />,
+		<App/>,
 	)
 );

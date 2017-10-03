@@ -1,8 +1,8 @@
 import * as path from 'path';
 import * as webpack from 'webpack';
 const nodeExternals = require('webpack-node-externals');
-const config: webpack.Configuration[] = [
-	{
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const config: webpack.Configuration[] = [{
 		entry: ['./src/backend/index.ts'],
 		output: {
 			path: path.resolve(__dirname, 'dist/backend'),
@@ -26,40 +26,36 @@ const config: webpack.Configuration[] = [
 		devtool: 'source-map',
 		target: 'node',
 	}, {
-		entry: ['./src/frontend/index.ts'],
+		cache: true,
+		entry: {
+			main: './src/frontend/app.tsx',
+			vendor: [
+				'babel-polyfill',
+				'react',
+				'react-dom',
+			],
+		},
 		output: {
-			path: path.resolve(__dirname, 'dist/frontend'),
-			filename: 'bundle.js',
+			path: path.resolve(__dirname, './dist/frontend'),
+			filename: '[name].js',
+			publicPath: '/dist/',
+			chunkFilename: '[chunkhash].js',
 		},
-		devServer: {
-			contentBase: './',
-			open: true,
-			inline: true,
+		module: {
+			loaders: [{
+				test: /\.ts(x?)$/,
+				exclude: /node_modules/,
+				loader: 'babel-loader!ts-loader',
+			}, {
+				test: /\.js$/,
+				exclude: /node_modules/,
+				loader: 'babel-loader',
+			}],
 		},
+		plugins: [],
 		resolve: {
 			extensions: ['.ts', '.tsx', '.js'],
 		},
-		module: {
-			rules: [
-				{
-					test: /\.tsx?$/,
-					exclude: ['node_modules'],
-					use: [
-						'awesome-typescript-loader',
-					],
-				}, {
-					test: /\.css$/,
-					exclude: ['node_modules'],
-					use: [
-						'style-loader',
-						'css-loader',
-						'postcss-loader',
-					],
-				},
-			],
-		},
-		plugins: [],
-		devtool: 'source-map',
 	}];
 
 export default config;

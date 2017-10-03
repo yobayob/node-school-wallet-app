@@ -1,7 +1,7 @@
 import {ApplicationSchema} from '../common/interfaces/application';
 import {Inject, Singleton} from 'typescript-ioc';
 import * as Router from 'koa-router';
-import matchRoutes from './match'
+import render from './render'
 import * as App from 'koa';
 import * as views from 'koa-views';
 import * as path from 'path';
@@ -21,7 +21,7 @@ export class Render implements ApplicationSchema {
 	 */
 	async render(ctx: any) {
 		ctx.status = 200;
-		await ctx.render('index', {html: matchRoutes(ctx)});
+		await ctx.render('index', {html: render()});
 	}
 
 	$setRoutes() {
