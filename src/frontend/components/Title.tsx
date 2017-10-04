@@ -15,7 +15,7 @@ interface ITitleProps {
 }
 
 const Title: React.SFC<ITitleProps> = (props: any) => (
-	<StyledTitle className={props.className}>
+	<StyledTitle className={props.className} {...props}>
 		{props.children}
 	</StyledTitle>
 );

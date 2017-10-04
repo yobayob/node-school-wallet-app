@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import {Select as AntdSelect} from 'antd';
 
-const StyledSelect = styled(AntdSelect.Option)`
+const StyledSelect: any = styled(AntdSelect)`
 	&.ant-select {
 		& .ant-select-selection {
 			height: 36px;
@@ -25,10 +25,10 @@ const StyledSelect = styled(AntdSelect.Option)`
 	}
 `;
 
-const Select = (props: any) => (
+const Select: any = (props: any) => (
 	<StyledSelect {...props} />
 );
 
-//Select.Option = AntdSelect.Option;
+Select.Option = AntdSelect.Option;
 
 export default Select;

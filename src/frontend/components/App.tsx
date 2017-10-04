@@ -43,6 +43,7 @@ const Workspace = styled.div`
 const cardsData = require('../../backend/source/cards.json');
 const transactionsData = require('../../backend/source/transactions.json');
 
+
 class App extends React.Component {
 	constructor() {
 		super();
@@ -50,8 +51,7 @@ class App extends React.Component {
 		const cardHistory = transactionsData.map((data: any) => {
 			const card = cardsList.find((card) => card.id === data.cardId);
 			return card ? Object.assign({}, data, {card}) : data;
-		}
-		);
+		});
 
 		this.state = {
 			cardsList,

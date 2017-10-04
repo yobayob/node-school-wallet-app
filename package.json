@@ -17,7 +17,6 @@
 				"node": "^8.2"
 		},
 		"dependencies": {
-				"@types/antd": "^1.0.0",
 				"@types/chai": "^4.0.4",
 				"@types/ejs": "^2.3.33",
 				"@types/koa": "^2.0.39",

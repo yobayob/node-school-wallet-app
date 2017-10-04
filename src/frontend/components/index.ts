@@ -18,8 +18,8 @@ import PrepaidSuccess from './PrepaidSuccess';
 import Withdraw from './Withdraw';
 
 export interface IMobilePayment {
-	activeCardIndex?: any,
-	stage?: string
+	activeCardIndex?: any
+	stage?: any
 	activeCard?: any
 	transaction?: any
 	inactiveCardsList?: any
