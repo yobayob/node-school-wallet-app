@@ -23,7 +23,10 @@ const BalanceSum = styled.span`
 `;
 
 interface IHeaderProps {
-	activeCard: any,
+	activeCard: {
+		bankName: any,
+		balance: any,
+	},
 }
 
 const Header: React.SFC<IHeaderProps> = ({activeCard}: any) => (
@@ -39,7 +42,7 @@ const Header: React.SFC<IHeaderProps> = ({activeCard}: any) => (
 Header.propTypes = {
 	activeCard: PropTypes.shape({
 		bankName: PropTypes.string.isRequired,
-		balance: PropTypes.string.isRequired
+		balance: PropTypes.string.isRequired,
 	}),
 };
 

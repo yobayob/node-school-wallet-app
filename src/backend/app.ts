@@ -19,6 +19,7 @@ export class App {
 		app.use(logger());
 		app.use(bodyParser());
 		app.use(serve('dist/frontend'));
+		app.use(serve('public'));
 		this.wallet.register(app);
 		this.render.register(app);
 		return Promise.resolve(app);

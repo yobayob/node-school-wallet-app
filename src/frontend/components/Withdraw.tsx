@@ -41,7 +41,7 @@ interface IWithdraw {
 
 interface IState {
 	selectedCard?: any
-	sum?: number
+	sum?: any
 }
 
 /**

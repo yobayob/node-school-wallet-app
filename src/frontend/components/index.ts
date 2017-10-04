@@ -1,6 +1,7 @@
+// Order is very important
 import App from './App';
-import Card from './Card';
 import Select from './Select';
+import Card from './Card';
 import Title from './Title';
 import UserInfo from './UserInfo';
 import Header from './Header';
@@ -17,6 +18,7 @@ import PrepaidContract from './PrepaidContract';
 import PrepaidSuccess from './PrepaidSuccess';
 import Withdraw from './Withdraw';
 
+// TODO: fix this sheeeet
 export interface IMobilePayment {
 	activeCardIndex?: any
 	stage?: any
@@ -34,5 +36,5 @@ export {
 	UserInfo, Island, History,
 	MobilePaymentSuccess, MobilePaymentContract, MobilePayment,
 	Prepaid, PrepaidContract, PrepaidSuccess,
-	Withdraw,
+	Withdraw
 }

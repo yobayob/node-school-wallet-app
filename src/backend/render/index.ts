@@ -21,7 +21,7 @@ export class Render implements ApplicationSchema {
 	 */
 	async render(ctx: any) {
 		ctx.status = 200;
-		await ctx.render('index', {html: render()});
+		await ctx.render('index', render());
 	}
 
 	$setRoutes() {

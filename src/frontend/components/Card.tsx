@@ -2,11 +2,10 @@ import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import styled from 'styled-components'
 import {Select} from './';
-import {any} from 'prop-types';
 
-const CardLayout = styled.div`
+const CardLayout: any = styled.div`
 	position: relative;
-	width: 260px;
+	// width: 260px;
 	height: 164px;
 	box-sizing: border-box;
 	margin-bottom: 15px;
@@ -15,23 +14,23 @@ const CardLayout = styled.div`
 	background-color: ${({bgColor, active}: any) => active ? bgColor : 'rgba(255, 255, 255, 0.1)'};
 `;
 
-const CardLogo = styled.div`
+const CardLogo: any = styled.div`
 	height: 28px;
 	margin-bottom: 25px;
-	background-image: url(${({url}:any) => url});
+	background-image: url(${({url}: any) => url});
 	background-size: contain;
 	background-repeat: no-repeat;
 	filter: ${({active}: any) => active ? 'none' : 'grayscale(100%) opacity(60%)'};
 `;
 
-const CardNumber = styled.div`
+const CardNumber: any = styled.div`
 	margin-bottom: 20px;
 	color: ${({active, textColor}: any) => active ? textColor : 'rgba(255, 255, 255, 0.6)'};
 	font-size: 16px;
 	font-family: 'OCR A Std Regular';
 `;
 
-const CardType = styled.div`
+const CardType: any = styled.div`
 	height: 26px;
 	background-image: url(${({url}: any) => url});
 	background-size: contain;
@@ -39,6 +38,21 @@ const CardType = styled.div`
 	background-position-x: right;
 	opacity: ${({active}: any) => active ? '1' : '0.6'};
 `;
+
+const NewCardLayout: any = styled(CardLayout)`
+	background-color: transparent;
+	background-image: url('/assets/cards-add.svg');
+	background-repeat: no-repeat;
+	background-position: center;
+	box-sizing: border-box;
+	border: 2px dashed rgba(255, 255, 255, 0.2);
+`;
+
+const CardSelect: any = styled(Select)`
+	width: 100%;
+	margin-bottom: 15px;
+`;
+
 /**
  * Карта
  */
@@ -90,8 +104,8 @@ class Card extends React.Component<ICard, {}> {
 		const {data, type, active, onClick}: any = this.props;
 
 		if (type === 'new') {
-			return(
-				<p>1</p>
+			return (
+				<NewCardLayout />
 			);
 		}
 
@@ -100,16 +114,29 @@ class Card extends React.Component<ICard, {}> {
 			const selectedCard = data[activeCardIndex];
 			const {bgColor, bankLogoUrl, brandLogoUrl}: any = selectedCard.theme;
 			return (
-				<p>1</p>
+				<CardLayout active={true} bgColor={bgColor}>
+					<CardLogo url={bankLogoUrl} active={true} />
+					<CardSelect defaultValue='0' onChange={(activeCardIndex: any) => this.onCardChange(activeCardIndex)}>
+						{data.map((card: any, index: any) => (
+							<Select.Option key={index} value={`${index}`}>{card.number}</Select.Option>
+						))}
+					</CardSelect>
+					<CardType url={brandLogoUrl} active={true} />
+				</CardLayout>
 			);
 		}
 
 		const {number, theme} = data;
 		const {bgColor, textColor, bankLogoUrl, brandLogoUrl} = theme;
 		const themedBrandLogoUrl = active ? brandLogoUrl : brandLogoUrl.replace(/-colored.svg$/, '-white.svg');
-
-		return(
-			<p>2</p>
+		return (
+			<CardLayout active={active} bgColor={bgColor} onClick={onClick} >
+				<CardLogo url={bankLogoUrl} active={active} />
+				<CardNumber textColor={textColor} active={active}>
+					{number}
+				</CardNumber>
+				<CardType url={themedBrandLogoUrl} active={active} />
+			</CardLayout>
 		);
 	}
 }

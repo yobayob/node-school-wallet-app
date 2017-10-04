@@ -18,8 +18,5 @@ import { App } from './app'
 // app.use(router.allowedMethods());
 // app.listen(3000);
 
-console.log('Koa application is up and running on port 3000');
-
-
 const app = Container.get(App);
 app.start();

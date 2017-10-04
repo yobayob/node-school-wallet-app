@@ -43,7 +43,6 @@ const Workspace = styled.div`
 const cardsData = require('../../backend/source/cards.json');
 const transactionsData = require('../../backend/source/transactions.json');
 
-
 class App extends React.Component {
 	constructor() {
 		super();
@@ -78,7 +77,7 @@ class App extends React.Component {
 					bankLogoUrl: cardInfo.bankLogoSvg,
 					brandLogoUrl: cardInfo.brandLogoSvg,
 					bankSmLogoUrl: `/assets/${cardInfo.bankAlias}-history.svg`,
-				}
+				},
 			};
 		});
 	}
@@ -99,17 +98,17 @@ class App extends React.Component {
 				<CardsBar
 					activeCardIndex={activeCardIndex}
 					cardsList={cardsList}
-					onCardChange={(activeCardIndex: any) => this.onCardChange(activeCardIndex)} />
+					onCardChange={(activeCardIndex: any) => this.onCardChange(activeCardIndex)}/>
 				<CardPane>
-					<Header activeCard={activeCard} />
+					<Header activeCard={activeCard}/>
 					<Workspace>
-						<History cardHistory={filteredHistory} />
+						<History cardHistory={filteredHistory}/>
 						<Prepaid
 							activeCard={activeCard}
 							inactiveCardsList={inactiveCardsList}
 							onCardChange={(newActiveCardIndex: any) => this.onCardChange(newActiveCardIndex)}
 						/>
-						<MobilePayment activeCard={activeCard} />
+						<MobilePayment activeCard={activeCard}/>
 						<Withdraw
 							activeCard={activeCard}
 							inactiveCardsList={inactiveCardsList}
@@ -117,7 +116,7 @@ class App extends React.Component {
 					</Workspace>
 				</CardPane>
 			</Wallet>
-);
+		);
 	}
 }
 
