@@ -5,7 +5,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const config: webpack.Configuration[] = [{
 	entry: ['./src/backend/index.ts'],
 	output: {
-		path: path.resolve(__dirname, 'dist/backend'),
+		path: path.resolve(__dirname, 'dist'),
 		filename: 'backend.js',
 	},
 	resolve: {
@@ -36,7 +36,7 @@ const config: webpack.Configuration[] = [{
 		],
 	},
 	output: {
-		path: path.resolve(__dirname, './dist/frontend'),
+		path: path.resolve(__dirname, './public'),
 		filename: '[name].js',
 		publicPath: '/dist/',
 		chunkFilename: '[chunkhash].js',

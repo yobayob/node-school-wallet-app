@@ -18,7 +18,6 @@ export class App {
 		const app: Koa = new Koa();
 		app.use(logger());
 		app.use(bodyParser());
-		app.use(serve('dist/frontend'));
 		app.use(serve('public'));
 		this.wallet.register(app);
 		this.render.register(app);
