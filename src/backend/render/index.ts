@@ -25,7 +25,7 @@ export class Render implements ApplicationSchema {
 	}
 
 	$setRoutes() {
-		this.router.use(views(path.resolve(__dirname, 'views'), {extension: 'ejs'}));
+		this.router.use(views(path.resolve('templates'), {extension: 'ejs'}));
 		this.router.get('/about', this.render);
 		this.router.get('/', this.render);
 	};
@@ -34,6 +34,5 @@ export class Render implements ApplicationSchema {
 		this.$setRoutes();
 		app.use(this.router.routes());
 		app.use(this.router.allowedMethods());
-		console.log('Render register')
 	}
 }
