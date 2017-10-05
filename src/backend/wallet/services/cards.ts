@@ -59,6 +59,7 @@ export class CardManager {
 					return
 				}
 				const card = new Card(o);
+				// TODO: this is bug, use sequence
 				self.objects.length > 0
 					? card.id = self.objects[self.objects.length - 1].id + 1
 					: card.id = 1;

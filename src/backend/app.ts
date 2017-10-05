@@ -5,6 +5,8 @@ import { Inject } from 'typescript-ioc';
 import { Wallet } from './wallet/wallet';
 import { Render } from './render';
 import * as serve from 'koa-static';
+import {log} from './common/logger'
+
 import 'path'
 
 export class App {
@@ -26,7 +28,7 @@ export class App {
 
 	public async start() {
 		const app = await this.createApp();
-		console.log('Started listening on port 3000...');
+		log.info('Started listening on port 3000...');
 		const server = app.listen(3000);
 		return Promise.resolve(server);
 	}
