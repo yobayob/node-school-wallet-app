@@ -12,3 +12,5 @@ src/**/*.js
 src/**/*.js.map
 src/source/cards.json
 src/source/transactions.json
+public/main.js
+public/vendor.js
