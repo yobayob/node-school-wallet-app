@@ -7,6 +7,7 @@ const CardLayout: any = styled.div`
 	position: relative;
 	// width: 260px;
 	height: 164px;
+	min-width: 250px;
 	box-sizing: border-box;
 	margin-bottom: 15px;
 	padding: 25px 20px 20px 25px;
