@@ -16,3 +16,4 @@ export const catRoot = new Category('wallet');
 
 // Get a logger, this can be retrieved for root categories only (in the example above, the 'service' category).
 export const log: CategoryLogger = CategoryServiceFactory.getLogger(catRoot);
+
