@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {Island, Title, Button, Input, IMobilePayment} from './';
+import {CardAction} from '../agent'
 
 const PrepaidLayout: any = styled(Island)`
 	width: 350px;
@@ -136,10 +137,13 @@ class PrepaidContract extends React.Component<IMobilePayment, IMobilePayment> {
 			return;
 		}
 
-		this.props.onPaymentSuccess({
-			sum,
-			number: activeCard.number,
-		});
+		CardAction.transfer(this.props.activeCard.id, {amount: sum, data: 'lalalala', cardId: }).then(
+			() => this.props.onPaymentSuccess({
+					sum,
+					number: activeCard.number,
+				}),
+			(err) => console.log(err),
+		)
 	}
 
 	/**

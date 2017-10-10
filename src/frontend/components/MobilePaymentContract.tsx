@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import styled, {StyledFunction} from 'styled-components';
-
+import {CardAction} from '../agent'
 import {Island, Title, Button, Input} from './';
 
 const MobilePaymentLayout: any = styled(Island)`
@@ -133,8 +133,13 @@ class MobilePaymentContract extends React.Component<IMobilePaymentContract, IIMo
 		if (!isNumber || sum === 0) {
 			return;
 		}
-
-		this.props.onPaymentSuccess({sum, phoneNumber, commission});
+		CardAction.pay(this.props.activeCard.id, {
+			amount: parseInt(sum, 10),
+			data: phoneNumber,
+		}).then(
+			() => this.props.onPaymentSuccess({sum, phoneNumber, commission}),
+			(err) => console.log(err),
+		)
 	}
 
 	/**
