@@ -1,6 +1,7 @@
 import * as Koa from 'koa';
 import * as bodyParser from 'koa-bodyparser';
 import * as logger from 'koa-logger';
+import {tryCatchMiddleware} from './middlewares'
 import { Inject } from 'typescript-ioc';
 import { Wallet } from './wallet/wallet';
 import { Render } from './render';
@@ -21,6 +22,7 @@ export class App {
 		app.use(logger());
 		app.use(bodyParser());
 		app.use(serve('public'));
+		app.use(tryCatchMiddleware);
 		this.wallet.register(app);
 		this.render.register(app);
 		return Promise.resolve(app);

@@ -3,9 +3,8 @@ import {Inject, Singleton} from 'typescript-ioc';
 import {Card} from '../models'
 import {checkLuhn} from '../../common/utils';
 import * as ts from 'typescript/lib/tsserverlibrary';
-import Err = ts.server.Msg.Err;
+import {ApplicationError} from '../../common/exceptions';
 import {log} from '../../common/logger'
-
 
 @Singleton
 export class CardManager {
@@ -13,117 +12,65 @@ export class CardManager {
 	private name = 'src/backend/source/cards.json';
 
 	constructor() {
-		this.loadFile().then(
-			data => this.objects = data
-		)
+		this.loadFile()
 	}
 
 	public async all() {
-		const self = this;
-		return new Promise<Card[]>((resolve, reject) => {
-			try {
-				resolve(self.objects);
-			} catch (e) {
-				reject(e)
-			}
-		})
+		return this.objects
 	}
 
 	public async get(id: number) {
-		const self = this;
-		return new Promise<Card>((resolve, reject) => {
-			try {
-				const card = self.objects.find(item => item.id === id);
-				if (!card) {
-					reject(card);
-					return
-				}
-				resolve(card)
-			} catch (err) {
-				log.error(`Get card ${id} failed`, err);
-				reject(err)
-			}
-		});
+		const card = this.objects.find((item) => item.id === id);
+		if (!card) {
+			throw new ApplicationError(`Get card ${id} failed`, 400)
+		}
+		return card;
 	}
 
 	public async create(o: { balance: number, cardNumber: string }) {
-		const self = this;
-		return new Promise<Card>((resolve, reject) => {
-			try {
-				if (!checkLuhn(o.cardNumber)) {
-					reject({'error': 'Luhn invalid'});
-					return
-				}
-				if (-1 !== self.objects.findIndex(item => item.cardNumber === o.cardNumber)) {
-					reject({'error': 'Card exists'});
-					return
-				}
-				const card = new Card(o);
-				// TODO: this is bug, use sequence
-				self.objects.length > 0
-					? card.id = self.objects[self.objects.length - 1].id + 1
-					: card.id = 1;
+		if (!checkLuhn(o.cardNumber)) {
+			throw new ApplicationError('Luhn invalid', 400)
+		}
+		if (-1 !== this.objects.findIndex((item) => item.cardNumber === o.cardNumber)) {
+			throw new ApplicationError('Card exists', 400)
+		}
+		const card = new Card(o);
+		// TODO: this is bug, use sequence
+		this.objects.length > 0
+			? card.id = this.objects[this.objects.length - 1].id + 1
+			: card.id = 1;
 
-				this.objects.push(card);
-				this.saveFile();
-				log.info(`Card ${card.id} created`);
-				resolve(card)
-			} catch (err) {
-				reject(err)
-			}
-		})
+		this.objects.push(card);
+		this.saveFile();
+		log.info(`Card ${card.id} created`);
+		return card
 	}
 
 	public async remove(id: number) {
-		const self = this;
-		return new Promise((resolve, reject) => {
-			try {
-				const index = self.objects.findIndex(item => item.id === id);
-				if (index === -1) {
-					reject({'error': 'Card not found'});
-					return
-				}
-				self.objects.splice(index, 1);
-				self.saveFile();
-				log.info(`Card ${id} removed`);
-				resolve()
-			} catch (err) {
-				reject(err)
+		const index = this.objects.findIndex((item) => item.id === id);
+		if (index === -1) {
+			throw new ApplicationError('Card not found', 400)
+		}
+		this.objects.splice(index, 1);
+		this.saveFile();
+		log.info(`Card ${id} removed`);
+	}
+
+	private async loadFile() {
+		readFile(`${this.name}`, (err, data) => {
+			if (err) {
+				throw err
 			}
+			let objects: any[];
+			const cards: Card[] = [];
+			objects = JSON.parse(data.toString());
+			objects.forEach((item: any) => cards.push(new Card(item)));
+			this.objects = objects;
 		})
-	}
-
-	private async loadFile(): Promise<Card[]> {
-		const self = this;
-		return new Promise<Card[]>((resolve, reject) => {
-			readFile(`${self.name}`, (err, data) => {
-				if (err) {
-					reject(err)
-				}
-				let objects;
-				const cards = [];
-				try {
-					objects = JSON.parse(data.toString());
-					for (const o of objects) {
-						cards.push(new Card(o))
-					}
-					resolve(cards);
-				} catch (err) {
-					reject(err)
-				}
-				log.info(`${this.name} loaded`);
-				resolve(objects)
-			})
-		})
-	}
-
-	public async reload() {
-		const obj = await this.loadFile();
-		this.objects = obj
 	}
 
 	public saveFile() {
-		writeFile(`${this.name}`, JSON.stringify(this.objects), err => {
+		writeFile(`${this.name}`, JSON.stringify(this.objects), (err) => {
 			if (err) {
 				log.error(`Save ${this.name} failed`, err)
 			}

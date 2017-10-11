@@ -1,4 +1,4 @@
-export function checkLuhn(val: string):boolean {
+export function checkLuhn(val: string): boolean {
 		if (/[^0-9-\s]+/.test(val)) return false;
 
 		let nCheck = 0,

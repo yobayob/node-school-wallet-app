@@ -10,72 +10,43 @@ export class TransactionManager {
 	private name = 'src/backend/source/transactions.json';
 
 	constructor() {
-		this.loadFile().then(
-			data => this.objects = data
-		)
+		this.loadFile()
 	}
 
 	public async all(card: Card) {
-		const self = this;
-		return new Promise<Transaction[]>(async (resolve, reject) => {
-			try {
-				resolve(self.objects.filter(item => item.cardId === card.id));
-			} catch (e) {
-				reject(e)
-			}
-		})
+		return (this.objects.filter((item) => item.cardId === card.id));
 	}
 
 	public async create(card: Card, t: TransactionInterface) {
-		const self = this;
-		return new Promise<Transaction>((resolve, reject) => {
-			try {
-				t.cardId = card.id;
-				const trans = new Transaction(t);
-				self.objects.length > 0
-					? trans.id = self.objects[self.objects.length - 1].id + 1
-					: trans.id = 1;
-
-				self.objects.push(trans);
-				card.balance = card.balance + parseFloat(trans.sum);
-				card.save();
-				self.saveFile();
-				log.info(`Create transaction ${trans.id} for card ${card.id}`);
-				resolve(trans)
-			} catch (err) {
-				log.error(`create transaction error`, err);
-				reject(err)
-			}
-		})
+		t.cardId = card.id;
+		const trans = new Transaction(t);
+		this.objects.length > 0
+			? trans.id = this.objects[this.objects.length - 1].id + 1
+			: trans.id = 1;
+		this.objects.push(trans);
+		card.balance = card.balance + parseFloat(trans.sum);
+		card.save();
+		this.saveFile();
+		log.info(`Create transaction ${trans.id} for card ${card.id}`);
+		return trans
 	}
 
-	public async loadFile(): Promise<Transaction[]> {
-		const self = this;
-		return new Promise<Transaction[]>((resolve, reject) => {
-			readFile(`${self.name}`, (err, data) => {
-				if (err) {
-					reject(err)
-				}
-				let objects;
-				const trans = [];
-				try {
-					objects = JSON.parse(data.toString());
-					for (const o of objects) {
-						trans.push(new Transaction(o))
-					}
-					resolve(trans);
-				} catch (err) {
-					log.error(`load file error`, err);
-					reject(err)
-				}
-				log.info(`${this.name} loaded`);
-				resolve(objects)
+	public async loadFile() {
+		readFile(`${this.name}`, (err, data) => {
+			if (err) {
+				throw err
+			}
+			let objects;
+			const trans: TransactionInterface[] = [];
+			objects = JSON.parse(data.toString());
+			objects.forEach((item: any) => trans.push(new Transaction(item)));
+			log.info(`${this.name} loaded`);
+			this.objects = objects
 			})
-		})
 	}
 
 	public saveFile() {
-		writeFile(`${this.name}`, JSON.stringify(this.objects), err => {
+		writeFile(`${this.name}`, JSON.stringify(this.objects), (err) => {
 			if (err) {
 				throw(err)
 			}

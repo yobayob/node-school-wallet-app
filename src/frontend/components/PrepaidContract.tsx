@@ -137,7 +137,10 @@ class PrepaidContract extends React.Component<IMobilePayment, IMobilePayment> {
 			return;
 		}
 
-		CardAction.transfer(this.props.activeCard.id, {amount: sum, data: 'lalalala', cardId: }).then(
+		CardAction.transfer(this.props.activeCard.id, {
+			amount: sum, data: 'lalalala',
+			cardId: this.props.inactiveCardsList[this.props.activeCardIndex].id,
+		}).then(
 			() => this.props.onPaymentSuccess({
 					sum,
 					number: activeCard.number,

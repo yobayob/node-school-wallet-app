@@ -3,7 +3,6 @@ import {CardManager} from '../services/cards'
 import {Inject, Singleton} from 'typescript-ioc';
 import {Validate} from '../../common/utils'
 
-
 const createSchemaRequest = {
 	additionalProperties: false,
 	type: 'object',
@@ -14,7 +13,7 @@ const createSchemaRequest = {
 		},
 		balance: {
 			type: 'number',
-		}
+		},
 	},
 };
 
@@ -25,31 +24,18 @@ export class CardsController {
 	}
 
 	public async getAllCards(ctx: Context) {
-		try {
-			ctx.body = await this.cards.all();
-		} catch (err) {
-			ctx.throw(400)
-		}
+		ctx.body = await this.cards.all();
 	}
 
 	public async createCard(ctx: Context) {
-		try {
-			await Validate(ctx.request.body, createSchemaRequest);
-			ctx.body = await this.cards.create(ctx.request.body)
-		} catch (err) {
-			ctx.body = err;
-			ctx.status = 400
-		}
+		await Validate(ctx.request.body, createSchemaRequest);
+		ctx.body = await this.cards.create(ctx.request.body)
 	}
 
 	public async deleteCard(ctx: Context) {
-		try {
 			const cardId = parseInt(ctx.params.cardId, 10);
 			await this.cards.remove(cardId);
 			ctx.status = 200;
-		} catch (err) {
-			ctx.throw(404)
-		}
 	}
 }
 
