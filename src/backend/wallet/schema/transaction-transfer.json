@@ -1,0 +1,18 @@
+{
+  "additionalProperties": false,
+  "type": "object",
+  "required": [
+	"amount",
+	"cardId"
+  ],
+  "properties": {
+	"amount": {
+	  "type": "number",
+	  "minimum": 0
+	},
+	"cardId": {
+	  "type": "number",
+	  "minimum": 0
+	}
+  }
+}

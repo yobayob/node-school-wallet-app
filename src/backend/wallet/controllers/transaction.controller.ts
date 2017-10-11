@@ -2,53 +2,7 @@ import { Context } from 'koa';
 import { TransactionManager, CardManager } from '../services'
 import { Inject, Singleton } from 'typescript-ioc';
 import {Validate} from '../../common/utils'
-
-const createTransactionSchema = {
-	additionalProperties: false,
-	type: 'object',
-	required: ['type', 'data', 'sum'],
-	properties: {
-		type: {
-			type: 'string',
-			enum: ['paymentMobile', 'prepaidCard', 'card2Card'],
-		},
-		data: {
-			type: 'string',
-		},
-		sum: {
-			type: 'number',
-		},
-	},
-};
-
-const paySchema = {
-	additionalProperties: false,
-	type: 'object',
-	required: ['amount'],
-	properties: {
-		amount: {
-			type: 'number',
-			minimum: 0,
-		},
-	},
-};
-
-const transferSchema = {
-	additionalProperties: false,
-	type: 'object',
-	required: ['amount', 'cardId'],
-	properties: {
-		amount: {
-			type: 'number',
-			minimum: 0,
-		},
-		cardId: {
-			type: 'number',
-			minimum: 0,
-		},
-	},
-};
-
+import {transactionCreateSchema, transactionPaySchema, transactionTransferSchema} from '../schema'
 
 @Singleton
 export class TransactionController {
@@ -64,14 +18,14 @@ export class TransactionController {
 	}
 
 	public async createCardTransaction(ctx: Context) {
-		await Validate(ctx.request.body, createTransactionSchema);
+		await Validate(ctx.request.body, transactionCreateSchema as any);
 		const card = await this.card.get(parseInt(ctx.params.cardId, 10));
 		const trans = await this.transaction.create(card, ctx.request.body);
 		ctx.body = trans;
 	}
 
 	public async pay(ctx: Context) {
-		await Validate(ctx.request.body, paySchema);
+		await Validate(ctx.request.body, transactionPaySchema);
 		const amount = parseFloat(ctx.request.body.amount);
 		const card = await this.card.get(parseInt(ctx.params.cardId, 10));
 		await this.transaction.create(card, {
@@ -83,7 +37,7 @@ export class TransactionController {
 	}
 
 	public async fill(ctx: Context) {
-		await Validate(ctx.request.body, paySchema);
+		await Validate(ctx.request.body, transactionPaySchema);
 		const amount = parseFloat(ctx.request.body.amount);
 		const card = await this.card.get(parseInt(ctx.params.cardId, 10));
 		await this.transaction.create(card, {
@@ -95,7 +49,7 @@ export class TransactionController {
 	}
 
 	public async transfer(ctx: Context) {
-		await Validate(ctx.request.body, transferSchema);
+		await Validate(ctx.request.body, transactionTransferSchema);
 		const cardOut = await this.card.get(parseInt(ctx.request.body.cardId, 10));
 		const cardIn = await this.card.get(parseInt(ctx.params.cardId, 10));
 		const amount = parseFloat(ctx.request.body.amount);

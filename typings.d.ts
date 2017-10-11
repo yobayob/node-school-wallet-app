@@ -8,6 +8,13 @@ declare module 'card-info' {
 		brandLogoSvg: string;
 		bankAlias: string;
 		numberNice: number;
+
 		constructor(number: string, o: any)
 	}
 }
+
+declare module '*.json' {
+	const value: any;
+	export default value;
+}
+

@@ -1,0 +1,25 @@
+{
+  "additionalProperties": false,
+  "type": "object",
+  "required": [
+	"type",
+	"data",
+	"sum"
+  ],
+  "properties": {
+	"type": {
+	  "type": "string",
+	  "enum": [
+		"paymentMobile",
+		"prepaidCard",
+		"card2Card"
+	  ]
+	},
+	"data": {
+	  "type": "string"
+	},
+	"sum": {
+	  "type": "number"
+	}
+  }
+}
