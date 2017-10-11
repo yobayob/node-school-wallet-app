@@ -40,7 +40,7 @@ describe('E2E: Cards', () => {
 				.post('/cards')
 				.send({
 					cardNumber: cardNumber,
-					balance: balance
+					balance: balance,
 				})
 				.accept('json')
 				.expect(200);

@@ -14,15 +14,15 @@ const http = {
 /* requests to cards api */
 export class CardAction {
 
-	static pay(cardId: number, data: {amount: number, data: string}) {
+	static pay(cardId: number, data: {amount: number}) {
 		return http.post(`/cards/${cardId}/pay`, data)
 	}
 
-	static fill(cardId: number, data: {amount: number, data: string}) {
+	static fill(cardId: number, data: {amount: number}) {
 		return http.post(`/cards/${cardId}/fill`, data)
 	}
 
-	static transfer(cardId: number, data: {amount: number, data: string, cardId: string}) {
+	static transfer(cardId: number, data: {amount: number, cardId: string}) {
 		return http.post(`/cards/${cardId}/transfer`, data)
 	}
 }

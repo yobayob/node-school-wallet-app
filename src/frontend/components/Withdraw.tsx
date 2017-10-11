@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
+import {CardAction} from '../agent'
 import styled from 'styled-components';
 
 import {Card, Title, Button, Island, Input} from './';
@@ -101,7 +102,12 @@ class Withdraw extends React.Component<IWithdraw, IState> {
 			return;
 		}
 
-		this.setState({sum: 0});
+		CardAction.fill(this.props.activeCard.id, {
+			amount: parseFloat(sum),
+		}).then(
+			() => this.setState({sum: 0}),
+			(err) => console.log(err),
+		);
 	}
 
 	/**

@@ -65,7 +65,7 @@ export class CardManager {
 			const cards: Card[] = [];
 			objects = JSON.parse(data.toString());
 			objects.forEach((item: any) => cards.push(new Card(item)));
-			this.objects = objects;
+			this.objects = cards;
 		})
 	}
 

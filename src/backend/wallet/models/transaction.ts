@@ -13,7 +13,7 @@ export class Transaction {
 	public type: 	string;
 	public data: 	string;
 	public time: 	string;
-	public sum: 	string;
+	public sum: 	number;
 
 	constructor(o: any) {
 		this.id = o.id;

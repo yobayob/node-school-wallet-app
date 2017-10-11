@@ -60,9 +60,10 @@ const config: webpack.Configuration[] = [{
 	},
 	plugins: [
 		new ExtractTextPlugin('styles.css'),
+		new webpack.ContextReplacementPlugin(/moment[\\\/]locale$/, /^\.\/(en|ko|ja|zh-cn)$/),
 	],
 	resolve: {
-		extensions: ['.ts', '.tsx', '.js'],
+		extensions: ['.ts', '.tsx', '.js', '.jsx', '.json']
 	},
 }];
 

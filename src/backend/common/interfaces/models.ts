@@ -6,5 +6,9 @@ export declare interface CardInterface {
 
 export declare interface TransactionInterface {
 	id?: number;
-	cardId: number;
+	cardId?: number;
+	time?: string;
+	data?: string;
+	type?: string;
+	sum?: number;
 }

@@ -42,7 +42,7 @@ const Header: React.SFC<IHeaderProps> = ({activeCard}: any) => (
 Header.propTypes = {
 	activeCard: PropTypes.shape({
 		bankName: PropTypes.string.isRequired,
-		balance: PropTypes.string.isRequired,
+		balance: PropTypes.any.isRequired,
 	}),
 };
 

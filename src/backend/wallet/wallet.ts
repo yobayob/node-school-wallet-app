@@ -37,6 +37,18 @@ export class Wallet implements ApplicationSchema {
 		this.router.post('/cards/:cardId/transactions',
 			async (ctx) => this.transactionController
 				.createCardTransaction(ctx));
+
+		this.router.post('/cards/:cardId/pay',
+			async (ctx) => this.transactionController
+				.pay(ctx));
+
+		this.router.post('/cards/:cardId/fill',
+			async (ctx) => this.transactionController
+				.fill(ctx));
+
+		this.router.post('/cards/:cardId/transfer',
+			async (ctx) => this.transactionController
+				.transfer(ctx));
 	}
 
 	register(app: App): void {

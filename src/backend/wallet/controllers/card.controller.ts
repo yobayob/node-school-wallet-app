@@ -17,7 +17,6 @@ const createSchemaRequest = {
 	},
 };
 
-
 @Singleton
 export class CardsController {
 	constructor(@Inject private cards: CardManager) {
