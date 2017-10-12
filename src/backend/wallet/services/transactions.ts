@@ -16,6 +16,10 @@ export class TransactionManager {
 		this.loadFile()
 	}
 
+	public async full() {
+		return this.objects;
+	}
+
 	public async all(card: Card) {
 		return (this.objects.filter((item) => item.cardId === card.id));
 	}
@@ -45,6 +49,9 @@ export class TransactionManager {
 	cardOut - send money
 	 */
 	public async transfer(cardIn: Card, cardOut: Card, amount: number) {
+		if (cardIn.id === cardOut.id) {
+			throw new ApplicationError('Cannot transfer to self', 400);
+		}
 		const lObj = this.objects.length,
 			balanceIn = cardIn.balance,
 			balanceOut = cardOut.balance;

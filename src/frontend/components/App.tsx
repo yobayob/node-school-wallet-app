@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styled, {injectGlobal} from 'styled-components';
 import {CardInfo} from 'card-info';
+import * as PropTypes from 'prop-types';
 
 import {
 	CardsBar,
@@ -40,17 +41,33 @@ const Workspace = styled.div`
 	padding: 15px;
 `;
 
-const cardsData = require('../../backend/source/cards.json');
-const transactionsData = require('../../backend/source/transactions.json');
+interface IProps {
+	data: {
+		cards: any[],
+		transactions: any[],
+	},
+}
 
-class App extends React.Component {
-	constructor() {
-		super();
-		const cardsList = this.prepareCardsData(cardsData);
-		const cardHistory = transactionsData.map((data: any) => {
+interface IApp {
+	data?: any
+	cardsList?: any
+	activeCardIndex?: any
+	cardHistory?: any
+}
+
+class App extends React.Component<IApp, IApp> {
+
+	static propTypes = {
+		data: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
+	};
+
+	constructor(props: IApp) {
+		super(props);
+		const cardsList = this.prepareCardsData(this.props.data.cards) || [];
+		const cardHistory = this.props.data.transactions.map((data: any) => {
 			const card = cardsList.find((card) => card.id === data.cardId);
 			return card ? Object.assign({}, data, {card}) : data;
-		});
+		}) || [];
 
 		this.state = {
 			cardsList,
@@ -98,7 +115,8 @@ class App extends React.Component {
 				<CardsBar
 					activeCardIndex={activeCardIndex}
 					cardsList={cardsList}
-					onCardChange={(activeCardIndex: any) => this.onCardChange(activeCardIndex)}/>
+					onCardChange={(activeCardIndex: any) => this.onCardChange(activeCardIndex)}
+				/>
 				<CardPane>
 					<Header activeCard={activeCard}/>
 					<Workspace>

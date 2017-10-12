@@ -67,14 +67,14 @@ class MobilePayment extends React.Component<IMobilePayment, IMobilePayment> {
 				<MobilePaymentSuccess
 					activeCard={activeCard}
 					transaction={this.state.transaction}
-					repeatPayment={() => this.repeatPayment()} />
+					repeatPayment={() => this.repeatPayment()}/>
 			);
 		}
 
 		return (
 			<MobilePaymentContract
 				activeCard={activeCard}
-				onPaymentSuccess={(transaction: any) => this.onPaymentSuccess(transaction)} />
+				onPaymentSuccess={(transaction: any) => this.onPaymentSuccess(transaction)}/>
 		);
 	}
 }

@@ -13,7 +13,6 @@ import {writeFileSync} from 'fs';
 describe('E2E: Cards', () => {
 	let app: Server;
 
-
 	const cardNumber = '5469550034235124';
 	const cardNumber2 = '5106216010126757';
 	const balance = 500;

@@ -2,10 +2,11 @@ import * as React from 'react';
 import {hydrate} from 'react-dom';
 import {App} from './components';
 
-// TODO: fix serialize css
+// this is crazy
+const w = window as any;
+const appData = w.__data;
 
-hydrate(<App />, document.getElementById('root'));
+hydrate(<App data={appData}/>, document.getElementById('root'));
 
 require('./components/Fonts.css');
 require('antd/dist/antd.css');
-

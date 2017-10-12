@@ -128,15 +128,19 @@ class MobilePaymentContract extends React.Component<IMobilePaymentContract, IIMo
 		}
 
 		const {sum, phoneNumber, commission}: any = this.state;
+		const {activeCard}: any = this.props;
 
 		const isNumber = !isNaN(parseFloat(sum)) && isFinite(sum);
 		if (!isNumber || sum === 0) {
 			return;
 		}
-		CardAction.pay(this.props.activeCard.id, {
+		CardAction.pay(activeCard.id, {
 			amount: parseFloat(sum),
 		}).then(
-			() => this.props.onPaymentSuccess({sum, phoneNumber, commission}),
+			() => {
+				activeCard.balance -= sum;
+				this.props.onPaymentSuccess({sum, phoneNumber, commission})
+			},
 			(err) => console.log(err),
 		)
 	}
@@ -153,7 +157,7 @@ class MobilePaymentContract extends React.Component<IMobilePaymentContract, IIMo
 		const {name, value} = event.target;
 
 		this.setState({
-			[name]: value
+			[name]: value,
 		});
 	}
 
@@ -175,19 +179,23 @@ class MobilePaymentContract extends React.Component<IMobilePaymentContract, IIMo
 						<InputPhoneNumber
 							name='phoneNumber'
 							value={this.state.phoneNumber}
-							readOnly='true' />
+							readOnly='true'
+						/>
 					</InputField>
 					<InputField>
 						<Label>Сумма</Label>
 						<InputSum
 							name='sum'
 							value={this.state.sum}
-							onChange={(event: any) => this.handleInputChange(event)} />
+							onChange={(event: any) => this.handleInputChange(event)}
+						/>
 						<Currency>₽</Currency>
 					</InputField>
 					<InputField>
 						<Label>Спишется</Label>
-						<InputCommision value={this.getSumWithCommission()} />
+						<InputCommision
+							value={this.getSumWithCommission()}
+						/>
 						<Currency>₽</Currency>
 					</InputField>
 					<Commission>Размер коммиссии составляет {commission} ₽</Commission>

@@ -1,11 +1,13 @@
 import * as React from 'react';
 import {renderToString} from 'react-dom/server';
 import {App} from '../../frontend/components';
-import {ServerStyleSheet, StyleSheetManager} from 'styled-components'
+import {ServerStyleSheet} from 'styled-components'
+import * as serialize from 'serialize-javascript';
 
-export default () => {
+export default (appData: {} = {}) => {
 	const sheet = new ServerStyleSheet();
-	const html = renderToString(sheet.collectStyles(<App />));
+	const viewData = `window.__data=${serialize(appData)};`;
+	const html = renderToString(sheet.collectStyles(<App data={appData}/>));
 	const style = sheet.getStyleTags();
 	return (
 		<html>
@@ -17,6 +19,7 @@ export default () => {
 			</head>
 			<body>
 				<div id='root' dangerouslySetInnerHTML={{__html: html}}/>
+				<script dangerouslySetInnerHTML={{__html: viewData}}/>
 				<script type='text/javascript' src='main.js'/>
 				<script type='text/javascript' src='vendor.js'/>
 			</body>

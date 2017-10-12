@@ -95,15 +95,16 @@ class Withdraw extends React.Component<IWithdraw, IState> {
 			event.preventDefault();
 		}
 
-		const {sum}: any = this.state;
+		const {sum, selectedCard}: any = this.state;
 
 		const isNumber = !isNaN(parseFloat(sum)) && isFinite(sum);
 		if (!isNumber || sum <= 0) {
 			return;
 		}
 
-		CardAction.fill(this.props.activeCard.id, {
+		CardAction.transfer(selectedCard.id, {
 			amount: parseFloat(sum),
+			cardId: this.props.activeCard.id,
 		}).then(
 			() => this.setState({sum: 0}),
 			(err) => console.log(err),
