@@ -4,7 +4,7 @@ import {Transaction, Card} from '../models'
 import {TransactionInterface} from '../../common/interfaces/models'
 import * as moment from 'moment';
 import {log} from '../../common/logger'
-import {ApplicationError} from "../../common/exceptions/application.error";
+import {ApplicationError} from '../../common/exceptions/application.error';
 
 @Singleton
 export class TransactionManager {
@@ -63,7 +63,8 @@ export class TransactionManager {
 			cardIn.addToBalance(amount);
 			this.objects.push(tOut, tIn);
 			this.saveFile();
-			cardOut.save() // file cards.json saved
+			cardOut.save(); // file cards.json saved
+			return [tIn, tOut];
 		} catch (err) {
 			cardIn.balance = balanceIn;
 			cardOut.balance = balanceOut;
@@ -71,7 +72,6 @@ export class TransactionManager {
 			this.objects = this.objects.slice(0, lObj); // rol(lol?)lback
 			throw err
 		}
-		return true
 	}
 
 	public async loadFile() {

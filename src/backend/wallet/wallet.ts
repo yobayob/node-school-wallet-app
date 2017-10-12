@@ -13,10 +13,20 @@ export class Wallet implements ApplicationSchema {
 	constructor(
 		@Inject private router: Router,
 		@Inject private cardsController: controllers.CardsController,
-		@Inject private transactionController: controllers.TransactionController
+		@Inject private transactionController: controllers.TransactionController,
 	) {}
 
 	$setRoutes() {
+
+		this.router.param('id', async (id, ctx, next) => {
+			ctx.params.id = parseFloat(id);
+			await next()
+		});
+
+		this.router.param('cardId', async (cardId, ctx, next) => {
+			ctx.params.cardId = parseFloat(cardId);
+			await next()
+		});
 
 		this.router.get('/cards',
 			async (ctx) => this.cardsController
@@ -25,6 +35,10 @@ export class Wallet implements ApplicationSchema {
 		this.router.post('/cards',
 			async (ctx) => this.cardsController
 				.createCard(ctx));
+
+		this.router.get('/cards/:cardId',
+			async (ctx) => this.cardsController
+				.getCard(ctx));
 
 		this.router.delete('/cards/:cardId',
 			async (ctx) => this.cardsController

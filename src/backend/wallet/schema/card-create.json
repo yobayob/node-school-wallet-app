@@ -1,0 +1,16 @@
+{
+  "additionalProperties": false,
+  "type": "object",
+  "required": [
+	"cardNumber",
+	"balance"
+  ],
+  "properties": {
+	"cardNumber": {
+	  "type": "string"
+	},
+	"balance": {
+	  "type": "number"
+	}
+  }
+}

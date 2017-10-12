@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import styled from 'styled-components';
-import * as moment from 'moment';
+import * as moment from 'moment/moment';
 import {Island} from './';
 
 const HistoryLayout: any = styled(Island)`
@@ -96,13 +96,13 @@ const History: React.SFC<IHistory> = ({cardHistory}: any) => {
 			<HistoryTitle>Сегодня</HistoryTitle>
 			{cardHistory.map((item: any, index: any) => {
 
-				// const historyItemDate = moment(item.time, moment.ISO_8601);
-				// const today = moment().format('L');
-				// const isTodayHistoryItem = historyItemDate.format('L') === today;
+				const historyItemDate = moment(item.time, moment.ISO_8601);
+				const today = moment().format('L');
+				const isTodayHistoryItem = historyItemDate.format('L') === today;
 
-				// if (!isTodayHistoryItem) {
-				// 	return '';
-				// }
+				if (!isTodayHistoryItem) {
+					return '';
+				}
 
 				return (
 					<HistoryItem key={index}>
@@ -111,7 +111,7 @@ const History: React.SFC<IHistory> = ({cardHistory}: any) => {
 							{getHistoryItemTitle(item)}
 						</HistoryItemTitle>
 						<HistoryItemTime>
-							{/*{historyItemDate.format('HH:mm')}*/}
+							{historyItemDate.format('HH:mm')}
 						</HistoryItemTime>
 						<HistoryItemSum>
 							{`${item.sum} ₽`}

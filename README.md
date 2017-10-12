@@ -1,16 +1,40 @@
 # Приложение школы Node.js «Кошелёк»
 
-## Install
-```sh
-npm i
+### RUN
+
+npm i && npm run build && npm start
+
+### API
+
+| uri                     | method | request                                         | response                   | description                  |
+|-------------------------|--------|-------------------------------------------------|----------------------------|------------------------------|
+| /cards                  | GET    |                                                 | [CARD, ...]                | All cards                    |
+| /cards                  | POST   | {"cardNumber": string, "balance": number}       | CARD                       | Create card                  |
+| /cards/:id              | GET    |                                                 | CARD                       | Get card                     |
+| /cards/:id              | DELETE |                                                 |                            | Remove card                  |
+| /cards/:id/transactions | GET    |                                                 | [TRANSACTION, ...]         | Get transaction for one card |
+| /cards/:id/transactions | POST   | {"data": string, "type": string, "sum": number} | TRANSACTION                | Create transaction           |
+| /cards/:id/pay          | POST   | {"amount": number}                              | TRANSACTION                | Create pay transaction       |
+| /cards/:id/fill         | POST   | {"amount": number}                              | TRANSACTION                | Create fill transaction      |
+| /cards/:id/transfer     | POST   | {"cardId": number, "amount": number}            | [TRANSACTION, TRANSACTION] | Create transfer (card2card)  |
+
+CARD
+```
+{
+	"id": number,
+	"balance": number,
+	"cardNumber": string
+}
 ```
 
-## Run
-```sh
-npm start
+TRANSACTION
 ```
-
-## Test
-```sh
-npm test
+{
+	"id": number,
+	"cardId": number,
+	"type": "paymentMobile"|"prepaidCard"|"card2Card",
+	"data": string,
+	"time": string,
+	"sum": number
+}
 ```

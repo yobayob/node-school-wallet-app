@@ -12,14 +12,14 @@ export class TransactionController {
 	) { }
 
 	public async getAllCardTransaction(ctx: Context) {
-		const card = await this.card.get(parseInt(ctx.params.cardId, 10));
+		const card = await this.card.get(ctx.params.cardId);
 		const trans = await this.transaction.all(card);
 		ctx.body = trans
 	}
 
 	public async createCardTransaction(ctx: Context) {
 		await Validate(ctx.request.body, transactionCreateSchema as any);
-		const card = await this.card.get(parseInt(ctx.params.cardId, 10));
+		const card = await this.card.get(ctx.params.cardId);
 		const trans = await this.transaction.create(card, ctx.request.body);
 		ctx.body = trans;
 	}
@@ -27,34 +27,31 @@ export class TransactionController {
 	public async pay(ctx: Context) {
 		await Validate(ctx.request.body, transactionPaySchema);
 		const amount = parseFloat(ctx.request.body.amount);
-		const card = await this.card.get(parseInt(ctx.params.cardId, 10));
-		await this.transaction.create(card, {
+		const card = await this.card.get(ctx.params.cardId);
+		ctx.body = await this.transaction.create(card, {
 			type: 'paymentMobile',
 			data: 'PAY',
 			sum: -amount,
 		});
-		ctx.body = 'OK'
 	}
 
 	public async fill(ctx: Context) {
 		await Validate(ctx.request.body, transactionPaySchema);
 		const amount = parseFloat(ctx.request.body.amount);
-		const card = await this.card.get(parseInt(ctx.params.cardId, 10));
-		await this.transaction.create(card, {
+		const card = await this.card.get(ctx.params.cardId);
+		ctx.body = await this.transaction.create(card, {
 			type: 'prepaidCard',
 			data: 'FILL',
 			sum: amount,
 		});
-		ctx.body = 'OK'
 	}
 
 	public async transfer(ctx: Context) {
 		await Validate(ctx.request.body, transactionTransferSchema);
 		const cardOut = await this.card.get(parseInt(ctx.request.body.cardId, 10));
-		const cardIn = await this.card.get(parseInt(ctx.params.cardId, 10));
+		const cardIn = await this.card.get(ctx.params.cardId);
 		const amount = parseFloat(ctx.request.body.amount);
-		await this.transaction.transfer(cardIn, cardOut, amount);
-		ctx.body = 'OK'
+		ctx.body = await this.transaction.transfer(cardIn, cardOut, amount);
 	}
 }
 
