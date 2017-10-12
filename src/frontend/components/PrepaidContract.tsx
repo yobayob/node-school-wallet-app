@@ -130,16 +130,18 @@ class PrepaidContract extends React.Component<IMobilePayment, IMobilePayment> {
 		}
 
 		const {sum}: any = this.state;
-		const {activeCard}: any = this.props;
-
+		const {activeCard, inactiveCardsList}: any = this.props;
+		const {activeCardIndex}: any = this.state;
 		const isNumber = !isNaN(parseFloat(sum)) && isFinite(sum);
 		if (!isNumber || sum <= 0) {
 			return;
 		}
-
+		console.log(activeCardIndex);
+		console.log(inactiveCardsList);
+		console.log(inactiveCardsList[activeCardIndex]);
 		CardAction.transfer(this.props.activeCard.id, {
 			amount: parseFloat(sum),
-			cardId: this.props.inactiveCardsList[this.props.activeCardIndex].id,
+			cardId: inactiveCardsList[activeCardIndex].id,
 		}).then(
 			() => this.props.onPaymentSuccess({
 					sum,
@@ -155,10 +157,8 @@ class PrepaidContract extends React.Component<IMobilePayment, IMobilePayment> {
 	 */
 	render() {
 		const {inactiveCardsList}: any = this.props;
-
 		const {activeCardIndex}: any = this.state;
 		const selectedCard = inactiveCardsList[activeCardIndex];
-
 		return (
 			<form onSubmit={(event) => this.onSubmitForm(event)}>
 				<PrepaidLayout>
