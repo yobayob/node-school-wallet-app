@@ -2,6 +2,8 @@
 import App from './App';
 import Select from './Select';
 import Card from './Card';
+import CardEdit from './CardEdit'
+import CardDelete from './CardDelete';
 import Title from './Title';
 import UserInfo from './UserInfo';
 import Header from './Header';
@@ -32,9 +34,9 @@ export interface IMobilePayment {
 }
 
 export {
-	App, Card, Input, Select, CardsBar, Button, Title, Header,
+	App, Card, CardEdit, CardDelete, Input, Select, CardsBar, Button, Title, Header,
 	UserInfo, Island, History,
 	MobilePaymentSuccess, MobilePaymentContract, MobilePayment,
 	Prepaid, PrepaidContract, PrepaidSuccess,
-	Withdraw
+	Withdraw,
 }

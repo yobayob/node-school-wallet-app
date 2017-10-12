@@ -63,6 +63,9 @@ interface ICard {
 	key?: any
 	active?: any
 	onClick?: any
+	isSingle?: any
+	isCardsEditable?: any
+	onChangeBarMode?: any
 }
 
 class Card extends React.Component<ICard, {}> {
@@ -75,7 +78,10 @@ class Card extends React.Component<ICard, {}> {
 		data: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
 		type: PropTypes.string,
 		active: PropTypes.bool,
+		isSingle: PropTypes.bool,
+		isCardsEditable: PropTypes.bool,
 		onClick: PropTypes.func,
+		onChangeBarMode: PropTypes.func,
 	};
 
 	constructor(props: ICard) {
@@ -102,7 +108,7 @@ class Card extends React.Component<ICard, {}> {
 	 * @returns {JSX}
 	 */
 	render() {
-		const {data, type, active, onClick}: any = this.props;
+		const {data, type, active, isSingle, onClick, isCardsEditable, onChangeBarMode}: any = this.props;
 
 		if (type === 'new') {
 			return (
