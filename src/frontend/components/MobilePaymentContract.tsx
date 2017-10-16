@@ -135,7 +135,7 @@ class MobilePaymentContract extends React.Component<IMobilePaymentContract, IIMo
 			return;
 		}
 		CardAction.pay(activeCard.id, {
-			amount: parseFloat(sum),
+			amount: parseFloat(sum) + parseFloat(commission),
 		}).then(
 			() => {
 				activeCard.balance -= sum;
