@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import styled from 'styled-components';
-import {Card} from './';
+import {Card, CardDelete} from './';
 
 const Layout = styled.div`
 	display: flex;
@@ -37,15 +37,35 @@ const Footer = styled.footer`
 `;
 
 interface ICardsBarProps {
-	cardsList: any
-	activeCardIndex: any
-	onCardChange: any
+	cardsList?: any
+	activeCardIndex?: any
+	onCardChange?: any
+	removeCardId?: any
+	isCardsEditable?: any
+	isCardRemoving?: any
+	deleteCard?: any
+	onChangeBarMode?: any
 }
 
-const CardsBar: React.SFC<ICardsBarProps> = ({activeCardIndex, cardsList, onCardChange}: any) => {
+const CardsBar: React.SFC<ICardsBarProps> = (
+	{activeCardIndex, cardsList, onCardChange, onEditChange, isCardsEditable, isCardRemoving, onChangeBarMode, removeCardId, deleteCard}: any
+) => {
 	const onCardClick: any = (activeCardIndex: any) => {
 		onCardChange && onCardChange(activeCardIndex);
 	};
+
+	if (isCardRemoving) {
+		return (
+			<Layout>
+				<Logo />
+				<CardDelete
+					deleteCard={deleteCard}
+					data={cardsList.filter((item: any) => item.id === removeCardId)[0]}
+				/>
+				<Footer>Yamoney Node School</Footer>
+			</Layout>
+		);
+	}
 
 	return (
 		<Layout>
@@ -56,10 +76,11 @@ const CardsBar: React.SFC<ICardsBarProps> = ({activeCardIndex, cardsList, onCard
 					<Card
 						key={index}
 						data={card}
+						isCardsEditable={isCardsEditable}
 						active={index === activeCardIndex}
-						onClick={() => onCardClick(index)} />
+						onClick={() => onCardClick(index)}/>
 				))}
-				<Card type='new' />
+				<Card type='new'/>
 			</CardsList>
 			<Footer>Yamoney Node School</Footer>
 		</Layout>
@@ -67,9 +88,14 @@ const CardsBar: React.SFC<ICardsBarProps> = ({activeCardIndex, cardsList, onCard
 };
 
 CardsBar.propTypes = {
-	cardsList: PropTypes.array.isRequired,
+	cardsList: PropTypes.arrayOf(PropTypes.object).isRequired,
 	activeCardIndex: PropTypes.number.isRequired,
+	removeCardId: PropTypes.number,
 	onCardChange: PropTypes.func.isRequired,
+	isCardsEditable: PropTypes.bool.isRequired,
+	isCardRemoving: PropTypes.bool.isRequired,
+	deleteCard: PropTypes.func.isRequired,
+	onChangeBarMode: PropTypes.func.isRequired
 };
 
 export default CardsBar;

@@ -25,4 +25,16 @@ export class CardAction {
 	static transfer(cardId: number, data: {amount: number, cardId: string}) {
 		return http.post(`/cards/${cardId}/transfer`, data)
 	}
+
+	static allCards() {
+		return http.get(`/cards`)
+	}
+
+	static allTransactions() {
+		return http.get(`/transactions`)
+	}
+
+	static removeCard(cardId: number) {
+		return http.del(`cards/${cardId}`)
+	}
 }

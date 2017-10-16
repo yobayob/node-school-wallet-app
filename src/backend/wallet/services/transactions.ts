@@ -20,8 +20,11 @@ export class TransactionManager {
 		return this.objects;
 	}
 
-	public async all(card: Card) {
-		return (this.objects.filter((item) => item.cardId === card.id));
+	public async all(card?: Card) {
+		if (card) {
+			return (this.objects.filter((item) => item.cardId === card.id));
+		}
+		return this.objects;
 	}
 
 	private prepare(card: Card, t: TransactionInterface) {

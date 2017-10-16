@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import styled from 'styled-components'
-import {Select} from './';
+import {Select, CardEdit} from './';
 
 const CardLayout: any = styled.div`
 	position: relative;
@@ -109,7 +109,6 @@ class Card extends React.Component<ICard, {}> {
 	 */
 	render() {
 		const {data, type, active, isSingle, onClick, isCardsEditable, onChangeBarMode}: any = this.props;
-
 		if (type === 'new') {
 			return (
 				<NewCardLayout />
@@ -120,31 +119,42 @@ class Card extends React.Component<ICard, {}> {
 			const {activeCardIndex}: any = this.state;
 			const selectedCard = data[activeCardIndex];
 			const {bgColor, bankLogoUrl, brandLogoUrl}: any = selectedCard.theme;
+			const isActive = true;
+
 			return (
-				<CardLayout active={true} bgColor={bgColor}>
+				<CardLayout active={true} bgColor={bgColor} isCardsEditable={isCardsEditable} isSingle={isSingle}>
+					<CardEdit editable={isCardsEditable} id={data.id} onChangeBarMode={onChangeBarMode} />
 					<CardLogo url={bankLogoUrl} active={true} />
-					<CardSelect defaultValue='0' onChange={(activeCardIndex: any) => this.onCardChange(activeCardIndex)}>
+					<CardSelect defaultValue='0' onChange={(index: any) => this.onCardChange(index)}>
 						{data.map((card: any, index: any) => (
-							<Select.Option key={index} value={`${index}`}>{card.number}</Select.Option>
+							<Select.Option key={isActive} value={`${index}`}>{card.number}</Select.Option>
 						))}
 					</CardSelect>
-					<CardType url={brandLogoUrl} active={true} />
+					<CardType url={brandLogoUrl} active={isActive} />
 				</CardLayout>
 			);
-		}
+}
 
-		const {number, theme} = data;
+		const {number, theme, id} = data;
 		const {bgColor, textColor, bankLogoUrl, brandLogoUrl} = theme;
 		const themedBrandLogoUrl = active ? brandLogoUrl : brandLogoUrl.replace(/-colored.svg$/, '-white.svg');
 		return (
-			<CardLayout active={active} bgColor={bgColor} onClick={onClick} >
+			<CardLayout
+				active={active}
+				bgColor={bgColor}
+				onClick={onClick}
+				isCardsEditable={isCardsEditable}
+				isSingle={isSingle}
+			>
+
+				<CardEdit editable={isCardsEditable} id={id} onChangeBarMode={onChangeBarMode} />
 				<CardLogo url={bankLogoUrl} active={active} />
 				<CardNumber textColor={textColor} active={active}>
 					{number}
 				</CardNumber>
 				<CardType url={themedBrandLogoUrl} active={active} />
 			</CardLayout>
-		);
+);
 	}
 }
 

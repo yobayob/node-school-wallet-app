@@ -42,8 +42,8 @@ const Footer: any = styled.div`
 
 interface ICardDelete {
 	data?: any
-	onCancelClick: any
-	deleteCard: any
+	onCancelClick?: any
+	deleteCard?: any
 }
 
 const CardDelete: React.SFC<ICardDelete> = ({data, onCancelClick, deleteCard}: any) => (
@@ -56,7 +56,8 @@ const CardDelete: React.SFC<ICardDelete> = ({data, onCancelClick, deleteCard}: a
 			isSingle={true}
 			data={data}
 			active={true}
-			isCardsEditable={false} />
+			isCardsEditable={false}
+		/>
 		<LinkCardText>Привязать карту можно в любой момент</LinkCardText>
 		<Footer>
 			<div onClick={() => deleteCard(data.id)}>

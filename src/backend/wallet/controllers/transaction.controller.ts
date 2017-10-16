@@ -11,6 +11,10 @@ export class TransactionController {
 		@Inject private card: CardManager,
 	) { }
 
+	public async getAllTransaction(ctx: Context) {
+		ctx.body = await this.transaction.all()
+	}
+
 	public async getAllCardTransaction(ctx: Context) {
 		const card = await this.card.get(ctx.params.cardId);
 		const trans = await this.transaction.all(card);
