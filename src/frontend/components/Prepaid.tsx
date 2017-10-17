@@ -9,6 +9,7 @@ interface IPrepaid {
 	activeCard: any
 	inactiveCardsList: any
 	onCardChange: any
+	onTransaction: any
 }
 /**
  * Класс компонента Prepaid
@@ -22,7 +23,8 @@ class Prepaid extends React.Component<IPrepaid, IMobilePayment> {
 		activeCard: PropTypes.shape({
 			id: PropTypes.number,
 		}).isRequired,
-		inactiveCardsList: PropTypes.arrayOf(PropTypes.object).isRequired
+		inactiveCardsList: PropTypes.arrayOf(PropTypes.object).isRequired,
+		onTransaction: PropTypes.func.isRequired,
 	};
 
 	constructor(props: any) {
@@ -36,6 +38,7 @@ class Prepaid extends React.Component<IPrepaid, IMobilePayment> {
 	 * @param {Object} transaction данные о транзакции
 	 */
 	onPaymentSuccess(transaction: any) {
+		this.props.onTransaction();
 		this.setState({
 			stage: 'success',
 			transaction

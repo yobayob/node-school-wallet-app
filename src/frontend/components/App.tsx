@@ -129,7 +129,7 @@ class App extends React.Component<IApp, IAppState> {
 
 	onTransaction() {
 		CardAction.allCards().then(
-			(data: any) => {
+			(data: any[]) => {
 				const cardsList = App.prepareCardsData(data);
 				this.setState({cardsList});
 
@@ -191,6 +191,7 @@ class App extends React.Component<IApp, IAppState> {
 							activeCard={activeCard}
 							inactiveCardsList={inactiveCardsList}
 							onCardChange={(newActiveCardIndex: any) => this.onCardChange(newActiveCardIndex)}
+							onTransaction={() => this.onTransaction()}
 						/>
 						<MobilePayment activeCard={activeCard}/>
 						<Withdraw
