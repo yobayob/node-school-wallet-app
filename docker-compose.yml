@@ -1,0 +1,17 @@
+version: "2"
+services:
+  mongo:
+    image: mongo:latest
+    ports:
+    - "27017"
+  web:
+    image: wallet
+    ports:
+    - 3000:3000
+  nginx:
+    image: nginx:latest
+    ports:
+    - 8080:443
+    volumes:
+    - ./ssl:/etc/nginx/ssl
+    - ./ssl/nginx.conf:/etc/nginx/nginx.conf
