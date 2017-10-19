@@ -4,6 +4,11 @@
 
 npm i && npm run build && npm start
 
+### Docker run
+
+docker build -t wallet:latest .  && docker-compose run web
+docker-compose up -d
+
 ### API
 
 | uri                     | method | request                                         | response                   | description                  |
