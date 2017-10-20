@@ -4,6 +4,7 @@ import {Singleton} from 'typescript-ioc';
 import {ICardModel} from './';
 import {ApplicationError} from '../../common/exceptions/application.error';
 
+// Types of transaction
 const CARD2CARD = `card2card`;
 const PREPAID_CARD = `prepaidCard`;
 const PAYMENT_MOBILE = `paymentMobile`;
@@ -47,6 +48,12 @@ export class TransactionModel extends SuperModel<ITransactionModel> {
 		return this.create(obj)
 	}
 
+	/**
+	 * This func is incorrect, because this is not atomic operation
+	 * TODO: fix this
+	 * cardSend - card, which send money
+	 * cardRecieve - card, which recieve money
+	 */
 	public async transfer(cardSend: ICardModel, cardRecieve: ICardModel, sum: number) {
 		if (sum === 0) {
 			throw new ApplicationError(`Invalid sum`, 400)

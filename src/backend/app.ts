@@ -19,7 +19,6 @@ export class App {
 	) { }
 
 	private async createApp() {
-		await mongoose.connect('mongodb://127.0.0.1:27018', { useMongoClient: true });
 		const app: Koa = new Koa();
 		app.use(logger());
 		app.use(bodyParser());
@@ -30,7 +29,12 @@ export class App {
 		return Promise.resolve(app);
 	}
 
+	private async createDB() {
+		return mongoose.connect('mongodb://127.0.0.1:27018', { useMongoClient: true });
+	}
+
 	public async start() {
+		const db = await this.createDB();
 		const app = await this.createApp();
 		log.info('Started listening on port 3000...');
 		const server = app.listen(3000);
