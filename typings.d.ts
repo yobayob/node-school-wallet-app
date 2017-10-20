@@ -18,3 +18,31 @@ declare module '*.json' {
 	export default value;
 }
 
+declare module 'mongoose' {
+	export interface SequenceOptions {
+		inc_field: string;
+		id?: string;
+		reference_fields?: Array<string>;
+		disable_hooks?: boolean;
+		collection_name?: string;
+	}
+
+	export interface SequenceDocument extends Document {
+		setNext(sequenceId: string, callback: (err: any, res: SequenceDocument) => void): void;
+	}
+
+	export interface SequenceSchema extends Schema {
+		plugin(plugin: (schema: SequenceSchema, options: SequenceOptions) => void,
+				options: SequenceOptions): this;
+
+		// overload for the default mongoose plugin function
+		plugin(plugin: (schema: Schema, options?: Object) => void, opts?: Object): this;
+	}
+}
+
+declare module 'mongoose-sequence' {
+	import mongoose = require('mongoose');
+
+	var _: (goose: Object) => (schema: mongoose.Schema, options?: Object) => void;
+	export = _;
+}

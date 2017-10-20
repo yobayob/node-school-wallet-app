@@ -70,6 +70,7 @@
 		"koa-views": "^6.1.0",
 		"moment": "^2.19.1",
 		"mongoose": "^4.12.3",
+		"mongoose-sequence": "^4.0.1",
 		"react": "^16.0.0",
 		"react-dom": "^16.0.0",
 		"react-moment": "^0.6.5",

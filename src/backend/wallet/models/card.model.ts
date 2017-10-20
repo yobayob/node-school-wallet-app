@@ -1,20 +1,23 @@
-import {Document, Schema} from 'mongoose';
+import {Schema, SequenceDocument, SequenceSchema, connection} from 'mongoose';
 import {Singleton} from 'typescript-ioc';
 import {SuperModel} from '../../common/models'
 import {checkLuhn} from '../../common/utils'
 import {ApplicationError} from '../../common/exceptions';
+import {ITransactionModel} from './transaction.model';
 
 export interface ICard {
 	balance: number;
 	cardNumber: string;
+
+	transactions: () => void
 }
 
-export interface ICardModel extends ICard, Document {
+export interface ICardModel extends ICard, SequenceDocument {
 }
-export const CardSchema: Schema = new Schema({
+export const CardSchema: SequenceSchema = new Schema({
 	balance: Number,
 	cardNumber: {type: String, index: {unique: true}},
-});
+}) as SequenceSchema;
 
 export interface ICardModel extends ICard, Document {
 }
@@ -23,7 +26,7 @@ export interface ICardModel extends ICard, Document {
 export class CardModel extends SuperModel<ICardModel> {
 
 	constructor() {
-		super('card', CardSchema)
+		super('Card', CardSchema);
 	}
 
 	public async create(o: { balance: number, cardNumber: string }) {
