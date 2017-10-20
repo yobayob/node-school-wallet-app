@@ -1,7 +1,7 @@
 import {ApplicationSchema} from '../common/interfaces/application';
 import {Inject, Singleton} from 'typescript-ioc';
 import * as Router from 'koa-router';
-import {CardManager, TransactionManager} from '../wallet/services'
+import {CardModel, TransactionModel} from '../wallet/models'
 import render from './render'
 import * as App from 'koa';
 import {renderToStaticMarkup} from 'react-dom/server'
@@ -14,8 +14,8 @@ export class Render implements ApplicationSchema {
 
 	constructor(
 		@Inject private router: Router,
-		@Inject private cards: CardManager,
-		@Inject private transactions: TransactionManager,
+		@Inject private cards: CardModel,
+		@Inject private transactions: TransactionModel,
 	) {}
 
 	/*
@@ -24,7 +24,7 @@ export class Render implements ApplicationSchema {
 	$setRoutes() {
 		this.router.get('/', async (ctx) => {
 			const cards = await this.cards.all();
-			const transactions = await this.transactions.full();
+			const transactions = await this.transactions.all();
 			ctx.body = renderToStaticMarkup(render({cards, transactions}));
 		})
 	}

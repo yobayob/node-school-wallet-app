@@ -5,6 +5,7 @@ import {tryCatchMiddleware} from './middlewares'
 import { Inject } from 'typescript-ioc';
 import { Wallet } from './wallet/wallet';
 import { Render } from './render';
+import * as mongoose from 'mongoose';
 import * as serve from 'koa-static';
 import {log} from './common/logger'
 
@@ -28,7 +29,12 @@ export class App {
 		return Promise.resolve(app);
 	}
 
+	private async createDB() {
+		return mongoose.connect('mongodb://127.0.0.1:27018', { useMongoClient: true });
+	}
+
 	public async start() {
+		const db = await this.createDB();
 		const app = await this.createApp();
 		log.info('Started listening on port 3000...');
 		const server = app.listen(3000);

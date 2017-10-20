@@ -1,2 +1,2 @@
-export {Card} from './card';
-export {Transaction} from './transaction';
+export * from './transaction.model';
+export * from './card.model';

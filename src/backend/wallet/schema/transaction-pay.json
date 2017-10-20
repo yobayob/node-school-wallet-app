@@ -2,12 +2,16 @@
   "additionalProperties": false,
   "type": "object",
   "required": [
-	"amount"
+	"amount",
+	"data"
   ],
   "properties": {
 	"amount": {
 	  "type": "number",
 	  "minimum": 0
+	},
+	"data": {
+	  "type": "string"
 	}
   }
 }
