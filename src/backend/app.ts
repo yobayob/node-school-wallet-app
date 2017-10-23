@@ -3,7 +3,7 @@ import * as bodyParser from 'koa-bodyparser';
 import * as logger from 'koa-logger';
 import {tryCatchMiddleware} from './middlewares'
 import { Inject } from 'typescript-ioc';
-import { Wallet } from './wallet/wallet';
+import { Wallet } from './wallet';
 import { Render } from './render';
 import * as mongoose from 'mongoose';
 import * as serve from 'koa-static';

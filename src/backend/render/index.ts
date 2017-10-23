@@ -1,22 +1,23 @@
-import {ApplicationSchema} from '../common/interfaces/application';
+import {Application} from '../common/models'
 import {Inject, Singleton} from 'typescript-ioc';
 import * as Router from 'koa-router';
 import {CardModel, TransactionModel} from '../wallet/models'
 import render from './render'
-import * as App from 'koa';
 import {renderToStaticMarkup} from 'react-dom/server'
 
 /**
  * Server side rendering
  */
 @Singleton
-export class Render implements ApplicationSchema {
+export class Render extends Application {
 
 	constructor(
-		@Inject private router: Router,
+		@Inject public router: Router,
 		@Inject private cards: CardModel,
 		@Inject private transactions: TransactionModel,
-	) {}
+	) {
+		super()
+	}
 
 	/*
 	 * TODO: add cache (LRU)
@@ -27,11 +28,5 @@ export class Render implements ApplicationSchema {
 			const transactions = await this.transactions.all();
 			ctx.body = renderToStaticMarkup(render({cards, transactions}));
 		})
-	}
-
-	register(app: App): void {
-		this.$setRoutes();
-		app.use(this.router.routes());
-		app.use(this.router.allowedMethods());
 	}
 }

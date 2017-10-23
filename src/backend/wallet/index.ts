@@ -1,20 +1,21 @@
-import {ApplicationSchema} from '../common/interfaces/application'
+import {Application} from '../common/models/application'
 import {Inject, Singleton} from 'typescript-ioc';
 import * as controllers from './controllers';
 import * as Router from 'koa-router';
-import * as App from 'koa';
 
 /*
  Module wallet - all business logic for cards and transaction
  */
 @Singleton
-export class Wallet implements ApplicationSchema {
+export class Wallet extends Application {
 
 	constructor(
-		@Inject private router: Router,
+		@Inject public router: Router,
 		@Inject private cardsController: controllers.CardsController,
 		@Inject private transactionController: controllers.TransactionController,
-	) {}
+	) {
+		super()
+	}
 
 	$setRoutes() {
 
@@ -67,11 +68,5 @@ export class Wallet implements ApplicationSchema {
 		this.router.get('/transactions',
 			async (ctx) => this.transactionController
 				.getAllTransaction(ctx));
-	}
-
-	register(app: App): void {
-		this.$setRoutes();
-		app.use(this.router.routes());
-		app.use(this.router.allowedMethods());
 	}
 }
