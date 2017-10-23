@@ -8,15 +8,20 @@ import {ITransactionModel} from './transaction.model';
 export interface ICard {
 	balance: number;
 	cardNumber: string;
-
-	transactions: () => void
 }
 
 export interface ICardModel extends ICard, SequenceDocument {
 }
 export const CardSchema: SequenceSchema = new Schema({
-	balance: Number,
-	cardNumber: {type: String, index: {unique: true}},
+	balance: {
+		type: Number,
+		required: true,
+	},
+	cardNumber: {
+		type: String,
+		index: {unique: true},
+		required: true,
+	},
 }) as SequenceSchema;
 
 export interface ICardModel extends ICard, Document {

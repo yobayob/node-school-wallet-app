@@ -6,6 +6,7 @@ import {
 	Schema,
 	SequenceDocument,
 	SequenceSchema,
+	Error,
 } from 'mongoose';
 
 import {ApplicationError} from '../exceptions';
@@ -26,7 +27,7 @@ export abstract class SuperModel<T extends SequenceDocument> {
 
 	/**
 	 * current model
-	 * yon can't access to object properies from controller
+	 * yon can't access to object properties from controller
 	 * every model must be extend from SuperModel and override
 	 * needed methods
 	 */

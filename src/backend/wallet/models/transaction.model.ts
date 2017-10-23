@@ -19,10 +19,22 @@ export interface ITransaction {
 export interface ITransactionModel extends ITransaction, SequenceDocument {}
 
 export const TransactionSchema: SequenceSchema = new Schema({
-	cardId: 	Number,
-	data: 		String,
-	type: 		String,
-	sum: 		Number,
+	cardId: 	{
+		type: Number,
+		required: true,
+		},
+	data: {
+		type: String,
+		required: true,
+		},
+	type: 		{
+		type: String,
+		required: true,
+		},
+	sum: 		{
+		type: Number,
+		required: true,
+		},
 	time: 		{type: Date, default: Date.now },
 },
 // {timestamps: { createdAt: 'time'},} - maybe

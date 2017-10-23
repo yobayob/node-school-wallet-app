@@ -21,7 +21,8 @@ export class CardsController {
 
 	public async createCard(ctx: Context) {
 		await Validate(ctx.request.body, cardCreateSchema);
-		ctx.body = await this.card.create(ctx.request.body)
+		ctx.body = await this.card.create(ctx.request.body);
+		ctx.status = 201
 	}
 
 	public async deleteCard(ctx: Context) {
