@@ -3,6 +3,8 @@ import { Inject, Singleton } from 'typescript-ioc';
 import {Validate} from '../../common/utils'
 import {transactionCreateSchema, transactionPaySchema, transactionTransferSchema} from '../schema'
 import {TransactionModel, CardModel} from '../models'
+import * as stream from 'stream';
+
 
 @Singleton
 export class TransactionController {
@@ -21,7 +23,7 @@ export class TransactionController {
 	}
 
 	public async createCardTransaction(ctx: Context) {
-		await Validate(ctx.request.body, transactionCreateSchema as any);
+		await Validate(ctx.request.body, transactionCreateSchema);
 		const card = await this.cards.get({id: ctx.params.cardId});
 		const {type, data, sum}: any = ctx.request.body;
 		ctx.body = await this.trans.createCardTransaction(card, type, data, sum);

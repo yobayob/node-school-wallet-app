@@ -116,4 +116,8 @@ export abstract class SuperModel<T extends SequenceDocument> {
 			await item.remove()
 		}
 	}
+
+	public stream(obj?: any) {
+		return this.objects.find().cursor({transform: JSON.stringify});
+	}
 }

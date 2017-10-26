@@ -3,7 +3,6 @@ import {Singleton} from 'typescript-ioc';
 import {SuperModel} from '../../common/models'
 import {checkLuhn} from '../../common/utils'
 import {ApplicationError} from '../../common/exceptions';
-import {ITransactionModel} from './transaction.model';
 
 export interface ICard {
 	balance: number;
