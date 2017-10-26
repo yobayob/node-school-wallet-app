@@ -65,6 +65,10 @@ export class Wallet extends Application {
 			async (ctx) => this.transactionController
 				.transfer(ctx));
 
+		this.router.get('/cards/:cardId/file-transaction',
+			async (ctx) => this.transactionController
+				.getCardTransactionCSV(ctx));
+
 		this.router.get('/transactions',
 			async (ctx) => this.transactionController
 				.getAllTransaction(ctx));

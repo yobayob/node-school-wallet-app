@@ -1,10 +1,9 @@
 import { Context } from 'koa';
 import { Inject, Singleton } from 'typescript-ioc';
-import {Validate} from '../../common/utils'
+import {Validate} from '../../common/utils';
 import {transactionCreateSchema, transactionPaySchema, transactionTransferSchema} from '../schema'
-import {TransactionModel, CardModel} from '../models'
-import * as stream from 'stream';
-
+import {TransactionModel, CardModel, ITransaction} from '../models'
+import {PassThrough} from 'stream'
 
 @Singleton
 export class TransactionController {
@@ -19,7 +18,7 @@ export class TransactionController {
 
 	public async getAllCardTransaction(ctx: Context) {
 		const card = await this.cards.get({id: ctx.params.cardId});
-		ctx.body = await this.cards.filter({cardId: card.id});
+		ctx.body = await this.trans.filter({cardId: card.id});
 	}
 
 	public async createCardTransaction(ctx: Context) {
@@ -54,5 +53,29 @@ export class TransactionController {
 		ctx.body = await this.trans.transfer(cardIn, cardOut, amount);
 		ctx.status = 201
 	}
+
+	public async getCardTransactionCSV(ctx: Context) {
+
+		const stream = new PassThrough();
+		const card = await this.cards.get({id: ctx.params.cardId});
+		const reader = await this.trans.toCSV(card);
+		stream.write(`id;cardId;type;time;data\n`);
+
+		reader.on('data', (chunk: any) => {
+			const s = `${chunk.id};${chunk.cardId};${chunk.type};${chunk.time};${chunk.data}\n`;
+			stream.write(s);
+		});
+
+		reader.on('close', () => {
+			ctx.res.end()
+		});
+
+		ctx.req.on('close', () => ctx.res.end());
+		ctx.req.on('finish', () => ctx.res.end());
+		ctx.req.on('error', () => ctx.res.end());
+		ctx.type = 'text/csv';
+		ctx.body = stream;
+	}
+
 }
 

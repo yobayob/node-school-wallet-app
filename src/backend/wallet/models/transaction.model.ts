@@ -14,6 +14,7 @@ export interface ITransaction {
 	data: 		string;
 	type: 		string;
 	sum: 		string;
+	time: 		string;
 }
 
 export interface ITransactionModel extends ITransaction, SequenceDocument {}
@@ -103,6 +104,10 @@ export class TransactionModel extends SuperModel<ITransactionModel> {
 
 	public async fill(card: ICardModel, data: string, amount: number) {
 		return this.createCardTransaction(card, data, PREPAID_CARD, amount)
+	}
+
+	public async toCSV(card: ICardModel) {
+		return this.objects.find().cursor();
 	}
 
 	public async delete(obj: any) {
