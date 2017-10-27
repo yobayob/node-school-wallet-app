@@ -3,11 +3,11 @@ import * as bodyParser from 'koa-bodyparser';
 import * as logger from 'koa-logger';
 import * as mongoose from 'mongoose';
 import * as serve from 'koa-static';
-import {tryCatchMiddleware} from './middlewares'
+import { tryCatchMiddleware } from './middlewares'
 import { Inject } from 'typescript-ioc';
 import { Wallet } from './wallet';
 import { Render } from './render';
-import {log} from './common/logger'
+import { log } from './common/logger'
 import config from './configs'
 import 'path'
 
@@ -30,7 +30,7 @@ export class App {
 	}
 
 	private async createDB() {
-		return mongoose.connect(`mongodb://${config.db.url}:${config.db.port}`, { useMongoClient: true });
+		return mongoose.connect(`mongodb://${config.db.url}:${config.db.port}/${config.db.db}`, { useMongoClient: true });
 	}
 
 	public async start() {

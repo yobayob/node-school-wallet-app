@@ -1,7 +1,8 @@
 {
   "db": {
 	"url": "localhost",
-	"port": 27018
+	"port": 27018,
+	"db": "nodeschool"
   },
   "port": 3000
 }

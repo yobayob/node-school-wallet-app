@@ -92,7 +92,7 @@ class PrepaidContract extends React.Component<IMobilePayment, IMobilePayment> {
 
 		this.state = {
 			activeCardIndex: 0,
-			sum: 0
+			sum: 0,
 		};
 	}
 

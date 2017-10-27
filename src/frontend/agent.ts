@@ -1,6 +1,7 @@
 import axios from 'axios';
+import {AxiosResponse } from 'axios'
 
-const responseBody = (res: any) => res.body;
+const responseBody = (res: AxiosResponse) => res.data;
 
 const config = {};
 
@@ -14,11 +15,11 @@ const http = {
 /* requests to cards api */
 export class CardAction {
 
-	static pay(cardId: number, data: {amount: number}) {
+	static pay(cardId: number, data: {amount: number, data: string}) {
 		return http.post(`/cards/${cardId}/pay`, data)
 	}
 
-	static fill(cardId: number, data: {amount: number}) {
+	static fill(cardId: number, data: {amount: number, data: string}) {
 		return http.post(`/cards/${cardId}/fill`, data)
 	}
 

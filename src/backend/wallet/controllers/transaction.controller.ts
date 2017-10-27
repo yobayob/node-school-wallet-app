@@ -3,14 +3,14 @@ import { Inject, Singleton } from 'typescript-ioc';
 import {Validate} from '../../common/utils';
 import {transactionCreateSchema, transactionPaySchema, transactionTransferSchema} from '../schema'
 import {TransactionModel, CardModel, ITransaction} from '../models'
-import {PassThrough} from 'stream'
+import {PassThrough, Stream} from 'stream'
 
 @Singleton
 export class TransactionController {
 	constructor(
 		@Inject private trans: TransactionModel,
 		@Inject private cards: CardModel,
-	) { }
+	) {}
 
 	public async getAllTransaction(ctx: Context) {
 		ctx.body = await this.trans.all()
@@ -58,24 +58,22 @@ export class TransactionController {
 
 		const stream = new PassThrough();
 		const card = await this.cards.get({id: ctx.params.cardId});
-		const reader = await this.trans.toCSV(card);
+		const reader = await this.trans.filter({cardId: card.id}).cursor();
+
+		// TODO: fix this
 		stream.write(`id;cardId;type;time;data\n`);
-
-		reader.on('data', (chunk: any) => {
-			const s = `${chunk.id};${chunk.cardId};${chunk.type};${chunk.time};${chunk.data}\n`;
-			stream.write(s);
-		});
-
-		reader.on('close', () => {
-			ctx.res.end()
-		});
+		reader
+			.on('data',
+				(chunk: any) => stream.write(`${chunk.id};${chunk.cardId};${chunk.type};${chunk.time};${chunk.data}\n`))
+			.on('close',
+				() => ctx.res.end());
 
 		ctx.req.on('close', () => ctx.res.end());
 		ctx.req.on('finish', () => ctx.res.end());
 		ctx.req.on('error', () => ctx.res.end());
 		ctx.type = 'text/csv';
 		ctx.body = stream;
-	}
 
+	}
 }
 

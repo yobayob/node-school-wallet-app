@@ -9,6 +9,8 @@ const CARD2CARD = `card2card`;
 const PREPAID_CARD = `prepaidCard`;
 const PAYMENT_MOBILE = `paymentMobile`;
 
+const _name = `transactions`;
+
 export interface ITransaction {
 	cardId: 	number;
 	data: 		string;
@@ -48,10 +50,10 @@ export const TransactionSchema: SequenceSchema = new Schema({
 export class TransactionModel extends SuperModel<ITransactionModel> {
 
 	constructor() {
-		super('Transaction', TransactionSchema)
+		super(_name, TransactionSchema)
 	}
 
-	public async createCardTransaction(card: ICardModel, data: string, type: string, sum: number) {
+	public createCardTransaction(card: ICardModel, data: string, type: string, sum: number) {
 		if (sum === 0) {
 			throw new ApplicationError(`Invalid sum`, 400)
 		}
@@ -70,7 +72,7 @@ export class TransactionModel extends SuperModel<ITransactionModel> {
 	 * cardSend - card, which send money
 	 * cardRecieve - card, which recieve money
 	 */
-	public async transfer(cardSend: ICardModel, cardRecieve: ICardModel, sum: number) {
+	public transfer(cardSend: ICardModel, cardRecieve: ICardModel, sum: number) {
 		if (sum === 0) {
 			throw new ApplicationError(`Invalid sum`, 400)
 		}
@@ -91,23 +93,21 @@ export class TransactionModel extends SuperModel<ITransactionModel> {
 			data: `Transfer from ${cardSend.cardNumber}`,
 			type: CARD2CARD,
 		};
-		const saveAtomic = Promise.all([this.create(transSend), this.create(transRecieve)]);
-		await saveAtomic; // lol
-		cardSend.save();
-		cardRecieve.save();
-		return [transSend, transRecieve];
+		const saveAtomic = Promise.all([
+			this.create(transSend),
+			this.create(transRecieve),
+			cardSend.save(),
+			cardRecieve.save()],
+		);
+		return saveAtomic; // lolkek
 	}
 
-	public async pay(card: ICardModel, data: string, amount: number) {
+	public pay(card: ICardModel, data: string, amount: number) {
 		return this.createCardTransaction(card, data, PAYMENT_MOBILE, -amount)
 	}
 
-	public async fill(card: ICardModel, data: string, amount: number) {
+	public fill(card: ICardModel, data: string, amount: number) {
 		return this.createCardTransaction(card, data, PREPAID_CARD, amount)
-	}
-
-	public async toCSV(card: ICardModel) {
-		return this.objects.find().cursor();
 	}
 
 	public async delete(obj: any) {

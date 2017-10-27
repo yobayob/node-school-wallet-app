@@ -5,6 +5,7 @@ interface IConfig {
 	db: {
 		url: string,
 		port: number,
+		db: string,
 	}
 	port: number,
 }

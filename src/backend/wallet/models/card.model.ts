@@ -4,6 +4,8 @@ import {SuperModel} from '../../common/models'
 import {checkLuhn} from '../../common/utils'
 import {ApplicationError} from '../../common/exceptions';
 
+const _name = `cards`;
+
 export interface ICard {
 	balance: number;
 	cardNumber: string;
@@ -30,10 +32,10 @@ export interface ICardModel extends ICard, Document {
 export class CardModel extends SuperModel<ICardModel> {
 
 	constructor() {
-		super('Card', CardSchema);
+		super(_name, CardSchema);
 	}
 
-	public async create(o: { balance: number, cardNumber: string }) {
+	public create(o: { balance: number, cardNumber: string }) {
 		if (!checkLuhn(o.cardNumber)) {
 			throw new ApplicationError('Luhn invalid', 400)
 		}

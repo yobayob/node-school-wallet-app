@@ -95,7 +95,6 @@ const History: React.SFC<IHistory> = ({cardHistory}: any) => {
 		<HistoryLayout>
 			<HistoryTitle>Сегодня</HistoryTitle>
 			{cardHistory.map((item: any, index: any) => {
-
 				const historyItemDate = moment(item.time, moment.ISO_8601);
 				const today = moment().format('L');
 				const isTodayHistoryItem = historyItemDate.format('L') === today;

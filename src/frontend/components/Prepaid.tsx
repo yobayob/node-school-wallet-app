@@ -41,7 +41,7 @@ class Prepaid extends React.Component<IPrepaid, IMobilePayment> {
 		this.props.onTransaction();
 		this.setState({
 			stage: 'success',
-			transaction
+			transaction,
 		});
 	}
 

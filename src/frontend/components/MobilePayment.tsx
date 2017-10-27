@@ -5,13 +5,10 @@ import MobilePaymentContract from './MobilePaymentContract';
 import MobilePaymentSuccess from './MobilePaymentSuccess';
 
 interface IMobilePayment {
-	activeCard?: any
-}
-
-interface IMobilePayment {
-	stage?: string,
+	stage?: string
 	activeCard?: any
 	transaction?: any
+	onTransaction?: any
 }
 
 /**
@@ -40,6 +37,7 @@ class MobilePayment extends React.Component<IMobilePayment, IMobilePayment> {
 	 * @param {Object} transaction данные о транзакции
 	 */
 	onPaymentSuccess(transaction: any) {
+		this.props.onTransaction(transaction);
 		this.setState({
 			stage: 'success',
 			transaction,

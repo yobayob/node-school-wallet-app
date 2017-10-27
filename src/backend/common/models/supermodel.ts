@@ -78,14 +78,14 @@ export abstract class SuperModel<T extends SequenceDocument> {
 	/**
 	 * List of all items
 	 */
-	public async all() {
+	public all() {
 		return this.objects.find()
 	}
 
 	/**
 	 * Create item. If item not found throw Application Error
 	 */
-	public async create(obj: any) {
+	public create(obj: any) {
 		return this.objects.create(obj)
 	}
 
@@ -97,13 +97,13 @@ export abstract class SuperModel<T extends SequenceDocument> {
 		if (res) {
 			return res
 		}
-		throw new ApplicationError(`${obj} not found`, 404)
+		throw new ApplicationError(`Object with params ${JSON.stringify(obj)} not found`, 404)
 	}
 
 	/**
 	 * Filter items
 	 */
-	public async filter(obj: any) {
+	public filter(obj: any) {
 		return this.objects.find(obj)
 	}
 

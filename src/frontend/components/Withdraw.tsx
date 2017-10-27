@@ -102,9 +102,9 @@ class Withdraw extends React.Component<IWithdraw, IState> {
 			return;
 		}
 
-		CardAction.transfer(selectedCard.id, {
+		CardAction.transfer(this.props.activeCard.id, {
 			amount: parseFloat(sum),
-			cardId: this.props.activeCard.id,
+			cardId: selectedCard.id,
 		}).then(
 			() => this.setState({sum: 0}),
 			(err) => console.log(err),

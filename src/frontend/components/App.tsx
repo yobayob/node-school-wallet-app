@@ -103,8 +103,8 @@ class App extends React.Component<IApp, IAppState> {
 
 	constructor(props: IApp) {
 		super(props);
-		const cardsList = App.prepareCardsData(this.props.data.cards) || [];
-		const cardHistory = App.prepareHistory(this.props.data.cards, this.props.data.transactions) || [];
+		const cardsList = App.prepareCardsData(this.props.data.cards);
+		const cardHistory = App.prepareHistory(cardsList, this.props.data.transactions);
 		this.state = {
 			cardsList,
 			cardHistory,
@@ -130,6 +130,7 @@ class App extends React.Component<IApp, IAppState> {
 	onTransaction() {
 		CardAction.allCards().then(
 			(data: any[]) => {
+				console.log(data)
 				const cardsList = App.prepareCardsData(data);
 				this.setState({cardsList});
 
@@ -169,7 +170,7 @@ class App extends React.Component<IApp, IAppState> {
 		const inactiveCardsList = cardsList.filter((card: any, index: number) => (index === activeCardIndex ? false : card));
 		const filteredHistory = cardHistory.filter((data: any) => {
 			return Number(data.cardId) == activeCard.id;
-});
+		});
 
 		return (
 			<Wallet>
@@ -193,7 +194,10 @@ class App extends React.Component<IApp, IAppState> {
 							onCardChange={(newActiveCardIndex: any) => this.onCardChange(newActiveCardIndex)}
 							onTransaction={() => this.onTransaction()}
 						/>
-						<MobilePayment activeCard={activeCard}/>
+						<MobilePayment
+							activeCard={activeCard}
+							onTransaction={() => this.onTransaction()}
+						/>
 						<Withdraw
 							activeCard={activeCard}
 							inactiveCardsList={inactiveCardsList}
