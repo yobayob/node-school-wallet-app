@@ -29,7 +29,8 @@ docker-compose up -d
 | /cards/:id/pay               | POST   | {"amount": number}                              | TRANSACTION                | Create pay transaction       |
 | /cards/:id/fill              | POST   | {"amount": number}                              | TRANSACTION                | Create fill transaction      |
 | /cards/:id/transfer          | POST   | {"cardId": number, "amount": number}            | [TRANSACTION, TRANSACTION] | Create transfer (card2card)  |
-| /transactions                | GET    |                                                 | [TRANSACTION, ...]         | All transactions           |
+| /transactions                | GET    |                                                 | [TRANSACTION, ...]         | All transactions             |
+
 CARD
 ```
 {
