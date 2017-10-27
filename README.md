@@ -3,6 +3,7 @@
 ### RUN
 
 ```
+mongod --port=27018
 npm i && npm run build && npm start
 ```
 
