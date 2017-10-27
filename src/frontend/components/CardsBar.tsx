@@ -20,13 +20,15 @@ const Logo = styled.div`
 
 const Edit = styled.div`
 	position: absolute;
-	top: 25px;
-	right: 20px;
-	width: 18px;
-	height: 18px;
-	background-image: url('/assets/cards-edit.svg');
+	top: 17px;
+	right: 12px;
+	width: 34px;
+	height: 35px;
+	cursor: pointer;
+	background-image: url('/assets/${({editable}: any) => (editable ? 'cards-edit-active' : 'cards-edit')}.svg');
+	background-repeat: no-repeat;
+	background-position: center center;
 `;
-
 const CardsList = styled.div`
 	flex: 1;
 `;
@@ -70,7 +72,9 @@ const CardsBar: React.SFC<ICardsBarProps> = (
 	return (
 		<Layout>
 			<Logo />
-			<Edit />
+			{isCardsEditable &&
+				<Edit />
+			}
 			<CardsList>
 				{cardsList.map((card: any, index: any) => (
 					<Card
