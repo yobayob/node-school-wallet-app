@@ -70,7 +70,7 @@ const CardsBar: React.SFC<ICardsBarProps> = (
 	return (
 		<Layout>
 			<Logo />
-			<Edit />
+			{isCardsEditable && <Edit />}
 			<CardsList>
 				{cardsList.map((card: any, index: any) => (
 					<Card

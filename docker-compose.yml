@@ -3,11 +3,18 @@ services:
   mongo:
     image: mongo:latest
     ports:
-    - "27017"
+    - 27018:27018
+    command: mongod --port 27018
+    volumes:
+    - ./db:/data
   web:
     image: wallet
     ports:
     - 3000:3000
+    depends_on:
+    - mongo
+    environment:
+    - MODE=prod
   nginx:
     image: nginx:latest
     ports:
@@ -15,3 +22,6 @@ services:
     volumes:
     - ./ssl:/etc/nginx/ssl
     - ./ssl/nginx.conf:/etc/nginx/nginx.conf
+    - ./public:/public
+    depends_on:
+    - web

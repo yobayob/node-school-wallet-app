@@ -10,9 +10,19 @@ npm i && npm run build && npm start
 ### Docker run
 
 ```
-docker build -t wallet:latest .  && docker-compose run web
+# create directory for db
+mkdir ./data
+
+# build image
+docker build -t wallet:latest .
+
+# start application
 docker-compose up -d
 
+# add mock for db
+mongorestore --db=nodeschool --port=27018 helps/dumps
+
+# check https://127.0.0.1:8080
 ```
 
 ### API

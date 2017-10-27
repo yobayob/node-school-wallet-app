@@ -1,6 +1,6 @@
 {
   "db": {
-	"url": "localhost",
+	"url": "mongo",
 	"port": 27018,
 	"db": "nodeschool"
   },
