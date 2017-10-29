@@ -1,4 +1,4 @@
-FROM node:latest
+FROM node:8.5
 RUN mkdir /code
 WORKDIR /code
 ADD . /code/

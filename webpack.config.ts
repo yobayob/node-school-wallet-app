@@ -19,6 +19,10 @@ const config: webpack.Configuration[] = [{
 				use: [
 					'awesome-typescript-loader',
 				],
+			}, {
+				test: /\.css$/,
+				loader: 'style-loader!css-loader',
+				exclude: /node_modules/,
 			},
 		],
 	},
@@ -63,7 +67,7 @@ const config: webpack.Configuration[] = [{
 		new webpack.ContextReplacementPlugin(/moment[\\\/]locale$/, /^\.\/(en|ko|ja|zh-cn)$/),
 	],
 	resolve: {
-		extensions: ['.ts', '.tsx', '.js', '.jsx', '.json']
+		extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
 	},
 }];
 

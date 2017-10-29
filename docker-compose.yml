@@ -9,8 +9,6 @@ services:
     - ./db:/data
   web:
     image: wallet
-    ports:
-    - 3000:3000
     depends_on:
     - mongo
     environment:

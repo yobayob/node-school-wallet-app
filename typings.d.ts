@@ -46,3 +46,8 @@ declare module 'mongoose-sequence' {
 	var _: (goose: Object) => (schema: mongoose.Schema, options?: Object) => void;
 	export = _;
 }
+
+declare module '*.css' {
+	const content: any;
+	export default content;
+}

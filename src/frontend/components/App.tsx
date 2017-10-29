@@ -13,6 +13,10 @@ import {
 	Withdraw,
 } from './';
 
+import fontStyle from './Fonts.css';
+import antdStyle from 'antd/dist/antd.css';
+
+
 injectGlobal`
 	html,
 	body {
