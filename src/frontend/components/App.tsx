@@ -35,7 +35,7 @@ const Wallet = styled.div`
 	background-color: #fcfcfc;
 `;
 
-const CardPane = styled.div`
+const CardPane = styled.div`}
 	flex-grow: 1;
 `;
 
