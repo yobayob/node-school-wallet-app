@@ -8,17 +8,15 @@ services:
     volumes:
     - ./db:/data
   web:
-    image: wallet
-    ports:
-    - 3000:3000
+    image: wallet:latest
     depends_on:
     - mongo
     environment:
-    - MODE=prod
+    - NODE_ENV=production
   nginx:
     image: nginx:latest
     ports:
-    - 8080:443
+    - 443:443
     volumes:
     - ./ssl:/etc/nginx/ssl
     - ./ssl/nginx.conf:/etc/nginx/nginx.conf

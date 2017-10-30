@@ -25,6 +25,9 @@ injectGlobal`
 	}
 `;
 
+require('./Fonts.css');
+require('antd/dist/antd.css');
+
 const Wallet = styled.div`
 	display: flex;
 	min-height: 100%;

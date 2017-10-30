@@ -1,8 +1,23 @@
 import * as path from 'path';
 import * as webpack from 'webpack';
+import * as fs from 'fs';
 const nodeExternals = require('webpack-node-externals');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const config: webpack.Configuration[] = [{
+
+const getExternals = () => {
+	return fs.readdirSync('node_modules')
+		.concat(['react-dom/server'])
+		.filter((mod) => mod !== '.bin')
+		.reduce((externals: any, mod) => {
+			externals[mod] = `commonjs ${mod}`;
+			return externals;
+		}, {});
+}
+
+
+const env = process.env.NODE_ENV === 'production' ? 'production' : 'development';
+//webpack.Configuration[]
+const config: any = [{
 	entry: ['./src/backend/index.ts'],
 	output: {
 		path: path.resolve(__dirname, 'dist'),
@@ -20,6 +35,10 @@ const config: webpack.Configuration[] = [{
 					'awesome-typescript-loader',
 				],
 			},
+			{
+				test: /\.css$/,
+				loader: 'ignore-loader'
+			}
 		],
 	},
 	externals: [nodeExternals()],
@@ -59,12 +78,54 @@ const config: webpack.Configuration[] = [{
 		}],
 	},
 	plugins: [
+		new webpack.DefinePlugin({
+			'process.env': { NODE_ENV: JSON.stringify(env) },
+			'NODE_ENV': JSON.stringify(env)
+		}),
 		new ExtractTextPlugin('styles.css'),
+		new webpack.optimize.UglifyJsPlugin({
+			sourceMap: true,
+			compress: {
+			  warnings: false
+			}
+		}),
 		new webpack.ContextReplacementPlugin(/moment[\\\/]locale$/, /^\.\/(en|ko|ja|zh-cn)$/),
 	],
 	resolve: {
 		extensions: ['.ts', '.tsx', '.js', '.jsx', '.json']
 	},
+},
+{
+	entry: {
+		index: path.resolve(__dirname, './src/backend/render/render.tsx')
+	},
+	target: 'node',
+	externals: getExternals(),
+	module: {
+		rules: [
+			{
+				test: /\.tsx$/,
+				exclude: /node_modules/,
+				loader: 'babel-loader!ts-loader'
+			},
+			{
+				test: /\.css$/,
+				loader: 'ignore-loader'
+			}
+		]
+	},
+	output: {
+		filename: '[name].server.js',
+		path: path.resolve(__dirname, './src/backend/render'),
+		libraryTarget: 'umd'
+	}
 }];
+console.log(`Building for ${env}`)
+// Временный костыль
+// нужно нормально вставить в сборку
+if (process.env.BUNDLE_REPORT) {
+	const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+	config[1].plugins.push(new BundleAnalyzerPlugin())
+}
 
 export default config;

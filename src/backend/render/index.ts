@@ -2,9 +2,8 @@ import {Application} from '../common/models'
 import {Inject, Singleton} from 'typescript-ioc';
 import * as Router from 'koa-router';
 import {CardModel, TransactionModel} from '../wallet/models'
-import render from './render'
 import {renderToStaticMarkup} from 'react-dom/server'
-
+import * as path from 'path';
 /**
  * Server side rendering
  */
@@ -26,7 +25,7 @@ export class Render extends Application {
 		this.router.get('/', async (ctx) => {
 			const cards = await this.cards.all();
 			const transactions = await this.transactions.all();
-			ctx.body = renderToStaticMarkup(render({cards, transactions}));
+			ctx.body = renderToStaticMarkup(require(path.resolve(__dirname, 'index.server.js'))({cards, transactions}));
 		})
 	}
 }

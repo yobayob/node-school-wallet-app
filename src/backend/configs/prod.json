@@ -1,8 +1,8 @@
 {
   "db": {
-	"url": "mongo",
-	"port": 27018,
-	"db": "nodeschool"
+    "url": "mongo",
+    "port": 27018,
+    "db": "nodeschool"
   },
   "port": 3000
 }

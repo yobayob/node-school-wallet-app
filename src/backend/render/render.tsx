@@ -1,10 +1,10 @@
 import * as React from 'react';
 import {renderToString} from 'react-dom/server';
-import {App} from '../../frontend/components';
+import App from '../../frontend/components/App';
 import {ServerStyleSheet} from 'styled-components'
-import * as serialize from 'serialize-javascript';
+import serialize from 'serialize-javascript';
 
-export default (appData: {} = {}) => {
+module.exports = (appData: {} = {}) => {
 	const sheet = new ServerStyleSheet();
 	const viewData = `window.__data=${serialize(appData)};`;
 	const html = renderToString(sheet.collectStyles(<App data={appData}/>));
@@ -26,4 +26,3 @@ export default (appData: {} = {}) => {
 		</html>
 	);
 }
-

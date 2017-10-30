@@ -8,5 +8,6 @@ const appData = w.__data;
 
 hydrate(<App data={appData}/>, document.getElementById('root'));
 
-require('./components/Fonts.css');
-require('antd/dist/antd.css');
+// TODO точно здесь они должны импортиться? (перенес в App)
+// require('./components/Fonts.css');
+// require('antd/dist/antd.css');
