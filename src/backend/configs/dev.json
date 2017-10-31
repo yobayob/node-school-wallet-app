@@ -1,4 +1,9 @@
 {
+  "oauth": {
+	"client_id": "ea61f5fa2e49cfcbc209",
+	"secret": "edb212d78071839bdce9d56a72c03032898153f5",
+	"callback_uri": "http://localhost:3000/callback"
+  },
   "db": {
 	"url": "localhost",
 	"port": 27018,

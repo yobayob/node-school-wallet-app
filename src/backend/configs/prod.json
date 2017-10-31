@@ -1,4 +1,9 @@
 {
+  "oauth": {
+	"client_id": "6e6acb1b35e0ef2f1b66",
+	"secret": "be626f9379031f9919781e91bf03ca65c4602013",
+	"callback_uri": "https://localhost:8080/callback"
+  },
   "db": {
 	"url": "mongo",
 	"port": 27018,

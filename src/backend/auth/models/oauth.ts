@@ -1,11 +1,12 @@
 import {Singleton} from 'typescript-ioc';
-import * as oauth2 from 'simple-oauth2'
-import {ApplicationError} from '../../common/exceptions';
+import * as oauth2 from 'simple-oauth2';
+import axios from 'axios';
+import config from '../../configs'
 
 const credentials = {
 	client: {
-		id: '<client-id>',
-		secret: '<client-secret>',
+		id: config.oauth.client_id,
+		secret: config.oauth.secret,
 	},
 	auth: {
 		tokenHost: 'https://github.com',
@@ -14,13 +15,8 @@ const credentials = {
 	},
 };
 
-const tokenConfig = {
-	code: '<code>',
-	redirect_uri: 'http://localhost:3000/callback',
-};
-
 const authURIConfig = {
-	redirect_uri: 'http://localhost:3000/callback',
+	redirect_uri: config.oauth.callback_uri,
 	scope: 'notifications',
 	state: '3(#0/!~',
 };
@@ -36,12 +32,14 @@ export class OAuth {
 		this.authorizationUri =	this.client.authorizationCode.authorizeURL(authURIConfig)
 	}
 
-	async getToken(options: oauth2.AuthorizationTokenConfig) {
-		this.client.authorizationCode.getToken(options, (err: any, res: oauth2.Token) => {
-			if (err) {
-				throw new ApplicationError('Authentication failed')
-			}
-			return this.client.accessToken.create(res)
-		})
+	async getToken(options: any) {
+		options.redirect_uri = config.oauth.callback_uri;
+		const token = await this.client.authorizationCode.getToken(options);
+		return this.client.accessToken.create(token)
+	}
+
+	async getUserInformation(token: string) {
+		const response = await axios.get(`https://api.github.com/user?access_token=${token}`);
+		return response.data
 	}
 }
