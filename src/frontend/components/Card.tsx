@@ -118,18 +118,20 @@ class Card extends React.Component<ICard, {}> {
 		if (type === 'select') {
 			const {activeCardIndex}: any = this.state;
 			const selectedCard = data[activeCardIndex];
-			const {bgColor, bankLogoUrl, brandLogoUrl}: any = selectedCard.theme;
+			const {bgColor, textColor, bankLogoUrl, brandLogoUrl}: any = selectedCard.theme;
 			const isActive = true;
-
 			return (
 				<CardLayout active={true} bgColor={bgColor} isCardsEditable={isCardsEditable} isSingle={isSingle}>
 					<CardEdit editable={isCardsEditable} id={data.id} onChangeBarMode={onChangeBarMode} />
 					<CardLogo url={bankLogoUrl} active={true} />
-					<CardSelect defaultValue='0' onChange={(index: any) => this.onCardChange(index)}>
-						{data.map((card: any, index: any) => (
-							<Select.Option key={isActive} value={`${index}`}>{card.number}</Select.Option>
-						))}
-					</CardSelect>
+					<CardSelect
+						textColor={textColor}
+						clearable={false}
+						clearableValue={false}
+						onChange={(obj: any) => this.onCardChange(obj.value)}
+						value={activeCardIndex}
+						options={data.map((card: any, index: any) => ({value: index, label: card.number}))}
+					/>
 					<CardType url={brandLogoUrl} active={isActive} />
 				</CardLayout>
 			);

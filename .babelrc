@@ -1,9 +1,0 @@
-{
-  "presets": [
-	"env"
-  ],
-  "plugins": [
-    "styled-components",
-	["import", {"libraryName": "antd", "style": "css"}]
-  ]
-}
