@@ -4,7 +4,6 @@ import * as webpack from 'webpack';
 const nodeExternals = require('webpack-node-externals');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-const StyledComponentsTransmorfer = require('typescript-plugin-styled-components').default();
 
 const ExtractCSS = new ExtractTextPlugin({
 	filename: 'styles.css',
@@ -29,7 +28,7 @@ const config: webpack.Configuration[] = [{
 				test: /\.ts|tsx?$/,
 				exclude: ['node_modules'],
 				use: [
-					'awesome-typescript-loader',
+					'ts-loader',
 				],
 			}, {
 				test: /\.css$/,
@@ -46,7 +45,6 @@ const config: webpack.Configuration[] = [{
 	entry: {
 		main: './src/frontend/app.tsx',
 		vendor: [
-			'babel-polyfill',
 			'styled-components',
 			'card-info',
 			'moment',
@@ -77,9 +75,6 @@ const config: webpack.Configuration[] = [{
 		}, {
 			test: /\.ts(x?)$/,
 			loader: 'ts-loader',
-			options: {
-				getCustomTransformers: () => ({before: [StyledComponentsTransmorfer]}),
-			},
 		}],
 	},
 	plugins: [
