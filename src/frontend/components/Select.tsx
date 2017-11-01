@@ -1,26 +1,13 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import {Select as AntdSelect} from 'antd';
+import ReactSelect from 'react-select';
 
-const StyledSelect: any = styled(AntdSelect)`
-	&.ant-select {
-		& .ant-select-selection {
-			height: 36px;
-			background-color: rgba(0, 0, 0, 0.08);
-			border: 1px solid rgba(0, 0, 0, 0.04);
-			border-radius: 3px;
-			color: ${({textColor}: any) => textColor || '#fff'};
-			&:focus,
-			&:hover {
-				border: 1px solid rgba(0, 0, 0, 0.04);
-			}
-			&__rendered {
-				font-size: 12px;
-				line-height: 34px;
-			}
-		}
-		.ant-select-arrow {
-			font-size: 15px;
+const StyledSelect: any = styled(ReactSelect)`
+	.Select-control {
+		border: 1px solid rgba(0, 0, 0, 0.04);
+		background-color: rgba(0, 0, 0, 0.2);
+		.Select-value-label{
+			color: ${({textColor}: any) => textColor || '#fff'} !important;
 		}
 	}
 `;
@@ -29,6 +16,6 @@ const Select: any = (props: any) => (
 	<StyledSelect {...props} />
 );
 
-Select.Option = AntdSelect.Option;
+//Select.Option = ReactSelect.op;
 
 export default Select;

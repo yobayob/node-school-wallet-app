@@ -20,8 +20,9 @@ export default (appData: {} = {}) => {
 			<body>
 				<div id='root' dangerouslySetInnerHTML={{__html: html}}/>
 				<script dangerouslySetInnerHTML={{__html: viewData}}/>
-				<script type='text/javascript' src='main.js'/>
+				<script type='text/javascript' src='react.js'/>
 				<script type='text/javascript' src='vendor.js'/>
+				<script type='text/javascript' src='main.js'/>
 			</body>
 		</html>
 	);

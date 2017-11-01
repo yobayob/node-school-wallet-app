@@ -15,4 +15,6 @@ src/source/transactions.json
 public/main.js
 public/vendor.js
 public/styles.css
+public/react.js
+public/report.html
 db

@@ -12,7 +12,7 @@ services:
     depends_on:
     - mongo
     environment:
-    - MODE=prod
+    - NODE_ENV=production
   nginx:
     image: nginx:latest
     ports:

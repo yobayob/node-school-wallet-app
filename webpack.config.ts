@@ -1,7 +1,15 @@
 import * as path from 'path';
 import * as webpack from 'webpack';
+
 const nodeExternals = require('webpack-node-externals');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const StyledComponentsTransmorfer = require('typescript-plugin-styled-components').default();
+
+const ExtractCSS = new ExtractTextPlugin({
+	filename: 'styles.css',
+});
+
 const config: webpack.Configuration[] = [{
 	entry: ['./src/backend/index.ts'],
 	output: {
@@ -13,6 +21,10 @@ const config: webpack.Configuration[] = [{
 	},
 	module: {
 		rules: [
+			{
+				test: /\.css$/,
+				use: 'ignore-loader',
+			},
 			{
 				test: /\.ts|tsx?$/,
 				exclude: ['node_modules'],
@@ -35,8 +47,16 @@ const config: webpack.Configuration[] = [{
 		main: './src/frontend/app.tsx',
 		vendor: [
 			'babel-polyfill',
+			'styled-components',
+			'card-info',
+			'moment',
+			'axios',
+		],
+		react: [
 			'react',
 			'react-dom',
+			'react-select',
+			'react-input-autosize',
 		],
 	},
 	output: {
@@ -48,23 +68,46 @@ const config: webpack.Configuration[] = [{
 	module: {
 		loaders: [{
 			test: /\.css$/,
-			use: ExtractTextPlugin.extract({
+			use: ExtractCSS.extract({
 				fallback: 'style-loader',
-				use: 'css-loader',
+				use: [
+					'css-loader?minimize',
+				],
 			}),
 		}, {
 			test: /\.ts(x?)$/,
-			exclude: /node_modules/,
-			loader: 'babel-loader!ts-loader',
-		}, {
-			test: /\.js$/,
-			exclude: /node_modules/,
-			loader: 'babel-loader',
+			loader: 'ts-loader',
+			options: {
+				getCustomTransformers: () => ({before: [StyledComponentsTransmorfer]}),
+			},
 		}],
 	},
 	plugins: [
-		new ExtractTextPlugin('styles.css'),
-		new webpack.ContextReplacementPlugin(/moment[\\\/]locale$/, /^\.\/(en|ko|ja|zh-cn)$/),
+		ExtractCSS,
+		new webpack.ContextReplacementPlugin(/moment[\\\/]locale$/, /^\.\/(ru)$/),
+		new webpack.optimize.CommonsChunkPlugin({
+			names: ['vendor', 'react'],
+			filename: '[name].js',
+		}),
+		new webpack.HashedModuleIdsPlugin(),
+
+		new webpack.optimize.UglifyJsPlugin({
+			mangle: {
+				screw_ie8: true,
+			},
+			compress: {
+				screw_ie8: true,
+				dead_code: true,
+				warnings: false,
+			},
+			beautify: false,
+			sourceMap: false,
+			comments: false,
+		}),
+		new BundleAnalyzerPlugin({
+			analyzerMode: 'static',
+			reportFilename: './report.html',
+		}),
 	],
 	resolve: {
 		extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
