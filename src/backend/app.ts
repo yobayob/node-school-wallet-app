@@ -7,6 +7,7 @@ import { tryCatchMiddleware } from './middlewares'
 import { Inject } from 'typescript-ioc';
 import { Wallet } from './wallet';
 import { Render } from './render';
+import { Auth } from './auth';
 import { log } from './common/logger'
 import config from './configs'
 import 'path'
@@ -16,6 +17,7 @@ export class App {
 	constructor(
 		@Inject private wallet: Wallet,
 		@Inject private render: Render,
+		@Inject private auth: Auth,
 	) { }
 
 	private async createApp() {
@@ -26,6 +28,7 @@ export class App {
 		app.use(tryCatchMiddleware);
 		this.wallet.register(app);
 		this.render.register(app);
+		this.auth.register(app);
 		return Promise.resolve(app);
 	}
 

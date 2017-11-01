@@ -2,6 +2,11 @@ import * as devConfigData from './dev.json';
 import * as prodConfigData from './prod.json';
 
 interface IConfig {
+	oauth: {
+		client_id: string,
+		secret: string,
+		callback_uri: string,
+	}
 	db: {
 		url: string,
 		port: number,
