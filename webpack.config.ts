@@ -104,10 +104,10 @@ const config: webpack.Configuration[] = [{
 			sourceMap: false,
 			comments: false,
 		}),
-		new BundleAnalyzerPlugin({
-			analyzerMode: 'static',
-			reportFilename: './report.html',
-		}),
+		// new BundleAnalyzerPlugin({
+		// 	analyzerMode: 'static',
+		// 	reportFilename: './report.html',
+		// }),
 	],
 	resolve: {
 		extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
