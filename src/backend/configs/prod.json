@@ -1,8 +1,15 @@
 {
   "oauth": {
-	"client_id": "6e6acb1b35e0ef2f1b66",
-	"secret": "be626f9379031f9919781e91bf03ca65c4602013",
-	"callback_uri": "https://localhost:8080/callback"
+	"github": {
+	  "client_id": "6e6acb1b35e0ef2f1b66",
+	  "secret": "be626f9379031f9919781e91bf03ca65c4602013",
+	  "callback_uri": "https://localhost:8080/callback/github"
+	},
+	"yandex": {
+	  "client_id": "3dbeea2a15c14e7aa07e9bd73f618a15",
+	  "secret": "3178da72284442f691c0e6716606d6a6",
+	  "callback_uri": "https://localhost:8080/callback/yandex"
+	}
   },
   "db": {
 	"url": "mongo",
