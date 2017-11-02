@@ -28,7 +28,6 @@ class MobilePayment extends React.Component<IMobilePayment, IMobilePayment> {
 
 	constructor(props: IMobilePayment) {
 		super(props);
-
 		this.state = {stage: 'contract'};
 	}
 
