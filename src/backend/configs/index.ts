@@ -1,12 +1,17 @@
 import * as devConfigData from './dev.json';
 import * as prodConfigData from './prod.json';
 
+interface IOAuthConfig {
+	client_id: string,
+	secret: string,
+	callback_uri: string,
+}
+
 interface IConfig {
 	oauth: {
-		client_id: string,
-		secret: string,
-		callback_uri: string,
-	}
+		github: IOAuthConfig,
+		yandex: IOAuthConfig,
+	},
 	db: {
 		url: string,
 		port: number,

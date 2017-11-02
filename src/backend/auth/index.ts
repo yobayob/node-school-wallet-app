@@ -14,11 +14,11 @@ export class Auth extends Application {
 	}
 
 	$setRoutes() {
-		this.router.get('/auth',
+		this.router.get('/auth/:type',
 			async (ctx) => this.authController
 				.login(ctx));
 
-		this.router.get('/callback',
+		this.router.get('/callback/:type',
 			async (ctx) => this.authController
 				.callback(ctx));
 

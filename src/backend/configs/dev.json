@@ -1,8 +1,15 @@
 {
   "oauth": {
-	"client_id": "ea61f5fa2e49cfcbc209",
-	"secret": "edb212d78071839bdce9d56a72c03032898153f5",
-	"callback_uri": "http://localhost:3000/callback"
+	"github": {
+	  "client_id": "ea61f5fa2e49cfcbc209",
+	  "secret": "edb212d78071839bdce9d56a72c03032898153f5",
+	  "callback_uri": "http://localhost:3000/callback/github"
+	},
+	"yandex": {
+	  "client_id": "7d55133f80e34ff0b5a3d3e009eedd04",
+	  "secret": "77fc78f5ea004a5faa54bd454da5f8a5",
+	  "callback_uri": "http://localhost:3000/callback/yandex"
+	}
   },
   "db": {
 	"url": "localhost",
