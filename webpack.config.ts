@@ -43,7 +43,7 @@ const config: webpack.Configuration[] = [{
 }, {
 	cache: true,
 	entry: {
-		main: './src/frontend/app.tsx',
+		main: './src/frontend/index.tsx',
 		vendor: [
 			'styled-components',
 			'card-info',
