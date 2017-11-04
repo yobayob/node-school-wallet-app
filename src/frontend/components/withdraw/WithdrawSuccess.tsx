@@ -1,10 +1,9 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import * as PropTypes from 'prop-types';
-import {Island, Title, IMobilePayment} from './';
+import {Island, Title} from '../';
 
-const PrepaidLayout = styled(Island)`
-	width: 350px;
+const WithdrawLayout = styled(Island)`
+	width: 440px;
 	display: flex;
 	flex-direction: column;
 	background-color: #353536;
@@ -44,7 +43,7 @@ const SectionValue = styled.div`
 	letter-spacing: 0.6px;
 `;
 
-const RepeatPayment = styled.button`
+const RepeatWithdraw = styled.button`
 	font-size: 13px;
 	background-color: rgba(0, 0, 0, 0.08);
 	height: 42px;
@@ -60,38 +59,35 @@ const RepeatPayment = styled.button`
 	text-transform: uppercase;
 `;
 
-const PrepaidSuccess: React.SFC<IMobilePayment> = ({transaction, repeatPayment}: any) => {
-	const {sum, number}: any = transaction;
+interface IWithdrawProps {
+	transaction: any,
+	onClick: any,
+}
+
+const WithdrawSuccess: React.SFC<IWithdrawProps> = ({transaction, onClick}: any) => {
+	const {sum, data}: any = transaction;
 
 	return (
-		<PrepaidLayout>
+		<WithdrawLayout>
 			<CheckIcom />
 			<SectionGroup>
 				<Header>Карта пополнена</Header>
 				<Section>
 					<SectionLabel>Название платежа:</SectionLabel>
-					<SectionValue>Пополнение c привязанной карты</SectionValue>
+					<SectionValue>Вывод на привязанную карту</SectionValue>
 				</Section>
 				<Section>
 					<SectionLabel>Карта с которой пополнили:</SectionLabel>
-					<SectionValue>{number}</SectionValue>
+					<SectionValue>{data}</SectionValue>
 				</Section>
 				<Section>
 					<SectionLabel>Сумма:</SectionLabel>
-					<SectionValue>{sum} ₽</SectionValue>
+					<SectionValue>{Math.abs(sum)} ₽</SectionValue>
 				</Section>
 			</SectionGroup>
-			<RepeatPayment onClick={repeatPayment}>Отправить еще один перевод</RepeatPayment>
-		</PrepaidLayout>
+			<RepeatWithdraw onClick={onClick}>Отправить еще один перевод</RepeatWithdraw>
+		</WithdrawLayout>
 	);
 };
 
-PrepaidSuccess.propTypes = {
-	transaction: PropTypes.shape({
-		sum: PropTypes.string,
-		number: PropTypes.string,
-	}).isRequired,
-	repeatPayment: PropTypes.func.isRequired
-};
-
-export default PrepaidSuccess;
+export default WithdrawSuccess;

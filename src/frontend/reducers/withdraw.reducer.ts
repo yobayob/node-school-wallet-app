@@ -13,7 +13,7 @@ export const initialState = {
 } as TransferState;
 
 export default handleActions<TransferState, any>({
-	[actions.PREPAID_SUCCESS]: (state: TransferState, action: Action<Trans>): TransferState => {
+	[actions.WITHDRAW_SUCCESS]: (state: TransferState, action: Action<Trans>): TransferState => {
 		if (!action.payload) {
 			return {
 				...state,
@@ -25,7 +25,7 @@ export default handleActions<TransferState, any>({
 			stage: 'success',
 		};
 	},
-	[actions.PREPAID_REPEAT]: (state: TransferState, action: Action<any>): TransferState => {
+	[actions.WITHDRAW_REPEAT]: (state: TransferState, action: Action<any>): TransferState => {
 		console.log(action);
 		return {
 			...state,

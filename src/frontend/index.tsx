@@ -10,7 +10,7 @@ const appData = w.__data;
 
 hydrate(
 	<Provider store={store}>
-		<App/>
+		<App data={appData}/>
 	</Provider>,
 	document.getElementById('root'));
 //<App data={appData}/>

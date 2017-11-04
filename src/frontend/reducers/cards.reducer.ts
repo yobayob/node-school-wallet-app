@@ -1,17 +1,29 @@
 import * as actions from '../actions';
 import {handleActions, Action} from 'redux-actions';
-import {Card, CardState} from '../models'
-import {Trans} from '../models/history.model';
+import {Card, CardState, Trans} from '../models'
 import {prepare} from '../utils/cardInfo';
 
 export const initialState = {
 	data: [],
+	transactions: [],
 	activeCardId: null,
 	activeCard: null,
 	isAdding: false,
 } as CardState;
 
 export default handleActions<CardState, any>({
+	[actions.INITIAL_CARDS]: (state: CardState, action: Action<{cards: any, transactions: any}>): CardState => {
+		if (!action.payload) {
+			return {
+				...state,
+			}
+		}
+		return {
+			...state,
+			data: action.payload.cards,
+			transactions: action.payload.transactions,
+		}
+	},
 	[actions.ADDING_MODE]: (state: CardState, action: Action<boolean>): CardState => {
 		if (!action.payload) {
 			return {
@@ -58,21 +70,31 @@ export default handleActions<CardState, any>({
 			activeCardId: action.payload.id,
 		}
 	},
-	[actions.TRANSFER_SUCCESS]: (state: CardState, action: Action<Trans[]>): CardState => {
+	[actions.TRANSACTION_CREATE_SUCCESS]: (state: CardState, action: Action<Trans>): CardState => {
 		state.data.forEach((card: any) => {
-			if (action.payload) { // fuck typescript!!!
-				action.payload.forEach((trans: Trans) => {
-				if (card.id === trans.cardId) {
-					card.balance += trans.sum
+			if (action.payload && card.id === action.payload.cardId) {
+				card.balance += action.payload.sum
+			}
+			if (action.payload && card.id === state.activeCardId) {
+				state.activeCard = prepare(card);
+				if (card.id === action.payload.cardId) {
+					state.transactions.unshift(action.payload);
 				}
-				if (card.id === state.activeCardId) {
-					state.activeCard = prepare(card);
-				}
-			});
 			}
 		});
 		return {
 			...state,
 		}
+	},
+	[actions.TRANSACTIONS_GET_SUCCESS]: (state: CardState, action: Action<Trans[]>): CardState => {
+		if (!action.payload) {
+			return {
+				...state,
+			}
+		}
+		return {
+			...state,
+			transactions: action.payload,
+		};
 	},
 }, initialState);

@@ -27,14 +27,12 @@ export const prepaid = (cardId: number, amount: number) => {
 				type: action.PREPAID_SUCCESS,
 				payload: response[1],
 			});
-			dispatch({
-				type: action.TRANSACTION_CREATE_SUCCESS,
-				payload: response[1],
-			});
-			dispatch({
-				type: action.TRANSFER_SUCCESS,
-				payload: response,
-			});
+			(response as any[]).forEach((trans) => {
+				dispatch({
+					type: action.TRANSACTION_CREATE_SUCCESS,
+					payload: trans,
+				});
+			})
 		} catch (err) {
 			dispatch({
 				type: action.PREPAID_FAILED,
@@ -57,14 +55,12 @@ export const withdraw = (cardId: number, amount: number) => {
 				type: action.WITHDRAW_SUCCESS,
 				payload: response[0],
 			});
-			dispatch({
-				type: action.TRANSACTION_CREATE_SUCCESS,
-				payload: response[0],
-			});
-			dispatch({
-				type: action.TRANSFER_SUCCESS,
-				payload: response,
-			});
+			(response as any[]).forEach((trans) => {
+				dispatch({
+					type: action.TRANSACTION_CREATE_SUCCESS,
+					payload: trans,
+				});
+			})
 		} catch (err) {
 			dispatch({
 				type: action.WITHDRAW_FAILED,

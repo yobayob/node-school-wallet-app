@@ -57,15 +57,52 @@ const CardSelect: any = styled(Select)`
 interface ICardProps {
 	data?: any
 	active?: boolean
-	onClick: any
-	type?: 'new'|'form'
-	onCancel?: any
+	onClick?: any
+	type?: 'new'|'form'|'select'
+	onCancel?: any,
 }
 
-class Card extends React.Component<ICardProps, {}> {
+interface ICardState {
+	activeCardIndex: number
+}
+
+class Card extends React.Component<ICardProps, ICardState> {
+
+	constructor(props: ICardProps) {
+		super(props);
+
+		this.state = {
+			activeCardIndex: 0,
+		};
+	}
+	onCardChange(activeCardIndex: any) {
+		this.setState({activeCardIndex});
+	}
 
 	render() {
-		const { type, onClick}: any = this.props;
+		const { type, data, onClick}: any = this.props;
+
+		if (type === 'select') {
+			const {activeCardIndex}: any = this.state;
+			const selectedCard = data[activeCardIndex];
+			const {bgColor, textColor, bankLogoUrl, brandLogoUrl}: any = selectedCard.theme;
+			const isActive = true;
+			return (
+				<CardLayout active={true} bgColor={bgColor}>
+					<CardLogo url={bankLogoUrl} active={true} />
+					<CardSelect
+						textColor={textColor}
+						clearable={false}
+						clearableValue={false}
+						onChange={(obj: any) => this.onCardChange(obj.value)}
+						value={activeCardIndex}
+						options={data.map((card: any, index: any) => ({value: index, label: card.number}))}
+					/>
+					<CardType url={brandLogoUrl} active={isActive} />
+				</CardLayout>
+			);
+		}
+
 		if (type === 'new') {
 			return (
 				<NewCardLayout onClick={onClick}/>
@@ -83,7 +120,7 @@ class Card extends React.Component<ICardProps, {}> {
 
 		// default card
 
-		const {data, active}: any = this.props;
+		const {active}: any = this.props;
 		const {number, theme, id}: any = data;
 		const {bgColor, textColor, bankLogoUrl, brandLogoUrl} = theme;
 		const themedBrandLogoUrl = brandLogoUrl.replace(/-colored.svg$/, '-white.svg');

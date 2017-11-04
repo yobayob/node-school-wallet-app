@@ -17,10 +17,6 @@ export const payMobile = (amount: number, data: string) => {
 				type: action.TRANSACTION_CREATE_SUCCESS,
 				payload: response,
 			});
-			dispatch({
-				type: action.TRANSFER_SUCCESS,
-				payload: [response],
-			})
 		} catch (err) {
 			dispatch({
 				type: action.PAY_FAILED,

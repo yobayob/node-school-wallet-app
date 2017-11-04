@@ -10,7 +10,16 @@ export const setAddingMode = (mode: boolean) => {
 			payload: mode,
 		})
 	}
-}
+};
+
+export const initialState = (cards: any, transactions: any) => {
+	return (dispatch: any) => {
+		dispatch({
+			type: action.INITIAL_CARDS,
+			payload: {cards, transactions},
+		})
+	}
+};
 
 export const getCards = () => {
 	return async (dispatch: any) => {

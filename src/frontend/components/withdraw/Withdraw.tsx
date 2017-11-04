@@ -1,11 +1,14 @@
+import WithdrawContract from './WithdrawContract';
+import WithdrawSuccess from './WithdrawSuccess';
+
 import * as React from 'react';
-import PrepaidContract from './PrepaidContract';
-import PrepaidSuccess from './PrepaidSuccess';
+import { withdraw, withdrawRepeat } from '../../actions';
+
 import { Dispatch } from 'redux';
-import {prepaid, prepaidRepeat} from '../../actions'
+import { prepaid, prepaidRepeat } from '../../actions'
 import { connect } from 'react-redux';
 
-interface  IPrepaidProps {
+interface  IWithdrawProps {
 	cards: any,
 	activeCard: any,
 	stage: string,
@@ -14,7 +17,7 @@ interface  IPrepaidProps {
 	dispatch: Dispatch<{}>,
 }
 
-class Prepaid extends React.Component<IPrepaidProps, {}> {
+class Withdraw extends React.Component<IWithdrawProps, {}> {
 	constructor(props: any) {
 		super(props)
 	}
@@ -25,13 +28,13 @@ class Prepaid extends React.Component<IPrepaidProps, {}> {
 			if (stage === 'success') {
 				const {transaction}: any = this.props;
 				return(
-					<PrepaidSuccess transaction={transaction} onClick={() => dispatch(prepaidRepeat())}/>
+					<WithdrawSuccess transaction={transaction} onClick={() => dispatch(withdrawRepeat())}/>
 				)
 			}
 
 			return (
-				<PrepaidContract
-					onSubmit={(cardId: number, sum: number) => dispatch(prepaid(cardId, sum))}
+				<WithdrawContract
+					onSubmit={(cardId: number, sum: number) => dispatch(withdraw(cardId, sum))}
 					cards={cards.filter((c: any) => c.id !== activeCard.id)}
 					activeCard={activeCard}
 				/>
@@ -44,10 +47,9 @@ class Prepaid extends React.Component<IPrepaidProps, {}> {
 
 const mapStateToProps = (state: any) => {
 	return {
-		stage: state.prepaid.stage,
-		transaction: state.prepaid.transaction,
+		stage: state.withdraw.stage,
+		transaction: state.withdraw.transaction,
 	};
 };
 
-export default connect(mapStateToProps)(Prepaid);
-
+export default connect(mapStateToProps)(Withdraw);

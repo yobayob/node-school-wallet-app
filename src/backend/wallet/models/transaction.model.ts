@@ -96,9 +96,10 @@ export class TransactionModel extends SuperModel<ITransactionModel> {
 		const saveAtomic = Promise.all([
 			this.create(transSend),
 			this.create(transRecieve),
-			cardSend.save(),
-			cardRecieve.save()],
+			],
 		);
+		cardSend.save();
+		cardRecieve.save();
 		return saveAtomic; // lolkek
 	}
 

@@ -7,8 +7,9 @@ import { History } from './history';
 import { Header } from './layout';
 import { MobilePayment } from './mobile-pay';
 import { Prepaid } from './prepaid';
+import { Withdraw } from './withdraw'
 import { bankInfo, historyInfo } from '../utils';
-import { getCards, setCard, createCard, setAddingMode } from '../actions'
+import { getCards, setCard, createCard, setAddingMode, initialState } from '../actions'
 
 injectGlobal`
 	html,
@@ -47,14 +48,16 @@ interface IAppProps {
 	isAdding: boolean,
 
 	dispatch: Dispatch<{}>;
+
+	data: {cards: any, transactions: any}
 }
 
 class App extends React.Component<IAppProps, any> {
 
 	constructor(props: IAppProps) {
 		super(props);
-		const { dispatch } = this.props;
-		dispatch(getCards());
+		const { dispatch, data } = props;
+		dispatch(initialState(data.cards, data.transactions));
 	}
 
 	render() {
@@ -71,11 +74,14 @@ class App extends React.Component<IAppProps, any> {
 				/>
 				<CardPane>
 					<Header/>
+					{activeCard &&
 					<Workspace>
 						<History history={history}/>
 						<Prepaid cards={cards} activeCard={activeCard}/>
 						<MobilePayment/>
+						<Withdraw cards={cards} activeCard={activeCard}/>
 					</Workspace>
+					}
 				</CardPane>
 			</Wallet>
 		)
@@ -84,7 +90,7 @@ class App extends React.Component<IAppProps, any> {
 
 const mapStateToProps = (state: any) => {
 	const cards = bankInfo(state.cards.data);
-	const history = historyInfo(cards, state.history.data);
+	const history = historyInfo(cards, state.cards.transactions);
 	return {
 		activeCardId: state.cards.activeCardId,
 		activeCard: state.cards.activeCard,

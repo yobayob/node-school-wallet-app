@@ -5,7 +5,7 @@ import {Island} from '../shared';
 
 const HistoryLayout: any = styled(Island)`
 	width: 530px;
-	max-height: 622px;
+	max-height: 584px;
 	overflow-y: scroll;
 	padding: 0;
 	background-color: rgba(0, 0, 0, 0.05);
