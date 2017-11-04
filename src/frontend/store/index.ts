@@ -1,15 +1,13 @@
 import reduxThunk from 'redux-thunk';
 import {createStore, applyMiddleware, compose} from 'redux';
-
 import reducers from '../reducers';
+import logger from 'redux-logger';
 
-const logger = (store: any) => (next: any) => (action: any) => {
-	console.group(action.type);
-	console.info('dispatching', action);
-	let result = next(action);
-	console.log('next state', store.getState());
-	return result
+let middleware: any = [reduxThunk];
+
+if (__ENV__ !== 'production') {
+	middleware = [...middleware, logger];
 }
 
-const store = createStore(reducers, compose(applyMiddleware(reduxThunk, logger)));
+const store = createStore(reducers, applyMiddleware(...middleware));
 export default store;

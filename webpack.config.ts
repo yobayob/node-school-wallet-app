@@ -5,6 +5,9 @@ const nodeExternals = require('webpack-node-externals');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
+const env = process.env.NODE_ENV === 'production' ? 'production' : 'development';
+console.log(`Building for ${env}`);
+
 const ExtractCSS = new ExtractTextPlugin({
 	filename: 'styles.css',
 });
@@ -37,6 +40,14 @@ const config: webpack.Configuration[] = [{
 			},
 		],
 	},
+	plugins: [
+		new webpack.DefinePlugin({
+			'process.env': {
+				NODE_ENV: JSON.stringify(env)
+			},
+			__ENV__: JSON.stringify(env)
+		})
+	],
 	externals: [nodeExternals()],
 	devtool: 'source-map',
 	target: 'node',
@@ -85,7 +96,12 @@ const config: webpack.Configuration[] = [{
 			filename: '[name].js',
 		}),
 		new webpack.HashedModuleIdsPlugin(),
-
+		new webpack.DefinePlugin({
+			'process.env': {
+				NODE_ENV: JSON.stringify(env)
+			},
+			__ENV__: JSON.stringify(env)
+		}),
 		new webpack.optimize.UglifyJsPlugin({
 			mangle: {
 				screw_ie8: true,
