@@ -70,31 +70,30 @@ const RepeatPayment: any = styled.button`
 `;
 interface IMobilePaymentSuccess {
 	transaction?: any
-	repeatPayment?: any
+	onClick?: any
 	activeCard?: any
 }
 
-const MobilePaymentSuccess: React.SFC<IMobilePaymentSuccess> = ({transaction, repeatPayment}: any) => {
-	const {sum, phoneNumber, commission}: any = transaction;
-
+const MobilePaymentSuccess: React.SFC<IMobilePaymentSuccess> = ({transaction, onClick}: any) => {
+	const {data, commission, id}: any = transaction;
 	return (
 		<MobilePaymentLayout>
 			<SuccessIcon />
 			<Header>МегаФон (Россия)</Header>
-			<Sum>{sum} ₽</Sum>
-			<CommissionTips>В том числе комиссия {commission} ₽</CommissionTips>
+			<Sum>{Math.abs(transaction.sum)} ₽</Sum>
+			<CommissionTips>В том числе комиссия 3 ₽</CommissionTips>
 			<Section>
 				<SectionLabel>Номер транзакции</SectionLabel>
-				<SectionValue>200580211311</SectionValue>
+				<SectionValue>{id}</SectionValue>
 			</Section>
 			<Section>
 				<SectionLabel>Номер телефона</SectionLabel>
-				<SectionValue>{phoneNumber}</SectionValue>
+				<SectionValue>{data}</SectionValue>
 			</Section>
 			<Instruction>
 				Мы пришлем чек на sam@yandex.ru. Вы можете изменить email в «Настройках».
 			</Instruction>
-			<RepeatPayment onClick={repeatPayment}>Отправить еще один перевод</RepeatPayment>
+			<RepeatPayment onClick={onClick}>Отправить еще один перевод</RepeatPayment>
 		</MobilePaymentLayout>
 	);
 };

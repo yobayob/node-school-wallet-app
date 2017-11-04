@@ -18,4 +18,15 @@ export default handleActions<HistoryState, any>({
 			data: action.payload,
 		};
 	},
+	[actions.TRANSACTION_CREATE_SUCCESS]: (state: HistoryState, action: Action<Trans>): HistoryState => {
+		if (!action.payload) {
+			return {
+				...state,
+			}
+		}
+		state.data.unshift(action.payload);
+		return {
+			...state,
+		}
+	},
 }, initialState);

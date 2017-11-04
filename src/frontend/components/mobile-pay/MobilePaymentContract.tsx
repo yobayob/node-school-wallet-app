@@ -70,7 +70,11 @@ interface IMobilePaymentState {
 	commission: number,
 }
 
-class MobilePaymentContract extends React.Component<{}, IMobilePaymentState> {
+interface IMobileProps {
+	onClick?: any
+}
+
+class MobilePaymentContract extends React.Component<IMobileProps, IMobilePaymentState> {
 
 	constructor(props: any) {
 		super(props);
@@ -82,9 +86,42 @@ class MobilePaymentContract extends React.Component<{}, IMobilePaymentState> {
 		};
 	}
 
-	handleSubmit(e: any) {};
-	handleInputChange(e: any) {};
-	getSumWithCommission() {};
+	handleSubmit(event: any) {
+		if (event) {
+			event.preventDefault();
+		}
+
+		const {sum, phoneNumber, commission}: any = this.state;
+		const {activeCard, onClick}: any = this.props;
+
+		const isNumber = !isNaN(parseFloat(sum)) && isFinite(sum);
+		if (!isNumber || sum === 0) {
+			return;
+		}
+		onClick(this.getSumWithCommission(), phoneNumber);
+	};
+
+	handleInputChange(event: any) {
+		if (!event) {
+			return;
+		}
+
+		const {name, value} = event.target;
+		this.setState({
+			[name]: value,
+		});
+	};
+
+	getSumWithCommission() {
+		const {sum, commission}: any = this.state;
+
+		const isNumber: boolean = !isNaN(parseFloat(sum)) && isFinite(sum);
+		if (!isNumber || sum <= 0) {
+			return 0;
+		}
+
+		return Number(sum) + Number(commission);
+	};
 
 	render() {
 		const {commission}: any = this.state;
@@ -104,7 +141,7 @@ class MobilePaymentContract extends React.Component<{}, IMobilePaymentState> {
 					<InputField>
 						<Label>Сумма</Label>
 						<InputSum
-							name='amount'
+							name='sum'
 							value={this.state.sum}
 							onChange={(event: any) => this.handleInputChange(event)}
 						/>

@@ -1,14 +1,19 @@
 import { handleActions, Action } from 'redux-actions';
-import { Pay, Trans } from '../models';
+import { Trans } from '../models';
 import * as actions from '../actions';
+
+type TransferState = {
+	transaction: any,
+	stage: 'contract' | 'success',
+};
 
 export const initialState = {
 	stage: 'contract',
 	transaction: null,
-} as Pay;
+} as TransferState;
 
-export default handleActions<Pay, any>({
-	[actions.PAY_SUCCESS]: (state: Pay, action: Action<Trans>): Pay => {
+export default handleActions<TransferState, any>({
+	[actions.PREPAID_SUCCESS]: (state: TransferState, action: Action<Trans>): TransferState => {
 		if (!action.payload) {
 			return {
 				...state,
@@ -20,7 +25,7 @@ export default handleActions<Pay, any>({
 			stage: 'success',
 		};
 	},
-	[actions.PAY_REPEAT]: (state: Pay, action: Action<any>): Pay => {
+	[actions.PREPAID_REPEAT]: (state: TransferState, action: Action<any>): TransferState => {
 		console.log(action);
 		return {
 			...state,

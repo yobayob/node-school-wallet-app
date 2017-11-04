@@ -65,12 +65,12 @@ export const removeCard = (id: number) => {
 	}
 };
 
-export const setCard = (id: number) => (dispatch: any, getState: any) => {
+export const setCard = (card: any) => (dispatch: any, getState: any) => {
 	const {activeCardId} = getState().cards;
-	if (activeCardId === id) return;
+	if (activeCardId === card.id) return;
 	dispatch({
 		type: action.CARD_SET,
-		payload: id,
+		payload: card,
 	});
-	dispatch(getTransactions(id));
+	dispatch(getTransactions(card.id));
 };

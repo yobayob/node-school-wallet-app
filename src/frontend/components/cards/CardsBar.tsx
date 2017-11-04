@@ -62,7 +62,7 @@ class CardsBar extends React.Component<ICardsBar, any> {
 						<Card
 							key={card.id}
 							data={card}
-							onClick={() => setCard(card.id)}
+							onClick={() => setCard(card)}
 							active={card.id === activeCardId}
 						/>
 					))}

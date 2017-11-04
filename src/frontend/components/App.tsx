@@ -4,7 +4,9 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { CardsBar } from './cards'
 import { History } from './history';
+import { Header } from './layout';
 import { MobilePayment } from './mobile-pay';
+import { Prepaid } from './prepaid';
 import { bankInfo, historyInfo } from '../utils';
 import { getCards, setCard, createCard, setAddingMode } from '../actions'
 
@@ -40,7 +42,7 @@ const Workspace = styled.div`
 interface IAppProps {
 	cards: any[],
 	history: any[],
-
+	activeCard: any,
 	activeCardId: number | null,
 	isAdding: boolean,
 
@@ -56,7 +58,7 @@ class App extends React.Component<IAppProps, any> {
 	}
 
 	render() {
-		const { cards, history, activeCardId, isAdding, dispatch}: any = this.props;
+		const { cards, history, activeCardId, activeCard, isAdding, dispatch}: any = this.props;
 		return (
 			<Wallet>
 				<CardsBar
@@ -65,12 +67,14 @@ class App extends React.Component<IAppProps, any> {
 					isAdding={isAdding}
 					activeCardId={activeCardId}
 					createCard={(cardNumber: string) => dispatch(createCard(cardNumber))}
-					setCard={(id: number) => dispatch(setCard(id))}
+					setCard={(card: any) => dispatch(setCard(card))}
 				/>
 				<CardPane>
+					<Header/>
 					<Workspace>
 						<History history={history}/>
-						<MobilePayment stage='contract'></MobilePayment>
+						<Prepaid cards={cards} activeCard={activeCard}/>
+						<MobilePayment/>
 					</Workspace>
 				</CardPane>
 			</Wallet>
@@ -83,6 +87,7 @@ const mapStateToProps = (state: any) => {
 	const history = historyInfo(cards, state.history.data);
 	return {
 		activeCardId: state.cards.activeCardId,
+		activeCard: state.cards.activeCard,
 		isAdding: state.cards.isAdding,
 		cards,
 		history,

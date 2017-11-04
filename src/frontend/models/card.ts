@@ -7,6 +7,7 @@ export type Card = {
 
 export type CardState = {
 	data: Card[],
+	activeCard: any,
 	isAdding: boolean,
 	activeCardId: number | null,
 };
