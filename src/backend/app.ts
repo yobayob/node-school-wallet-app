@@ -8,9 +8,13 @@ import { Inject } from 'typescript-ioc';
 import { Wallet } from './wallet';
 import { Render } from './render';
 import { Auth } from './auth';
-import { log } from './common/logger'
-import config from './configs'
-import 'path'
+import { log } from './common/logger';
+import config from './configs';
+import 'path';
+
+import { NotificationServer } from '../backend/notifications';
+
+
 
 export class App {
 
@@ -18,6 +22,7 @@ export class App {
 		@Inject private wallet: Wallet,
 		@Inject private render: Render,
 		@Inject private auth: Auth,
+		@Inject private notificationServer: NotificationServer
 	) { }
 
 	private async createApp() {
@@ -41,6 +46,7 @@ export class App {
 		const app = await this.createApp();
 		log.info(`Started listening on port ${config.port}...`);
 		const server = app.listen(config.port);
+		this.notificationServer.start(server);
 		return Promise.resolve(server);
 	}
 }

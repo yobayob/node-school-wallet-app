@@ -107,6 +107,7 @@ const config: webpack.Configuration[] = [{
 	resolve: {
 		extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
 	},
+	
 }];
 
 export default config;

@@ -115,6 +115,22 @@ class App extends React.Component<IApp, IAppState> {
 		};
 	}
 
+	public componentWillMount(): void {
+		const {socket} = this.props.data;
+		socket && this.setWsListeners(socket);
+	}
+
+	private setWsListeners(socket: any): void {
+		socket.onopen = () => console.log('Socket open');
+		socket.onclose = () => console.log('Socket close');
+		socket.onmessage = (message: any) => {
+			try {
+				let {type, data} = JSON.parse(message.data);
+				console.log('Get data', type, data);
+			} catch(e) {}
+		}
+		socket.onerror = (error: any) => console.error('Socket error', error);
+	}
 	onCardChange(activeCardIndex: any) {
 		this.setState({activeCardIndex});
 	}

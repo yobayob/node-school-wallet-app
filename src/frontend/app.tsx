@@ -6,6 +6,8 @@ import {App} from './components';
 const w = window as any;
 const appData = w.__data;
 
+appData.socket = new WebSocket('ws://localhost:3000');
+
 hydrate(<App data={appData}/>, document.getElementById('root'));
 
 require('./components/Fonts.css');
