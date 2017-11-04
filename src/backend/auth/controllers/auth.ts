@@ -4,7 +4,7 @@ import {Validate} from '../../common/utils'
 import {OauthManager, defaultTypes, IOauth} from '../services'
 import {ApplicationError} from '../../common/exceptions/application.error';
 import {UserModel} from '../models/user.model';
-import {usersCreateJson} from '../schema'
+import {usersCreateSchema} from '../schema'
 
 
 @Singleton
@@ -46,7 +46,7 @@ export class AuthControllers {
 	public async signUp(ctx: Context) {
 		const item = ctx.request.body;
 		Validate(item, usersCreateSchema);
-		ctx.body = this.userManager.create(o);
+		ctx.body = this.userManager.create(item);
 	}
 }
 

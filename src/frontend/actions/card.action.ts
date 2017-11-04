@@ -1,7 +1,7 @@
 import {fetch} from '../utils';
-import { createAction } from 'redux-actions';
+import { getTransactions } from './transaction.action';
 import * as action from './types';
-import { Card} from '../models'
+import { Card } from '../models'
 
 export const setAddingMode = (mode: boolean) => {
 	return async (dispatch: any) => {
@@ -67,11 +67,10 @@ export const removeCard = (id: number) => {
 
 export const setCard = (id: number) => (dispatch: any, getState: any) => {
 	const {activeCardId} = getState().cards;
-	console.log(id, activeCardId);
 	if (activeCardId === id) return;
-
 	dispatch({
 		type: action.CARD_SET,
 		payload: id,
 	});
+	dispatch(getTransactions(id));
 };

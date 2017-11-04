@@ -6,10 +6,14 @@ import {createHash} from 'crypto'
 const _name = `users`;
 
 const NEW_USER = 0;
+const APPROVE_USER = 10;
 
 export interface IUser {
-	userId: number,
-	amount: number,
+	hash: string,
+	first_name: string,
+	last_name: string,
+	phone: string,
+	status: number;
 }
 
 export interface IUserModel extends IUser, SequenceDocument {
@@ -21,14 +25,12 @@ export const UserSchema: SequenceSchema = new Schema({
 	},
 	first_name: {
 		type: String,
-		required: true,
 	},
 	last_name: {
 		type: String,
 	},
 	phone: {
 		type: String,
-		required: true,
 		index: {unique: true},
 	},
 	status: {
@@ -38,23 +40,23 @@ export const UserSchema: SequenceSchema = new Schema({
 }) as SequenceSchema;
 
 @Singleton
-export class UserModel extends SuperModel<IWalletModel> {
+export class UserModel extends SuperModel<IUserModel> {
 
-	static userHash(type: string, id: any) {
-		return user.hash = createHash('md5').update(id).update(type).digest('hex');
+	static userHash(type: string, id: any): string {
+		return createHash('md5').update(id).update(type).digest('hex');
 	}
 
 	constructor() {
-		super(_name, WalletSchema);
+		super(_name, UserSchema);
 	}
 
-	getOrCreate(type: string, id: any) {
+	async getOrCreate(type: string, id: any) {
 		const hash = UserModel.userHash(type, id);
-		let user: IUserModel;
+		let user: any;
 		try {
-			user = this.get({hash});
+			user = await this.get({hash});
 		} catch (err) {
-			user = this.create({hash});
+			user = await this.create({hash});
 		}
 		return user
 	}

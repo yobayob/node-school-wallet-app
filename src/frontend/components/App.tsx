@@ -3,9 +3,10 @@ import styled, {injectGlobal} from 'styled-components';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { CardsBar } from './cards'
-import {bankInfo} from '../utils';
-import {getCards, createCard} from '../actions'
-import {setCard, setAddingMode} from "../actions/card.action";
+import { History } from './history';
+import { MobilePayment } from './mobile-pay';
+import { bankInfo, historyInfo } from '../utils';
+import { getCards, setCard, createCard, setAddingMode } from '../actions'
 
 injectGlobal`
 	html,
@@ -38,8 +39,11 @@ const Workspace = styled.div`
 
 interface IAppProps {
 	cards: any[],
+	history: any[],
+
 	activeCardId: number | null,
 	isAdding: boolean,
+
 	dispatch: Dispatch<{}>;
 }
 
@@ -52,7 +56,7 @@ class App extends React.Component<IAppProps, any> {
 	}
 
 	render() {
-		const { cards, activeCardId, isAdding, dispatch}: any = this.props;
+		const { cards, history, activeCardId, isAdding, dispatch}: any = this.props;
 		return (
 			<Wallet>
 				<CardsBar
@@ -64,18 +68,26 @@ class App extends React.Component<IAppProps, any> {
 					setCard={(id: number) => dispatch(setCard(id))}
 				/>
 				<CardPane>
-					<Workspace>Test</Workspace>
+					<Workspace>
+						<History history={history}/>
+						<MobilePayment stage='contract'></MobilePayment>
+					</Workspace>
 				</CardPane>
 			</Wallet>
 		)
 	}
 }
 
-const mapStateToProps = (state: any) => ({
-	activeCardId: state.cards.activeCardId,
-	isAdding: state.cards.isAdding,
-	cards: bankInfo(state.cards.data),
-});
+const mapStateToProps = (state: any) => {
+	const cards = bankInfo(state.cards.data);
+	const history = historyInfo(cards, state.history.data);
+	return {
+		activeCardId: state.cards.activeCardId,
+		isAdding: state.cards.isAdding,
+		cards,
+		history,
+	};
+};
 
 export default connect(mapStateToProps)(App);
 
