@@ -51,3 +51,5 @@ declare module '*.css' {
 	const content: any;
 	export default content;
 }
+
+declare var __ENV__: string;
