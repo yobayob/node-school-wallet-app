@@ -5,12 +5,16 @@ import {ServerStyleSheet} from 'styled-components'
 import * as serialize from 'serialize-javascript';
 import store from '../../frontend/store'
 import { Provider } from 'react-redux';
-
+import { initialState } from '../../frontend/actions'
 export default (appData: {cards: any, transactions: any} = {cards: [], transactions: []}) => {
 	const sheet = new ServerStyleSheet();
 	const viewData = `window.__data=${serialize(appData)};`;
 	// const html = renderToString(sheet.collectStyles(<App data={appData}/>));
-	const html = renderToString(sheet.collectStyles(<Provider store={store}><App data={appData}/></Provider>));
+	store.dispatch(initialState(appData))
+	const html = renderToString(sheet.collectStyles(
+		<Provider store={store}>
+			<App/>
+	</Provider>));
 	const style = sheet.getStyleTags();
 	return (
 		<html>

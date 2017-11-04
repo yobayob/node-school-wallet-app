@@ -12,7 +12,8 @@ export const setAddingMode = (mode: boolean) => {
 	}
 };
 
-export const initialState = (cards: any, transactions: any) => {
+export const initialState = (data: any) => {
+	const {cards, transactions}: any = data;
 	return (dispatch: any) => {
 		dispatch({
 			type: action.INITIAL_CARDS,

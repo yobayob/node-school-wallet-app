@@ -10,6 +10,8 @@ import { Prepaid } from './prepaid';
 import { Withdraw } from './withdraw'
 import { bankInfo, historyInfo } from '../utils';
 import { getCards, setCard, createCard, setAddingMode, initialState } from '../actions'
+import { Link } from 'react-router'
+import Login from './Login'
 
 injectGlobal`
 	html,
@@ -46,19 +48,10 @@ interface IAppProps {
 	activeCard: any,
 	activeCardId: number | null,
 	isAdding: boolean,
-
 	dispatch: Dispatch<{}>;
-
-	data: {cards: any, transactions: any}
 }
 
 class App extends React.Component<IAppProps, any> {
-
-	constructor(props: IAppProps) {
-		super(props);
-		const { dispatch, data } = props;
-		dispatch(initialState(data.cards, data.transactions));
-	}
 
 	render() {
 		const { cards, history, activeCardId, activeCard, isAdding, dispatch}: any = this.props;
@@ -74,6 +67,7 @@ class App extends React.Component<IAppProps, any> {
 				/>
 				<CardPane>
 					<Header/>
+					<Link to='/login' href='/login'>Login</Link>
 					{activeCard &&
 					<Workspace>
 						<History history={history}/>
