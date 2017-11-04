@@ -45,10 +45,11 @@ interface ICardsBarProps {
 	isCardRemoving?: any
 	deleteCard?: any
 	onChangeBarMode?: any
+	onAddCard?: any
 }
 
 const CardsBar: React.SFC<ICardsBarProps> = (
-	{activeCardIndex, cardsList, onCardChange, onEditChange, isCardsEditable, isCardRemoving, onChangeBarMode, removeCardId, deleteCard}: any
+	{activeCardIndex, cardsList, onCardChange, onEditChange, isCardsEditable, isCardRemoving, onChangeBarMode, removeCardId, deleteCard, onAddCard}: any
 ) => {
 	const onCardClick: any = (activeCardIndex: any) => {
 		onCardChange && onCardChange(activeCardIndex);
@@ -78,9 +79,13 @@ const CardsBar: React.SFC<ICardsBarProps> = (
 						data={card}
 						isCardsEditable={isCardsEditable}
 						active={index === activeCardIndex}
-						onClick={() => onCardClick(index)}/>
+						onClick={() => onCardClick(index)}
+					/>
 				))}
-				<Card type='new'/>
+				<Card
+					onAddCard={onAddCard}
+					type='new'
+				/>
 			</CardsList>
 			<Footer>Yamoney Node School</Footer>
 		</Layout>
@@ -95,7 +100,8 @@ CardsBar.propTypes = {
 	isCardsEditable: PropTypes.bool.isRequired,
 	isCardRemoving: PropTypes.bool.isRequired,
 	deleteCard: PropTypes.func.isRequired,
-	onChangeBarMode: PropTypes.func.isRequired
+	onChangeBarMode: PropTypes.func.isRequired,
+	onAddCard: PropTypes.func.isRequired,
 };
 
 export default CardsBar;

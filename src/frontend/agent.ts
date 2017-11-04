@@ -31,6 +31,10 @@ export class CardAction {
 		return http.get(`/cards`)
 	}
 
+	static addCard(data: {balance: number, cardNumber: string}) {
+		return http.post(`/cards`, data)
+	}
+
 	static allTransactions() {
 		return http.get(`/transactions`)
 	}

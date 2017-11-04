@@ -1,17 +1,18 @@
 // Order is very important
 import App from './App';
 import Select from './Select';
+import Input from './Input';
+import Title from './Title';
+import Button from './Button';
+import CardAdd from './CardAdd';
 import Card from './Card';
 import CardEdit from './CardEdit'
 import CardDelete from './CardDelete';
-import Title from './Title';
 import UserInfo from './UserInfo';
 import Header from './Header';
-import Button from './Button';
 import CardsBar from './CardsBar';
 import Island from './Island';
 import History from './History';
-import Input from './Input';
 import MobilePaymentSuccess from './MobilePaymentSuccess';
 import MobilePaymentContract from './MobilePaymentContract';
 import MobilePayment from './MobilePayment';
@@ -34,7 +35,7 @@ export interface IMobilePayment {
 }
 
 export {
-	App, Card, CardEdit, CardDelete, Input, Select, CardsBar, Button, Title, Header,
+	App, CardAdd, Card, CardEdit, CardDelete, Input, Select, CardsBar, Button, Title, Header,
 	UserInfo, Island, History,
 	MobilePaymentSuccess, MobilePaymentContract, MobilePayment,
 	Prepaid, PrepaidContract, PrepaidSuccess,

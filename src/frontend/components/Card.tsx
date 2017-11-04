@@ -2,10 +2,10 @@ import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import styled from 'styled-components'
 import {Select, CardEdit} from './';
+import {CardAdd} from './';
 
 const CardLayout: any = styled.div`
 	position: relative;
-	// width: 260px;
 	height: 164px;
 	min-width: 250px;
 	box-sizing: border-box;
@@ -39,8 +39,7 @@ const CardType: any = styled.div`
 	background-position-x: right;
 	opacity: ${({active}: any) => active ? '1' : '0.6'};
 `;
-
-const NewCardLayout: any = styled(CardLayout)`
+const CardAddLayout: any = styled(CardLayout)`
 	background-color: transparent;
 	background-image: url('/assets/cards-add.svg');
 	background-repeat: no-repeat;
@@ -66,9 +65,12 @@ interface ICard {
 	isSingle?: any
 	isCardsEditable?: any
 	onChangeBarMode?: any
+	onAddCard?: any
 }
-
-class Card extends React.Component<ICard, {}> {
+interface IState {
+	activeCardIndex?: any
+}
+class Card extends React.Component<ICard, IState> {
 	/**
 	 * Конструктор
 	 *
@@ -82,6 +84,7 @@ class Card extends React.Component<ICard, {}> {
 		isCardsEditable: PropTypes.bool,
 		onClick: PropTypes.func,
 		onChangeBarMode: PropTypes.func,
+		onAddCard: PropTypes.func,
 	};
 
 	constructor(props: ICard) {
@@ -91,7 +94,10 @@ class Card extends React.Component<ICard, {}> {
 			activeCardIndex: 0,
 		};
 	}
-
+	onAddCardSuccess(data: any){
+		console.log(data);
+		this.props.onAddCard(data);
+	}
 	/**
 	 * Обработчик переключения карты
 	 *
@@ -111,7 +117,9 @@ class Card extends React.Component<ICard, {}> {
 		const {data, type, active, isSingle, onClick, isCardsEditable, onChangeBarMode}: any = this.props;
 		if (type === 'new') {
 			return (
-				<NewCardLayout />
+				<CardAdd
+					onAddCardSuccess={(data: any) => this.onAddCardSuccess(data)}
+				/>
 			);
 		}
 
@@ -156,7 +164,7 @@ class Card extends React.Component<ICard, {}> {
 				</CardNumber>
 				<CardType url={themedBrandLogoUrl} active={active} />
 			</CardLayout>
-);
+		);
 	}
 }
 

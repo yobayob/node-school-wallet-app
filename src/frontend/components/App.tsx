@@ -8,6 +8,7 @@ import {
 	CardsBar,
 	Header,
 	History,
+	CardAdd,
 	Prepaid,
 	MobilePayment,
 	Withdraw,
@@ -119,6 +120,15 @@ class App extends React.Component<IApp, IAppState> {
 		this.setState({activeCardIndex});
 	}
 
+	onAddCard() {
+		console.log(1);
+		CardAction.allCards().then(
+			(data: any) => {
+				const cardsList = App.prepareCardsData(data);
+				this.setState({cardsList});
+			},
+		)
+	}
 	onEditChange(isEditable: boolean) {
 		const isCardsEditable = !isEditable;
 		this.setState({
@@ -183,6 +193,7 @@ class App extends React.Component<IApp, IAppState> {
 					isCardRemoving={isCardRemoving}
 					deleteCard={(index: number) => this.deleteCard(index)}
 					onChangeBarMode={(event: any, index: number) => this.onChangeBarMode(event, index)}
+					onAddCard={() => this.onAddCard()}
 				/>
 				<CardPane>
 					<Header activeCard={activeCard}/>
