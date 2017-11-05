@@ -34,8 +34,13 @@ export class AuthControllers {
 		}
 		const token = await auth.getToken({code}) as any;
 		const user = await auth.getUserInformation(token.token.access_token);
-		ctx.type = 'application/json';
-		ctx.body = {token, user};
+		const body = JSON.stringify({token, user});
+		ctx.body = `
+		<script type="text/javascript">
+		  window.opener.postMessage(${body}, 'http://127.0.0.1:3000'); // TODO: send origin;
+		  window.close()
+		</script>
+		`
 	}
 
 	public async signIn(ctx: Context) {

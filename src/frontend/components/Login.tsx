@@ -1,5 +1,9 @@
 import * as React from 'react';
 import styled, {injectGlobal} from 'styled-components';
+import { Title, Island } from './shared'
+import { connect } from 'react-redux';
+import { login } from '../actions';
+import { Dispatch } from 'redux';
 
 injectGlobal`
 	html,
@@ -18,29 +22,68 @@ const LoginLayout = styled.div`
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	height: 300px;
+	height: 600px;
 `;
 
-const LoginBox = styled.div`
+const LoginBox = styled(Island)`
 	width: 480px;
-    margin: 5px;
     text-align: center;
     margin-bottom: 15px;
-	padding: 25px 20px 20px 25px;
-	border-radius: 4px;
-	background-color: #242424;
 `;
 
-class Login extends React.Component<{}, {}> {
+const LoginTitle: any = styled(Title)`
+	text-align: center;
+`;
+
+const SocialLayout = styled.div`
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+`;
+
+const SocialType: any = styled.div`
+	height: 26px;
+	width: 26px;
+	margin: 5px 15px;
+	background-image: url(${({url}: any) => url});
+	background-size: contain;
+	background-repeat: no-repeat;
+	opacity: 0.6;
+	&:hover{
+		opacity: 1;
+	}
+`;
+
+interface ILoginProps {
+	dispatch: Dispatch<{}>;
+}
+
+const GITHUB = 'github';
+const YANDEX = 'yandex';
+
+class Login extends React.Component<ILoginProps, {}> {
 	render() {
+		const {dispatch}: any = this.props;
 		return (
 			<LoginLayout>
 				<LoginBox>
-					<h1>Login page</h1>
+					<LoginTitle>Авторизация</LoginTitle>
+					<SocialLayout>
+						<SocialType
+							onClick={() => dispatch(login(GITHUB))}
+							url='/assets/social-github.svg'
+						/>
+						<SocialType
+							url='/assets/social-yandex.svg'
+							onClick={() => dispatch(login(YANDEX))}
+						/>
+					</SocialLayout>
 				</LoginBox>
 			</LoginLayout>
 		)
 	}
 }
+const mapStateToProps = (state: any) => ({});
 
-export default Login;
+export default connect(mapStateToProps)(Login);

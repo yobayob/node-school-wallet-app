@@ -9,9 +9,9 @@ import { syncHistoryWithStore  } from 'react-router-redux'
 import { initialState } from './actions'
 // this is crazy
 const w = window as any;
-const appData = w.__data;
+const appData = w.__data || {cards: [], transactions: []};
 
-store.dispatch(initialState(appData))
+store.dispatch(initialState(appData));
 
 const history = syncHistoryWithStore(browserHistory, store);
 hydrate(

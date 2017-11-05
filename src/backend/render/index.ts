@@ -2,7 +2,7 @@ import {Application} from '../common/models'
 import {Inject, Singleton} from 'typescript-ioc';
 import * as Router from 'koa-router';
 import {CardModel, TransactionModel} from '../wallet/models'
-import render from './render'
+import render, {renderLogin} from './render'
 import {renderToStaticMarkup} from 'react-dom/server'
 
 /**
@@ -27,6 +27,10 @@ export class Render extends Application {
 			const cards = await this.cards.all();
 			const transactions = await this.transactions.all();
 			ctx.body = renderToStaticMarkup(render({cards, transactions}));
+		});
+
+		this.router.get('/login', async (ctx) => {
+			ctx.body = renderToStaticMarkup(renderLogin());
 		})
 	}
 }

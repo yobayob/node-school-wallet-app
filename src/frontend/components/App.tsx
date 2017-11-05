@@ -9,9 +9,7 @@ import { MobilePayment } from './mobile-pay';
 import { Prepaid } from './prepaid';
 import { Withdraw } from './withdraw'
 import { bankInfo, historyInfo } from '../utils';
-import { getCards, setCard, createCard, setAddingMode, initialState } from '../actions'
-import { Link } from 'react-router'
-import Login from './Login'
+import { getCards, setCard, createCard, setAddingMode } from '../actions'
 
 injectGlobal`
 	html,
@@ -67,7 +65,6 @@ class App extends React.Component<IAppProps, any> {
 				/>
 				<CardPane>
 					<Header/>
-					<Link to='/login' href='/login'>Login</Link>
 					{activeCard &&
 					<Workspace>
 						<History history={history}/>
