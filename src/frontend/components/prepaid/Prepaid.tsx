@@ -1,6 +1,7 @@
 import * as React from 'react';
 import PrepaidContract from './PrepaidContract';
 import PrepaidSuccess from './PrepaidSuccess';
+import PrepaidError from './PrepaidError';
 import { Dispatch } from 'redux';
 import {prepaid, prepaidRepeat} from '../../actions'
 import { connect } from 'react-redux';
@@ -26,6 +27,11 @@ class Prepaid extends React.Component<IPrepaidProps, {}> {
 				const {transaction}: any = this.props;
 				return(
 					<PrepaidSuccess transaction={transaction} onClick={() => dispatch(prepaidRepeat())}/>
+				)
+			}
+			if (stage === 'error') {
+				return(
+					<PrepaidError onClick={() => dispatch(prepaidRepeat())}/>
 				)
 			}
 
