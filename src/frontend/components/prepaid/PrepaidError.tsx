@@ -44,11 +44,11 @@ const RepeatPayment = styled.button`
 	text-transform: uppercase;
 `;
 
-interface IPrepaidSuccess{
+interface IPrepaidError{
     onClick: any,
 }
 
-const PrepaidError: React.SFC<IPrepaidSuccess> = ({onClick}: any) => {
+const PrepaidError: React.SFC<IPrepaidError> = ({onClick}: any) => {
 
     return (
         <PrepaidLayout>
