@@ -1,7 +1,7 @@
 import {Context} from 'koa';
 import {verifyToken} from '../auth/utils';
 
-// check validity token
+// check validity token. UNUSED
 export async function jwtCheckerMiddleware(ctx: Context, next: any) {
 	if (!ctx.headers || !ctx.header.authorization) {
 		ctx.throw(401)

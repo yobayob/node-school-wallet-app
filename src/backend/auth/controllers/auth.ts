@@ -26,6 +26,12 @@ export class AuthControllers {
 		return this.authManager.getOauthByType(type)
 	}
 
+	/**
+	 * Callback for oauth service
+	 * get type of oauth
+	 * process callback and create jwt token
+	 * easy inline js for open popup window (use postmessage to parent window)
+	 */
 	public async callback(ctx: Context) {
 		const auth = this.getType(ctx);
 		const code = ctx.request.query.code;
@@ -42,11 +48,18 @@ export class AuthControllers {
 		`
 	}
 
+	/**
+	 * This endpoint opened popup window and wait answer from oauth
+	 */
 	public async signIn(ctx: Context) {
 		const auth = this.getType(ctx);
 		ctx.response.redirect(auth.authorizationUri)
 	}
 
+	/**
+	 * Simple registration
+	 * TODO: add validity on the all field
+	 */
 	public async signUp(ctx: Context) {
 		const item = ctx.request.body;
 		Validate(item, usersCreateSchema);

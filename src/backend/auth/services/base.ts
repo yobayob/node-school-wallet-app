@@ -74,7 +74,6 @@ export abstract class OAuth implements IOauth {
 		if (!tokenInfo.token) {
 			throw new ApplicationError('Failed parse', 400);
 		}
-		console.log(tokenInfo);
 		return tokenInfo.token.access_token;
 	}
 
@@ -82,9 +81,13 @@ export abstract class OAuth implements IOauth {
 		throw new ApplicationError(`Not implemnted`)
 	}
 
+	/**
+	 * process callback -> create access token && get user info
+	 * @param code - recieve from oauth service
+	 * @returns {Promise<IUser>} - user info
+	 */
 	public async callback(code: string): Promise<IUser> {
 		const token = await this.getToken(code);
-		console.log(token);
 		const userInfo = await this.getUserInformation(token);
 		return OAuth.prepareUserInfo(userInfo)
 	}

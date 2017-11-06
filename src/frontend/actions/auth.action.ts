@@ -4,6 +4,7 @@ import * as actions from './types';
 import {getCards} from './card.action';
 import {fetch} from '../utils';
 
+// basic wrapper on set cookie. its crazy sh...
 const setCookie = (name: string, value: any, options?: any) => {
 
 	if (document) {
@@ -21,13 +22,13 @@ const setCookie = (name: string, value: any, options?: any) => {
 
 		value = encodeURIComponent(value);
 
-		let updatedCookie = name + "=" + value;
+		let updatedCookie = name + '=' + value;
 
 		for (const propName in options) {
-			updatedCookie += "; " + propName;
+			updatedCookie += '; ' + propName;
 			const propValue: any = options[propName];
 			if (propValue !== true) {
-				updatedCookie += "=" + propValue;
+				updatedCookie += '=' + propValue;
 			}
 		}
 		document.cookie = updatedCookie;
@@ -35,10 +36,11 @@ const setCookie = (name: string, value: any, options?: any) => {
 
 };
 
+// basic wrapper on cookie
 const getCookie = (name: string) => {
 	if (document) {
 		const matches = document.cookie.match(new RegExp(
-			"(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+			'(?:^|; )' + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
 		));
 		return matches ? decodeURIComponent(matches[1]) : undefined;
 	}
@@ -55,10 +57,12 @@ const openPopup = async (provider: string): Promise<any> => {
 	});
 };
 
+// get token from cookie storage
 const getToken = () => {
 	return getCookie('jwt');
 };
 
+// get user from local storage
 const getCurrentUser = () => {
 	const user = localStorage.getItem(`currentUser`);
 	if (user) {
@@ -66,7 +70,8 @@ const getCurrentUser = () => {
 	}
 };
 
-const prepareToken = (token: string, dispatch: any) => {
+// process login -> save token to cookie storage && save user to localstorage
+const processToken = (token: string, dispatch: any) => {
 	const user = decode(token) as any;
 	localStorage.setItem(`currentUser`, JSON.stringify(user));
 	setCookie(`jwt`, token);
@@ -80,15 +85,32 @@ const prepareToken = (token: string, dispatch: any) => {
 	}
 };
 
+
+// send request and recieve token
 export const login = (provider: string) => {
 	return async (dispatch: any) => {
 		const userInfo = await openPopup(`/sign-in/${provider}`);
 		if (userInfo.success === true) {
-			prepareToken(userInfo.token, dispatch);
+			processToken(userInfo.token, dispatch);
 		}
 	}
 };
 
+// if registration incompelete send other data
+export const updateUserInfo = (first_name: string, last_name: string, phone: string) => {
+	return async (dispatch: any) => {
+		try {
+			const response = await fetch.post(`/sign-up`, {first_name, last_name, phone});
+			if (response.success) {
+				processToken(response.token, dispatch)
+			}
+		} catch (err) {
+			console.log(err)
+		}
+	}
+};
+
+// it's okay. redirect to main page
 export const signUp = () => {
 	return async (dispatch: any) => {
 		dispatch(push('/'));
@@ -100,27 +122,7 @@ export const signUp = () => {
 	}
 };
 
-// Set token auth
-export const fetchConfig = () => ({
-	headers: {
-		Authorization: `JWT ${getToken()}`,
-	},
-});
-
-export const updateUserInfo = (first_name: string, last_name: string, phone: string) => {
-	return async (dispatch: any) => {
-		try {
-			const response = await fetch.post(`/sign-up`, {first_name, last_name, phone}, fetchConfig());
-			console.log(response);
-			if (response.success) {
-				prepareToken(response.token, dispatch)
-			}
-		} catch (err) {
-			console.log(err)
-		}
-	}
-};
-
+// logout
 export const signOut = () => {
 	return (dispatch: any) => {
 		localStorage.removeItem(`currentUser`);
@@ -129,17 +131,16 @@ export const signOut = () => {
 	}
 };
 
+// check all permission && redirect on login or setState
 export const checkAuth = () => {
 	return (dispatch: any) => {
 		const user = getCurrentUser();
 		if (!user) {
-			console.log(`user not found`)
 			dispatch(signOut());
 			return
 		}
 		const token = getToken();
 		if (!token || token === '') {
-			console.log(`token not found`)
 			dispatch(signOut());
 			return
 		}

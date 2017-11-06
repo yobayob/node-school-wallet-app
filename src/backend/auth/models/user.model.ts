@@ -7,8 +7,8 @@ import {ApplicationError} from '../../common/exceptions';
 
 const _name = `users`;
 
-export const NEW_USER = 0;
-export const APPROVE_USER = 10;
+export const NEW_USER = 0;		// user is auth, but not fill form
+export const APPROVE_USER = 10; // form filled
 
 export interface IUser {
 	hash: string,
@@ -48,6 +48,11 @@ export class UserModel extends SuperModel<IUserModel> {
 		super(_name, UserSchema);
 	}
 
+	/**
+	 * Get or create user
+	 * @param o; need contains field hash
+	 * @returns {Promise<any>}
+	 */
 	async getOrCreate(o: IUser) {
 		let user: any;
 		try {
@@ -56,14 +61,6 @@ export class UserModel extends SuperModel<IUserModel> {
 			user = await this.create(o);
 		}
 		return user
-	}
-
-	async getUserFromToken(jwt: string) {
-		const claims = (await verifyToken(jwt)) as any;
-		if (!claims.hash) {
-			throw new ApplicationError(`Incorrect token`, 500)
-		}
-		return this.get({hash: claims.hash})
 	}
 }
 

@@ -4,7 +4,7 @@ import {Container} from 'typescript-ioc';
 import {UserModel, IUserModel} from '../auth/models';
 import {ApplicationError} from '../common/exceptions';
 
-// check validity token
+// check validity token from cookie and put user to context
 export async function cookieCheckerMiddleware(ctx: Context, next: any) {
 	const token = ctx.cookies.get(`jwt`);
 	let claims: any;
