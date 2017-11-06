@@ -108,6 +108,13 @@ export abstract class SuperModel<T extends SequenceDocument> {
 	}
 
 	/**
+	 * returned updated object
+	 */
+	public updateOne(obj: any, update: any) {
+		return this.objects.findOneAndUpdate(obj, update, {new: true})
+	}
+
+	/**
 	 * Remove item. If item not found throw Application Error
 	 */
 	public async delete(obj: any) {

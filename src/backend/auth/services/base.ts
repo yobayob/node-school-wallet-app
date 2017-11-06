@@ -1,5 +1,8 @@
 import * as oauth2 from 'simple-oauth2';
 import {ApplicationError} from '../../common/exceptions/application.error';
+import {IUser} from '../models';
+import {createHash} from 'crypto';
+import {App} from "../../app";
 
 interface IAuthUri {
 	redirect_uri?: string,
@@ -7,13 +10,19 @@ interface IAuthUri {
 	state?: string
 }
 
-export interface IOauth {
-	authorizationUri: string
-	type: string
-	callback_uri: string
+export interface IUserInfo {
+	id: number,
+	type: string,
+}
 
-	getToken: (options: any) => Promise<oauth2.AccessToken>
-	getUserInformation: (token: string) => Promise<any>
+export interface IOauth {
+	authorizationUri: string,
+	type: string,
+	callback_uri: string,
+
+	callback: (code: string) => Promise<IUser>,
+	getToken: (options: any) => Promise<oauth2.AccessToken>,
+	getUserInformation: (token: string) => Promise<IUserInfo>,
 }
 
 /**
@@ -29,6 +38,17 @@ export abstract class OAuth implements IOauth {
 	public type: string;
 	public callback_uri: string;
 
+	static userHash(id: any, type: string): string {
+		return createHash('md5').update(String(id)).update(type).digest('hex');
+	}
+
+	static prepareUserInfo(user: IUserInfo): IUser {
+		const hash = OAuth.userHash(user.id, user.type);
+		return {
+			hash,
+		}
+	}
+
 	constructor(type: string, credentials: oauth2.ModuleOptions, authURIConfig: IAuthUri, callback_uri: string) {
 		this.type = type;
 		this.callback_uri = callback_uri;
@@ -36,16 +56,39 @@ export abstract class OAuth implements IOauth {
 		this.authorizationUri =	this.client.authorizationCode.authorizeURL(authURIConfig)
 	}
 
-	public async getToken(options: any) {
-		if (!options.code) {
-			throw new ApplicationError(`Not valid AuthorizationTokenConfig`)
-		}
-		options.redirect_uri = this.callback_uri;
+	private async getTokenInfo(code: string) {
+		const options = {
+			code,
+			redirect_uri: this.callback_uri,
+		};
+		console.log(options);
 		const token = await this.client.authorizationCode.getToken(options as oauth2.AuthorizationTokenConfig);
 		return this.client.accessToken.create(token)
 	}
 
-	getUserInformation(token: string): any {
+	public async getToken(code: string) {
+		const tokenInfo = (await this.getTokenInfo(code)) as any;
+		if (tokenInfo.error) {
+			throw new ApplicationError(tokenInfo.error, 400);
+		}
+		if (!tokenInfo.token) {
+			throw new ApplicationError('Failed parse', 400);
+		}
+		return tokenInfo.token.access_token;
+	}
+
+	public async getUserInformation(token: string): Promise<IUserInfo> {
 		throw new ApplicationError(`Not implemnted`)
+	}
+
+	/**
+	 * process callback -> create access token && get user info
+	 * @param code - recieve from oauth service
+	 * @returns {Promise<IUser>} - user info
+	 */
+	public async callback(code: string): Promise<IUser> {
+		const token = await this.getToken(code);
+		const userInfo = await this.getUserInformation(token);
+		return OAuth.prepareUserInfo(userInfo)
 	}
 }

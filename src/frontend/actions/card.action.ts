@@ -13,11 +13,15 @@ export const setAddingMode = (mode: boolean) => {
 };
 
 export const initialState = (data: any) => {
-	const {cards, transactions}: any = data;
+	const {cards, transactions, user}: any = data;
 	return (dispatch: any) => {
 		dispatch({
 			type: action.INITIAL_CARDS,
 			payload: {cards, transactions},
+		});
+		dispatch({
+			type: action.AUTH_SUCCESS,
+			payload: user,
 		})
 	}
 };

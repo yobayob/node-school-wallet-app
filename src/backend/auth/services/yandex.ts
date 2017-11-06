@@ -1,6 +1,6 @@
 import config from '../../configs'
 import {Singleton} from 'typescript-ioc';
-import {OAuth} from './base'
+import {IUserInfo, OAuth} from './base'
 import axios from 'axios';
 
 export const type = `yandex`;
@@ -40,7 +40,6 @@ export class YandexOAuth extends OAuth {
 					format: 'json',
 				},
 			});
-
-		return response.data
+		return {type: this.type, id: response.data.id};
 	}
 }

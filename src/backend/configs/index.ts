@@ -8,6 +8,7 @@ interface IOAuthConfig {
 }
 
 interface IConfig {
+	secret: string,
 	oauth: {
 		github: IOAuthConfig,
 		yandex: IOAuthConfig,

@@ -2,18 +2,20 @@ import {Schema, SequenceDocument, SequenceSchema, connection} from 'mongoose';
 import {Singleton} from 'typescript-ioc';
 import {SuperModel} from '../../common/models';
 import {createHash} from 'crypto'
+import {verifyToken} from '../utils';
+import {ApplicationError} from '../../common/exceptions';
 
 const _name = `users`;
 
-const NEW_USER = 0;
-const APPROVE_USER = 10;
+export const NEW_USER = 0;		// user is auth, but not fill form
+export const APPROVE_USER = 10; // form filled
 
 export interface IUser {
 	hash: string,
-	first_name: string,
-	last_name: string,
-	phone: string,
-	status: number;
+	first_name?: string,
+	last_name?: string,
+	phone?: string,
+	status?: number;
 }
 
 export interface IUserModel extends IUser, SequenceDocument {
@@ -42,21 +44,21 @@ export const UserSchema: SequenceSchema = new Schema({
 @Singleton
 export class UserModel extends SuperModel<IUserModel> {
 
-	static userHash(type: string, id: any): string {
-		return createHash('md5').update(id).update(type).digest('hex');
-	}
-
 	constructor() {
 		super(_name, UserSchema);
 	}
 
-	async getOrCreate(type: string, id: any) {
-		const hash = UserModel.userHash(type, id);
+	/**
+	 * Get or create user
+	 * @param o; need contains field hash
+	 * @returns {Promise<any>}
+	 */
+	async getOrCreate(o: IUser) {
 		let user: any;
 		try {
-			user = await this.get({hash});
+			user = await this.get(o);
 		} catch (err) {
-			user = await this.create({hash});
+			user = await this.create(o);
 		}
 		return user
 	}

@@ -38,6 +38,6 @@ export class GithubOauth extends OAuth {
 				access_token: token,
 			},
 		});
-		return response.data
+		return {type: this.type, id: response.data.id};
 	}
 }
