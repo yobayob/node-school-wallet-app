@@ -27,7 +27,7 @@ export class Render extends Application {
 	$setRoutes() {
 		this.router.get('/', cookieCheckerMiddleware, async (ctx) => {
 			ctx.state.user = await ctx.state.user;
-			const cards = await this.cards.get({user_id: ctx.state.user.id});
+			const cards = await this.cards.filter({user_id: ctx.state.user.id});
 			const transactions = await this.transactions.all();
 			const user = await ctx.state.user;
 			ctx.body = renderToStaticMarkup(render({cards, transactions, user}));

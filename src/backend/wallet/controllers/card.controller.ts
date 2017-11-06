@@ -13,7 +13,7 @@ export class CardsController {
 
 	public async getAllCards(ctx: Context) {
 		ctx.state.user = await ctx.state.user;
-		ctx.body = await this.card.get({user_id: ctx.state.user.id});
+		ctx.body = await this.card.filter({user_id: ctx.state.user.id});
 	}
 
 	public async getCard(ctx: Context) {
