@@ -4,7 +4,6 @@ import {AuthControllers} from './controllers'
 import * as Router from 'koa-router';
 import {cookieCheckerMiddleware} from '../middlewares';
 
-
 @Singleton
 export class Auth extends Application {
 

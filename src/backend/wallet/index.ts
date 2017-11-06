@@ -1,7 +1,8 @@
 import {Application} from '../common/models/application'
-import {Inject, Singleton} from 'typescript-ioc';
-import * as controllers from './controllers';
-import * as Router from 'koa-router';
+import {cookieCheckerMiddleware} from '../middlewares/cookie.middleware'
+import {Inject, Singleton} from 'typescript-ioc'
+import * as controllers from './controllers'
+import * as Router from 'koa-router'
 
 /*
  Module wallet - all business logic for cards and transaction
@@ -30,10 +31,12 @@ export class Wallet extends Application {
 		});
 
 		this.router.get('/cards',
+			cookieCheckerMiddleware,
 			async (ctx) => this.cardsController
 				.getAllCards(ctx));
 
 		this.router.post('/cards',
+			cookieCheckerMiddleware,
 			async (ctx) => this.cardsController
 				.createCard(ctx));
 
@@ -46,6 +49,7 @@ export class Wallet extends Application {
 				.deleteCard(ctx));
 
 		this.router.get('/cards/:cardId/transactions',
+			cookieCheckerMiddleware,
 			async (ctx) => this.transactionController
 				.getAllCardTransaction(ctx));
 

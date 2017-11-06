@@ -62,7 +62,7 @@ export class AuthControllers {
 	 */
 	public async signUp(ctx: Context) {
 		const item = ctx.request.body;
-		Validate(item, usersCreateSchema);
+		await Validate(item, usersCreateSchema);
 		const currentUser = await ctx.state.user;
 		const user = await this.userManager.updateOne({id: currentUser.id}, {
 			...item,
