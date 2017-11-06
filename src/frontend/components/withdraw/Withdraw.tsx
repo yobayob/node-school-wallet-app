@@ -1,5 +1,5 @@
 import WithdrawContract from './WithdrawContract';
-import WithdrawSuccess from './WithdrawSuccess';
+import {WithdrawSuccess, WithdrawError} from './';
 
 import * as React from 'react';
 import { withdraw, withdrawRepeat } from '../../actions';
@@ -29,6 +29,11 @@ class Withdraw extends React.Component<IWithdrawProps, {}> {
 				const {transaction}: any = this.props;
 				return(
 					<WithdrawSuccess transaction={transaction} onClick={() => dispatch(withdrawRepeat())}/>
+				)
+			}
+			if (stage === 'error') {
+				return(
+					<WithdrawError onClick={() => dispatch(withdrawRepeat())}/>
 				)
 			}
 
