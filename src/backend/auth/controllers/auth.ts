@@ -3,9 +3,9 @@ import {Inject, Singleton} from 'typescript-ioc';
 import {Validate} from '../../common/utils'
 import {OauthManager, defaultTypes, IOauth} from '../services'
 import {ApplicationError} from '../../common/exceptions/application.error';
-import {UserModel} from '../models/user.model';
+import {UserModel, APPROVE_USER} from '../models/user.model';
 import {usersCreateSchema} from '../schema'
-
+import {createToken} from '../utils';
 
 @Singleton
 export class AuthControllers {
@@ -29,15 +29,14 @@ export class AuthControllers {
 	public async callback(ctx: Context) {
 		const auth = this.getType(ctx);
 		const code = ctx.request.query.code;
-		if (!code) {
-			throw new ApplicationError('Fail query params');
-		}
-		const token = await auth.getToken({code}) as any;
-		const user = await auth.getUserInformation(token.token.access_token);
-		const body = JSON.stringify({token, user});
+		const userInfo = await auth.callback(code);
+		const user = await this.userManager.getOrCreate(userInfo);
+		const jwt = await createToken(user);
+		const body = JSON.stringify({success: true, token: jwt});
+		const origin = ctx.origin.replace(`localhost`, '127.0.0.1'); //monkey patch origin. I don't know why :(
 		ctx.body = `
 		<script type="text/javascript">
-		  window.opener.postMessage(${body}, 'http://127.0.0.1:3000'); // TODO: send origin;
+		  window.opener.postMessage(${body}, \'${origin}\');
 		  window.close()
 		</script>
 		`
@@ -51,7 +50,16 @@ export class AuthControllers {
 	public async signUp(ctx: Context) {
 		const item = ctx.request.body;
 		Validate(item, usersCreateSchema);
-		ctx.body = this.userManager.create(item);
+		const currentUser = await ctx.state.user;
+		const user = await this.userManager.updateOne({id: currentUser.id}, {
+			...item,
+			status: APPROVE_USER,
+		});
+		if (!user) {
+			throw new ApplicationError(`Failed updates`, 500)
+		}
+		const newToken =  await createToken(user);
+		ctx.body = {token: newToken, success: true};
 	}
 }
 

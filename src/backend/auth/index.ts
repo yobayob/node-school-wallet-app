@@ -2,6 +2,8 @@ import {Application} from '../common/models'
 import {Inject, Singleton} from 'typescript-ioc';
 import {AuthControllers} from './controllers'
 import * as Router from 'koa-router';
+import {cookieCheckerMiddleware} from '../middlewares';
+
 
 @Singleton
 export class Auth extends Application {
@@ -20,6 +22,7 @@ export class Auth extends Application {
 				.signIn(ctx));
 
 		this.router.post('/sign-up',
+			cookieCheckerMiddleware,
 			async (ctx) => this.authController
 				.signUp(ctx));
 
