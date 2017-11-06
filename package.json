@@ -66,6 +66,8 @@
 		"card-info": "git+https://github.com/iniel/card-info.git",
 		"ejs": "^2.5.7",
 		"eslint": "^4.10.0",
+		"fcm-push": "^1.1.3",
+		"firebase": "^4.6.1",
 		"jsonschema": "^1.2.0",
 		"jsonwebtoken": "^8.1.0",
 		"koa": "^2.3.0",
