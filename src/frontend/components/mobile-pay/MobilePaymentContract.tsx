@@ -80,7 +80,7 @@ class MobilePaymentContract extends React.Component<IMobileProps, IMobilePayment
 		super(props);
 
 		this.state = {
-			phoneNumber: '+79218908064',
+			phoneNumber: '',
 			sum: 0,
 			commission: 3,
 		};
@@ -105,7 +105,6 @@ class MobilePaymentContract extends React.Component<IMobileProps, IMobilePayment
 		if (!event) {
 			return;
 		}
-
 		const {name, value} = event.target;
 		this.setState({
 			[name]: value,
@@ -135,7 +134,7 @@ class MobilePaymentContract extends React.Component<IMobileProps, IMobilePayment
 						<InputPhoneNumber
 							name='phoneNumber'
 							value={this.state.phoneNumber}
-							readOnly='true'
+							onChange={(event: any) => this.handleInputChange(event)}
 						/>
 					</InputField>
 					<InputField>

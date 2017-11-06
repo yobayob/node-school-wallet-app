@@ -40,7 +40,9 @@ export abstract class SuperModel<T extends SequenceDocument> {
 	public static handleErrors(name: string) {
 		return async (error: any, res: any, next: any) => {
 			if (error.name === `MongoError` && error.code === 11000) {
-				await next(new ApplicationError(`The ${name} returned a duplicate error`, 400))
+				// it's logger problems
+				// await next(new ApplicationError(`The ${name} returned a duplicate error`, 400))
+				await next(new ApplicationError('system.askHelp', 400))
 			} else {
 				await next()
 			}
@@ -97,7 +99,9 @@ export abstract class SuperModel<T extends SequenceDocument> {
 		if (res) {
 			return res
 		}
-		throw new ApplicationError(`Object with params ${JSON.stringify(obj)} not found`, 404)
+		// leave obj fields up to logger
+		// throw new ApplicationError(`Object with params ${JSON.stringify(obj)} not found`, 404)
+		throw new ApplicationError('logic.card.notFound', 404)
 	}
 
 	/**

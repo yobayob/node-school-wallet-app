@@ -49,6 +49,7 @@ interface IAppProps {
 	dispatch: Dispatch<{}>;
 }
 
+
 class App extends React.Component<IAppProps, any> {
 
 	render() {
