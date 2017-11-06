@@ -8,6 +8,11 @@ import { App } from './app'
  */
 const start = async () => {
 	try {
+		// TODO: make it cleaner.
+		// suppress console messages in production mode. Only official logger messages
+		if (process.env.NODE_ENV === 'production') {
+			console.log = () => {};
+		}
 		const app = Container.get(App);
 		await app.start();
 	} catch (err) {

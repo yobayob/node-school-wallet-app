@@ -12,7 +12,8 @@ export class CardsController {
 	) {}
 
 	public async getAllCards(ctx: Context) {
-		ctx.body = await this.card.all();
+		ctx.state.user = await ctx.state.user;
+		ctx.body = await this.card.get({user_id: ctx.state.user.id});
 	}
 
 	public async getCard(ctx: Context) {
@@ -20,7 +21,8 @@ export class CardsController {
 	}
 
 	public async createCard(ctx: Context) {
-		await Validate(ctx.request.body, cardCreateSchema);
+		ctx.state.user = await ctx.state.user;
+		await Validate({user_id: ctx.state.user.id, ...ctx.request.body}, cardCreateSchema);
 		ctx.body = await this.card.create(ctx.request.body);
 		ctx.status = 201
 	}

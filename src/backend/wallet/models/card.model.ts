@@ -23,6 +23,10 @@ export const CardSchema: SequenceSchema = new Schema({
 		index: {unique: true},
 		required: true,
 	},
+	user_id: {
+		type: Number,
+		required: true,
+	},
 }) as SequenceSchema;
 
 export interface ICardModel extends ICard, Document {
@@ -35,11 +39,10 @@ export class CardModel extends SuperModel<ICardModel> {
 		super(_name, CardSchema);
 	}
 
-	public create(o: { balance: number, cardNumber: string }) {
+	public create(o: { balance: number, cardNumber: string, user_id: number }) {
 		if (!checkLuhn(o.cardNumber)) {
 			throw new ApplicationError('Luhn invalid', 400)
 		}
 		return super.create(o)
 	}
 }
-

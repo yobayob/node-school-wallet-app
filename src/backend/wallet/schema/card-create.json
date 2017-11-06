@@ -3,13 +3,17 @@
   "type": "object",
   "required": [
 	"cardNumber",
-	"balance"
+	"balance",
+  	"user_id"
   ],
   "properties": {
 	"cardNumber": {
 	  "type": "string"
 	},
 	"balance": {
+	  "type": "number"
+	},
+    "user_id": {
 	  "type": "number"
 	}
   }
