@@ -22,8 +22,9 @@ export class CardsController {
 
 	public async createCard(ctx: Context) {
 		ctx.state.user = await ctx.state.user;
-		await Validate({user_id: ctx.state.user.id, ...ctx.request.body}, cardCreateSchema);
-		ctx.body = await this.card.create(ctx.request.body);
+		console.log({user_id: ctx.state.user.id, ...ctx.request.body});
+		await Validate({...ctx.request.body, user_id: ctx.state.user.id}, cardCreateSchema);
+		ctx.body = await this.card.create({...ctx.request.body, user_id: ctx.state.user.id});
 		ctx.status = 201
 	}
 
