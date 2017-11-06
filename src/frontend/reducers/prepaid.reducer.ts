@@ -33,4 +33,11 @@ export default handleActions<TransferState, any>({
 			stage: 'contract',
 		};
 	},
+	[actions.PREPAID_FAILED]: (state: TransferState, action: Action<any>): TransferState => {
+		return {
+			...state,
+			transaction: null,
+			stage: 'error',
+		};
+	},
 }, initialState);

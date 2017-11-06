@@ -1,6 +1,12 @@
 import axios, {AxiosResponse } from 'axios';
 
-const responseBody = (res: AxiosResponse) => res.data;
+const responseBody = (res: AxiosResponse) => {
+	if (res.status < 200 || res.status > 399) {
+		console.log(res.data);
+		throw new Error(`Failed request`)
+	}
+	return res.data
+}
 
 const http = {
 	get: (url: string, config={}) => axios.get(url, config).then(responseBody),
