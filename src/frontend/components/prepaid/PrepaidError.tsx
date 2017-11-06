@@ -11,21 +11,12 @@ const PrepaidLayout = styled(Island)`
 	color: #fff;
 `;
 
-const CheckIcom = styled.div`
-	width: 48px;
-	height: 48px;
-	background-image: url(/assets/error.svg);
-	position: absolute;
-	top: 14;
-	right: 20;
-`;
-
 const Header = styled(Title)`
 	color: #fff;
 `;
 
 const SectionGroup = styled.div`
-	margin-bottom: 20px;
+	margin-bottom: 40px;
 `;
 
 const RepeatPayment = styled.button`
@@ -44,21 +35,20 @@ const RepeatPayment = styled.button`
 	text-transform: uppercase;
 `;
 
-interface IPrepaidError{
-    onClick: any,
+interface IPrepaidError {
+	onClick: any,
 }
 
 const PrepaidError: React.SFC<IPrepaidError> = ({onClick}: any) => {
 
-    return (
-        <PrepaidLayout>
-            <CheckIcom />
-            <SectionGroup>
-                <Header>Ошибка пополнения карты</Header>
-            </SectionGroup>
-            <RepeatPayment onClick={onClick}>Попытаться снова</RepeatPayment>
-        </PrepaidLayout>
-    );
+	return (
+		<PrepaidLayout>
+			<SectionGroup>
+				<Header>Ошибка пополнения карты</Header>
+			</SectionGroup>
+			<RepeatPayment onClick={onClick}>Попробовать еще раз</RepeatPayment>
+		</PrepaidLayout>
+	);
 };
 
 export default PrepaidError;

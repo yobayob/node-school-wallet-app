@@ -6,11 +6,9 @@ import {} from '../models'
 
 export const prepaidRepeat = () => {
 	return async (dispatch: any, getState: any) => {
-		if (getState().prepaid.stage === 'success') {
-			dispatch({
-				type: action.PREPAID_REPEAT,
-			})
-		}
+		dispatch({
+			type: action.PREPAID_REPEAT,
+		})
 	}
 };
 
