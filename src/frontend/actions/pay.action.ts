@@ -28,10 +28,8 @@ export const payMobile = (amount: number, data: string) => {
 
 export const payRepeat = () => {
 	return async (dispatch: any, getState: any) => {
-		if (getState().pay.stage === 'success') {
-			dispatch({
-				type: action.PAY_REPEAT,
-			})
-		}
+		dispatch({
+			type: action.PAY_REPEAT,
+		})
 	}
 };

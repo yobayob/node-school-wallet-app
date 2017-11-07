@@ -8,6 +8,7 @@ import logger from 'redux-logger';
 
 let middleware: any = [reduxThunk, routerMiddleware(browserHistory)];
 
+// show only dev && browser
 if (__ENV__ !== 'production') {
 	middleware = [...middleware, logger];
 }

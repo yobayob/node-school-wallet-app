@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { MobilePaymentContract, MobilePaymentSuccess } from './'
+import { MobilePaymentContract, MobilePaymentSuccess, MobilePaymentError} from './'
 import { payRepeat, payMobile } from '../../actions'
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
@@ -22,6 +22,11 @@ class MobilePayment extends React.Component<IMobile, {}> {
 			const { transaction }: any = this.props;
 			return (
 				<MobilePaymentSuccess transaction={transaction} onClick={() => dispatch(payRepeat())}/>
+			);
+		}
+		if (stage === 'error') {
+			return (
+				<MobilePaymentError onClick={() => dispatch(payRepeat())}/>
 			);
 		}
 

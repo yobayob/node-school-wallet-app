@@ -70,10 +70,8 @@ export const withdraw = (cardId: number, amount: number) => {
 
 export const withdrawRepeat = () => {
 	return async (dispatch: any, getState: any) => {
-		if (getState().witdraw.stage === 'success') {
-			dispatch({
-				type: action.WITHDRAW_REPEAT,
-			})
-		}
+		dispatch({
+			type: action.WITHDRAW_REPEAT,
+		})
 	}
 };

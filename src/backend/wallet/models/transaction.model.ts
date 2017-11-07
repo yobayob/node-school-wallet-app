@@ -79,6 +79,7 @@ export class TransactionModel extends SuperModel<ITransactionModel> {
 		if (cardSend.balance < sum) {
 			throw new ApplicationError(`Insufficient funds on card ${cardSend.cardNumber}`, 400)
 		}
+		console.log(cardSend.balance, sum);
 		cardSend.balance -= sum;
 		cardRecieve.balance += sum;
 		const transSend = {
