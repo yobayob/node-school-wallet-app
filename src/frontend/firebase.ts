@@ -1,5 +1,5 @@
-import './firebase/firebase.js'
-import './firebase/firebase-messaging.js'
+import '../../public/firebase.js'
+import '../../public/firebase-messaging.js'
 
 // it's hackaton, time is 00:31 and I have no will to use chrome.d.ts
 declare const Notification: any;
