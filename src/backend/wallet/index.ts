@@ -20,6 +20,8 @@ export class Wallet extends Application {
 
 	$setRoutes() {
 
+		this.router.use(cookieCheckerMiddleware);
+
 		this.router.param('id', async (id, ctx, next) => {
 			ctx.params.id = parseFloat(id);
 			await next()
@@ -31,12 +33,10 @@ export class Wallet extends Application {
 		});
 
 		this.router.get('/cards',
-			cookieCheckerMiddleware,
 			async (ctx) => this.cardsController
 				.getAllCards(ctx));
 
 		this.router.post('/cards',
-			cookieCheckerMiddleware,
 			async (ctx) => this.cardsController
 				.createCard(ctx));
 
@@ -49,7 +49,6 @@ export class Wallet extends Application {
 				.deleteCard(ctx));
 
 		this.router.get('/cards/:cardId/transactions',
-			cookieCheckerMiddleware,
 			async (ctx) => this.transactionController
 				.getAllCardTransaction(ctx));
 

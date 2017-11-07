@@ -20,6 +20,14 @@ export default handleActions<Pay, any>({
 			stage: 'success',
 		};
 	},
+	[actions.PAY_FAILED]: (state: Pay, action: Action<any>): Pay => {
+		console.log(action);
+		return {
+			...state,
+			transaction: null,
+			stage: 'error',
+		};
+	},
 	[actions.PAY_REPEAT]: (state: Pay, action: Action<any>): Pay => {
 		console.log(action);
 		return {

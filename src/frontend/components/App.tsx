@@ -69,9 +69,9 @@ class App extends React.Component<IAppProps, any> {
 					{activeCard &&
 					<Workspace>
 						<History history={history}/>
-						<Prepaid cards={cards} activeCard={activeCard}/>
+						{cards.length > 1 && <Prepaid cards={cards} activeCard={activeCard}/>}
 						<MobilePayment/>
-						<Withdraw cards={cards} activeCard={activeCard}/>
+						{cards.length > 1 && <Withdraw cards={cards} activeCard={activeCard}/>}
 					</Workspace>
 					}
 				</CardPane>

@@ -106,7 +106,7 @@ class History extends React.Component<IHistoryProps, {}> {
 
 				return (
 					<HistoryItem key={index}>
-						<HistoryItemIcon bankSmLogoUrl={item.card ? item.card.theme.bankSmLogoUrl : ''}/>
+						{item.card && <HistoryItemIcon bankSmLogoUrl={item.card.theme.bankSmLogoUrl}/>}
 						<HistoryItemTitle>
 							{this.getHistoryItemTitle(item)}
 						</HistoryItemTitle>
