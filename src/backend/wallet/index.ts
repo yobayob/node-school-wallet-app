@@ -16,7 +16,8 @@ export class Wallet extends Application {
 		@Inject public router: Router,
 		@Inject private cardsController: controllers.CardsController,
 		@Inject private transactionController: controllers.TransactionController,
-		@Inject private notificationServer: NotificationServer
+		@Inject private notificationServer: NotificationServer,
+		@Inject private goalController: controllers.GoalController,
 	) {
 		super()
 	}
@@ -27,6 +28,11 @@ export class Wallet extends Application {
 
 		this.router.param('id', async (id, ctx, next) => {
 			ctx.params.id = parseFloat(id);
+			await next()
+		});
+
+		this.router.param('goalId', async (goalId, ctx, next) => {
+			ctx.params.id = parseFloat(goalId);
 			await next()
 		});
 
@@ -75,13 +81,24 @@ export class Wallet extends Application {
 			async (ctx) => this.transactionController
 				.getCardTransactionCSV(ctx));
 
+		this.router.post('/goals',
+			async (ctx) => this.goalController
+				.createGoal(ctx));
+
+		this.router.post('/goals/:goalId',
+			async (ctx) => this.goalController
+				.pay(ctx));
+
 		this.router.get('/transactions', async (ctx) => {
 			await this.transactionController.getAllTransaction(ctx);
 
-			// это здесь просто для теста
+			/**
+			 * For testing
+			 *  TODO: remove me, pls
+			 */
 			this.notificationServer.notifyClientTest({
 				type: 'transaction_success',
-				data: 'success'
+				data: 'success',
 			})
 		});
 	}
