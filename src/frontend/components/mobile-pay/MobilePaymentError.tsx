@@ -9,17 +9,12 @@ const MobilePaymentLayout: any = styled(Island)`
 	color: #fff;
 `;
 
-const ErrorIcon: any = styled.div`
-	width: 48px;
-	height: 48px;
-	background-image: url(/assets/error.svg);
-	position: absolute;
-	top: 27;
-	right: 32;
-`;
-
 const Header: any = styled.div`
 	font-size: 24px;
+`;
+
+const SectionGroup = styled.div`
+	margin-bottom: 40px;
 `;
 
 const RepeatPayment: any = styled.button`
@@ -38,18 +33,19 @@ const RepeatPayment: any = styled.button`
 	text-transform: uppercase;
 `;
 interface IMobilePaymentError {
-    onClick?: any
-    activeCard?: any
+	onClick?: any
+	activeCard?: any
 }
 
 const MobilePaymentError: React.SFC<IMobilePaymentError> = ({onClick}: any) => {
-    return (
-        <MobilePaymentLayout>
-            <ErrorIcon />
-            <Header>Ошибка перевода средств</Header>
-            <RepeatPayment onClick={onClick}>Попробовать еще раз</RepeatPayment>
-        </MobilePaymentLayout>
-    );
+	return (
+		<MobilePaymentLayout>
+			<SectionGroup>
+				<Header>Ошибка перевода средств</Header>
+			</SectionGroup>
+			<RepeatPayment onClick={onClick}>Попробовать еще раз</RepeatPayment>
+		</MobilePaymentLayout>
+	);
 };
 
 export default MobilePaymentError;

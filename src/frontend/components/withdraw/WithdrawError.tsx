@@ -11,15 +11,6 @@ const WithdrawLayout = styled(Island)`
 	color: #fff;
 `;
 
-const ErrorIcon = styled.div`
-	width: 48px;
-	height: 48px;
-	background-image: url(/assets/error.svg);
-	position: absolute;
-	top: 14;
-	right: 20;
-`;
-
 const Header = styled(Title)`
 	color: #fff;
 `;
@@ -45,20 +36,19 @@ const RepeatWithdraw = styled.button`
 `;
 
 interface IWithdrawProps {
-    onClick: any,
+	onClick: any,
 }
 
 const WithdrawError: React.SFC<IWithdrawProps> = ({onClick}: any) => {
 
-    return (
-        <WithdrawLayout>
-            <ErrorIcon />
-            <SectionGroup>
-                <Header>Ошибка пополнения карты</Header>
-            </SectionGroup>
-            <RepeatWithdraw onClick={onClick}>Попробовать еще раз</RepeatWithdraw>
-        </WithdrawLayout>
-    );
+	return (
+		<WithdrawLayout>
+			<SectionGroup>
+				<Header>Ошибка пополнения карты</Header>
+			</SectionGroup>
+			<RepeatWithdraw onClick={onClick}>Попробовать еще раз</RepeatWithdraw>
+		</WithdrawLayout>
+	);
 };
 
 export default WithdrawError;
