@@ -1,0 +1,16 @@
+{
+  "additionalProperties": false,
+  "type": "object",
+  "required": [
+	"amount",
+	"cardId"
+  ],
+  "properties": {
+	"cardId": {
+	  "type": "number"
+	},
+	"amount": {
+	  "type": "number"
+	}
+  }
+}

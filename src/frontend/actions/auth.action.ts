@@ -85,7 +85,6 @@ const processToken = (token: string, dispatch: any) => {
 	}
 };
 
-
 // send request and recieve token
 export const login = (provider: string) => {
 	return async (dispatch: any) => {

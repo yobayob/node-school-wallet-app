@@ -1,14 +1,14 @@
 import {Schema, SequenceDocument, SequenceSchema} from 'mongoose';
 import {SuperModel} from '../../common/models/supermodel';
 import {Singleton} from 'typescript-ioc';
-import {ICardModel} from './';
+import {ICardModel, IGoal} from './';
 import {ApplicationError} from '../../common/exceptions/application.error';
 
 // Types of transaction
 const CARD2CARD = `card2card`;
 const PREPAID_CARD = `prepaidCard`;
 const PAYMENT_MOBILE = `paymentMobile`;
-const CARD2WALLET = `CARD2WALLET`;
+const CARD2GOAL = `CARD2GOAL`;
 
 const _name = `transactions`;
 
@@ -86,13 +86,13 @@ export class TransactionModel extends SuperModel<ITransactionModel> {
 		const transSend = {
 			cardId: cardSend.id,
 			sum: -sum,
-			data: `Transfer to ${cardRecieve.cardNumber}`,
+			data: `${cardRecieve.cardNumber}`,
 			type: CARD2CARD,
 		};
 		const transRecieve = {
 			cardId: cardRecieve.id,
 			sum,
-			data: `Transfer from ${cardSend.cardNumber}`,
+			data: `${cardSend.cardNumber}`,
 			type: CARD2CARD,
 		};
 		const saveAtomic = Promise.all([
@@ -103,6 +103,11 @@ export class TransactionModel extends SuperModel<ITransactionModel> {
 		cardSend.save();
 		cardRecieve.save();
 		return saveAtomic; // lolkek
+	}
+
+	public payGoal(card: ICardModel, goal: any, amount: number) {
+		const data = `${goal.id}`;
+		return this.createCardTransaction(card, data, CARD2GOAL, -amount)
 	}
 
 	public pay(card: ICardModel, data: string, amount: number) {
