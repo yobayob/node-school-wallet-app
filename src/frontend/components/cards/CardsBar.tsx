@@ -49,7 +49,7 @@ class CardsBar extends React.Component<ICardsBar, any> {
 		super(props);
 		this.state = {
 			isAdding: false,
-			stage: ""
+			stage: '',
 		}
 	}
 
@@ -61,7 +61,6 @@ class CardsBar extends React.Component<ICardsBar, any> {
 						<Logo />
 					</Link>
 					<CardsList>
-						<CardSuccess/>
 						{cards.map((card: any) => (
 							<Card
 								key={card.id}
@@ -70,11 +69,12 @@ class CardsBar extends React.Component<ICardsBar, any> {
 								active={card.id === activeCardId}
 							/>
 						))}
+						<CardSuccess/>
 						{(isAdding && !disableAdd) && <Card type='form' onClick={createCard} onCancel={() => setAddingMode(false)}/>}
 						{(!isAdding && !disableAdd) && <Card type='new' onClick={() => setAddingMode(true)}/>}
 					</CardsList>
 				</Layout>)
-			} else if (stage === "error"){
+			} else if (stage === 'error') {
 				return (<Layout>
 					<Link to='/'>
 						<Logo />

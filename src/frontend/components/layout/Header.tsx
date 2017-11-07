@@ -60,16 +60,22 @@ interface IHeaderProps {
 		first_name: string,
 		last_name: string,
 	} | null,
+	showBalance?: any,
 	dispatch: Dispatch<{}>,
 }
 
-const Header: React.SFC<IHeaderProps> = ({activeCard, user, dispatch}: any) => {
+const Header: React.SFC<IHeaderProps> = ({activeCard, user, dispatch, showBalance}: any) => {
 	return (
 	<HeaderLayout>
-		<Balance>
-			{`${activeCard ? activeCard.bankName + ':' : ''} `}
-			<BalanceSum>{`${activeCard ? activeCard.balance  + ' ₽' : ''}` }</BalanceSum>
-		</Balance>
+		{showBalance &&
+			<Balance>
+				{`${activeCard ? activeCard.bankName + ':' : ''} `}
+				<BalanceSum>{`${activeCard ? activeCard.balance  + ' ₽' : ''}` }</BalanceSum>
+			</Balance>
+		}
+		{!showBalance &&
+			<Balance/>
+		}
 		{user && <User>
 			<Avatar src='/assets/avatar.png' />
 			{user.first_name}&nbsp;{user.last_name}

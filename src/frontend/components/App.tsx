@@ -51,7 +51,6 @@ interface IAppProps {
 	dispatch: Dispatch<{}>;
 }
 
-
 class App extends React.Component<IAppProps, any> {
 
 	render() {
@@ -68,7 +67,7 @@ class App extends React.Component<IAppProps, any> {
 					stage={stage}
 				/>
 				<CardPane>
-					<Header/>
+					<Header showBalance={true}/>
 					{activeCard &&
 					<Workspace>
 						<History history={history}/>
