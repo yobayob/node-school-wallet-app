@@ -66,10 +66,12 @@ export class Wallet extends Application {
 				.createCardTransaction(ctx));
 
 		this.router.post('/cards/:cardId/pay',
+			cookieCheckerMiddleware,
 			async (ctx) => this.transactionController
 				.pay(ctx));
 
 		this.router.post('/cards/:cardId/fill',
+			cookieCheckerMiddleware,
 			async (ctx) => this.transactionController
 				.fill(ctx));
 

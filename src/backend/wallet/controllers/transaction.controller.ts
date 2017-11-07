@@ -36,6 +36,11 @@ export class TransactionController {
 		const card = await this.cards.get({id: ctx.params.cardId});
 		console.log(card);
 		ctx.body = await this.trans.pay(card, data, amount);
+		ctx.state.user = await ctx.state.user;
+		if (ctx.state.user.token) {
+			PushManager.send(ctx.state.user.token,
+				{title: 'Платеж успешен', body: `Платеж на сумму ${amount} успешен`})
+		}
 		ctx.status = 201
 	}
 
@@ -44,6 +49,12 @@ export class TransactionController {
 		const {amount, data}: any = ctx.request.body;
 		const card = await this.cards.get({id: ctx.params.cardId});
 		ctx.body = await this.trans.fill(card, data, amount);
+		ctx.state.user = await ctx.state.user;
+		console.log('here');
+		if (ctx.state.user.token) {
+			PushManager.send(ctx.state.user.token,
+				{title: 'Пополнение успешно', body: `Пополнение на сумму ${amount} успешно`})
+		}
 		ctx.status = 201
 	}
 
