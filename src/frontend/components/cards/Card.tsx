@@ -58,7 +58,7 @@ interface ICardProps {
 	data?: any
 	active?: boolean
 	onClick?: any
-	type?: 'new'|'form'|'select'
+	type?: 'new'|'form'|'select',
 	onCancel?: any,
 }
 

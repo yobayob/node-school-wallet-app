@@ -20,4 +20,5 @@ export type CardState = {
 	activeCard: any,
 	isAdding: boolean,
 	activeCardId: number | null,
+	stage: string
 };
