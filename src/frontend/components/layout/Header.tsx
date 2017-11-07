@@ -72,7 +72,7 @@ const Header: React.SFC<IHeaderProps> = ({activeCard, user, dispatch}: any) => {
 		</Balance>
 		{user && <User>
 			<Avatar src='/assets/avatar.png' />
-			{user.first_name} {user.last_name}
+			{user.first_name}&nbsp;{user.last_name}
 			<Exit onClick={() => dispatch(signOut())}/>
 		</User>
 		}
