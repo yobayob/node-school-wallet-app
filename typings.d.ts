@@ -1,12 +1,11 @@
-declare module 'fcm-push' {
-
-	export default class FCM {
-		constructor(o: any);
-
-		send(o: any): any;
-	}
-
-}
+// declare module 'fcm-push' {
+// 	class FCM {
+// 		constructor(o: any);
+//
+// 		send(o: any): any;
+// 	}
+//
+// }
 
 declare module 'card-info' {
 	export class CardInfo {
