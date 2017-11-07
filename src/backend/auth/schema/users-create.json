@@ -15,6 +15,9 @@
 	},
 	"phone": {
 	  "type": "string"
+	},
+	"token": {
+	  "type": "string"
 	}
   }
 }

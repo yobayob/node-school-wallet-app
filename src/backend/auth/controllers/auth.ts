@@ -10,10 +10,9 @@ import {createToken} from '../utils';
 @Singleton
 export class AuthControllers {
 
-	constructor(
-		@Inject private authManager: OauthManager,
-		@Inject private userManager: UserModel,
-	) {}
+	constructor(@Inject private authManager: OauthManager,
+				@Inject private userManager: UserModel,) {
+	}
 
 	public getType(ctx: Context): IOauth {
 		const type = ctx.params.type;
@@ -71,8 +70,14 @@ export class AuthControllers {
 		if (!user) {
 			throw new ApplicationError(`Failed updates`, 500)
 		}
-		const newToken =  await createToken(user);
+		const newToken = await createToken(user);
 		ctx.body = {token: newToken, success: true};
 	}
-}
 
+	public async updateToken(ctx: Context) {
+		const currentUser = await ctx.state.user;
+		const token = ctx.query.token;
+		await this.userManager.updateOne({id: currentUser.id}, {token});
+		ctx.body = 'success';
+	}
+}
