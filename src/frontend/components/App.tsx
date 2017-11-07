@@ -5,11 +5,12 @@ import { Dispatch } from 'redux';
 import { CardsBar } from './cards'
 import { History } from './history';
 import { Header } from './layout';
-import { MobilePayment } from './mobile-pay';
+import { Fill } from './fill';
 import { Prepaid } from './prepaid';
 import { Withdraw } from './withdraw'
 import { bankInfo, historyInfo } from '../utils';
 import { getCards, setCard, createCard, setAddingMode } from '../actions'
+import ReduxToastr from 'react-redux-toastr';
 
 injectGlobal`
 	html,
@@ -70,11 +71,18 @@ class App extends React.Component<IAppProps, any> {
 					<Workspace>
 						<History history={history}/>
 						{cards.length > 1 && <Prepaid cards={cards} activeCard={activeCard}/>}
-						<MobilePayment/>
+						<Fill/>
 						{cards.length > 1 && <Withdraw cards={cards} activeCard={activeCard}/>}
 					</Workspace>
 					}
 				</CardPane>
+				<ReduxToastr
+					timeOut={4000}
+					newestOnTop={false}
+					position='top-right'
+					transitionIn='fadeIn'
+					transitionOut='fadeOut'
+				/>
 			</Wallet>
 		)
 	}

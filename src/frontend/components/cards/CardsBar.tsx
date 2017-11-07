@@ -2,6 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import {setCard} from '../../actions';
 import {Card} from './'
+import {Link} from 'react-router';
 
 const Layout = styled.div`
 	display: flex;
@@ -34,12 +35,12 @@ const CardsList = styled.div`
 interface ICardsBar {
 	cards: any[],
 	setCard: any,
+	disableAdd?: boolean,
 	activeCardId: number | null,
-	createCard: any,
-	isAdding: boolean
-	setAddingMode: any
+	createCard?: any,
+	isAdding?: boolean
+	setAddingMode?: any
 }
-
 
 class CardsBar extends React.Component<ICardsBar, any> {
 
@@ -51,13 +52,15 @@ class CardsBar extends React.Component<ICardsBar, any> {
 	}
 
 	render() {
-		const {cards, isAdding, setCard, activeCardId, isCardCreating, createCard, setAddingMode}: any = this.props;
+		const {cards, isAdding, setCard, disableAdd, activeCardId, isCardCreating, createCard, setAddingMode}: any = this.props;
 		return (
 			<Layout>
-				<Logo />
+				<Link to='/'>
+					<Logo />
+				</Link>
 				<CardsList>
-					{isAdding && <Card type='form' onClick={createCard} onCancel={() => setAddingMode(false)}/>}
-					{!isAdding && <Card type='new' onClick={() => setAddingMode(true)}/>}
+					{(isAdding && disableAdd) && <Card type='form' onClick={createCard} onCancel={() => setAddingMode(false)}/>}
+					{(!isAdding && !disableAdd) && <Card type='new' onClick={() => setAddingMode(true)}/>}
 					{cards.map((card: any) => (
 						<Card
 							key={card.id}

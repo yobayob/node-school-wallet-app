@@ -75,10 +75,10 @@ class History extends React.Component<IHistoryProps, {}> {
 				break;
 			}
 			case 'prepaidCard': {
-				typeTitle = 'Пополнение с карты';
+				typeTitle = 'Пополнение';
 				break;
 			}
-			case 'withdrawCard': {
+			case 'card2card': {
 				typeTitle = 'Перевод на карту';
 				break;
 			}
