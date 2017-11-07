@@ -7,17 +7,15 @@ import {Router, Route, browserHistory} from 'react-router'
 import {syncHistoryWithStore} from 'react-router-redux'
 import {initialState, checkAuth, socketsConnecting} from './actions'
 
-
 // this is crazy
 const w = window as any;
 const appData = w.__data || {cards: [], transactions: []};
-
 
 store.dispatch(checkAuth());
 store.dispatch(initialState(appData));
 
 store.dispatch(socketsConnecting(
-	new WebSocket('ws://localhost:3000')
+	new WebSocket('ws://localhost:3000'),
 ));
 
 const history = syncHistoryWithStore(browserHistory, store);

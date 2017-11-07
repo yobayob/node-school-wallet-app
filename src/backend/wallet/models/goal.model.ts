@@ -2,16 +2,18 @@ import {Schema, SequenceDocument, SequenceSchema, connection} from 'mongoose';
 import {Singleton} from 'typescript-ioc';
 import {SuperModel} from '../../common/models';
 
-const _name = `banks`;
+const _name = `goals`;
 
-export interface IBank {
-	userId: number,
-	amount: number,
+export interface IGoal {
+	userId:  number,
+	amount:  number,
+	goal: 	 string,
+	dateEnd: string,
 }
 
-export interface IBankModel extends IBank, SequenceDocument {
+export interface IGoalModel extends IGoal, SequenceDocument {
 }
-export const BankSchema: SequenceSchema = new Schema({
+export const GoalSchema: SequenceSchema = new Schema({
 	userId: {
 		type: Number,
 		index: {unique: true},
@@ -32,10 +34,10 @@ export const BankSchema: SequenceSchema = new Schema({
 }) as SequenceSchema;
 
 @Singleton
-export class BankModel extends SuperModel<IBankModel> {
+export class GoalModel extends SuperModel<IGoalModel> {
 
 	constructor() {
-		super(_name, BankSchema);
+		super(_name, GoalSchema);
 	}
 }
 

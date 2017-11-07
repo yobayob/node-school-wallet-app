@@ -59,7 +59,7 @@ class CardsBar extends React.Component<ICardsBar, any> {
 					<Logo />
 				</Link>
 				<CardsList>
-					{(isAdding && disableAdd) && <Card type='form' onClick={createCard} onCancel={() => setAddingMode(false)}/>}
+					{(isAdding && !disableAdd) && <Card type='form' onClick={createCard} onCancel={() => setAddingMode(false)}/>}
 					{(!isAdding && !disableAdd) && <Card type='new' onClick={() => setAddingMode(true)}/>}
 					{cards.map((card: any) => (
 						<Card
