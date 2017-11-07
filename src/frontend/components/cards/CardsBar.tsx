@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import {setCard} from '../../actions';
-import {Card} from './'
+import {Card, CardError, CardSuccess} from './'
 import {Link} from 'react-router';
 
 const Layout = styled.div`
