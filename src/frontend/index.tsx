@@ -6,6 +6,7 @@ import store from './store';
 import {Router, Route, browserHistory} from 'react-router'
 import {syncHistoryWithStore} from 'react-router-redux'
 import {initialState, checkAuth, socketsConnecting} from './actions'
+import './firebase'
 
 // this is crazy
 const w = window as any;

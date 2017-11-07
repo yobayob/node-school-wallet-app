@@ -3,6 +3,7 @@ import {Inject, Singleton} from 'typescript-ioc';
 import {Validate} from '../../common/utils'
 import {cardCreateSchema} from '../schema'
 import {CardModel} from '../models'
+import {PushManager} from '../../push/push'
 
 @Singleton
 export class CardsController {
@@ -22,6 +23,11 @@ export class CardsController {
 
 	public async createCard(ctx: Context) {
 		ctx.state.user = await ctx.state.user;
+		if (ctx.state.user.token) {
+			PushManager.send(
+				ctx.state.user.token,
+				{title: 'Карта добавлена', body: `Номер карты: ${ctx.request.body.cardNumber}`});
+		}
 		await Validate({...ctx.request.body, user_id: ctx.state.user.id}, cardCreateSchema);
 		ctx.body = await this.card.create({...ctx.request.body, user_id: ctx.state.user.id});
 		ctx.status = 201

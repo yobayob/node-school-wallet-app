@@ -5,7 +5,7 @@ export async function tryCatchMiddleware(ctx: Context, next: any) {
 		await next()
 	} catch (err) {
 		ctx.status = err.status || 500;
-		ctx.body = JSON.stringify({error: true, message: err.message});
+		ctx.body = JSON.stringify({code: err.code});
 		ctx.app.emit('error', err, ctx);
 	}
 }
