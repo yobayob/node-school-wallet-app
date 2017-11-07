@@ -89,7 +89,7 @@ class StartPage extends React.Component<any, any> {
 						</InstanceBox>
 					</InstanceLayout>
 				</Link>
-				<Link to='/'>
+				<Link to='/goals'>
 					<InstanceLayout>
 						<InstanceBox>
 							<InstanceTitle>

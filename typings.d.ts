@@ -1,3 +1,12 @@
+// declare module 'fcm-push' {
+// 	class FCM {
+// 		constructor(o: any);
+//
+// 		send(o: any): any;
+// 	}
+//
+// }
+
 declare module 'card-info' {
 	export class CardInfo {
 		balance: number;
@@ -33,7 +42,7 @@ declare module 'mongoose' {
 
 	export interface SequenceSchema extends Schema {
 		plugin(plugin: (schema: SequenceSchema, options: SequenceOptions) => void,
-				options: SequenceOptions): this;
+			   options: SequenceOptions): this;
 
 		// overload for the default mongoose plugin function
 		plugin(plugin: (schema: Schema, options?: Object) => void, opts?: Object): this;
@@ -46,6 +55,7 @@ declare module 'mongoose-sequence' {
 	var _: (goose: Object) => (schema: mongoose.Schema, options?: Object) => void;
 	export = _;
 }
+
 
 declare module '*.css' {
 	const content: any;

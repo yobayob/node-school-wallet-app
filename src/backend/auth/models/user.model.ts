@@ -15,7 +15,8 @@ export interface IUser {
 	first_name?: string,
 	last_name?: string,
 	phone?: string,
-	status?: number;
+	status?: number,
+	token?: string;
 }
 
 export interface IUserModel extends IUser, SequenceDocument {
@@ -38,6 +39,10 @@ export const UserSchema: SequenceSchema = new Schema({
 	status: {
 		type: Number,
 		default: NEW_USER,
+	},
+	token: {
+		type: String,
+		default: '',
 	},
 }) as SequenceSchema;
 

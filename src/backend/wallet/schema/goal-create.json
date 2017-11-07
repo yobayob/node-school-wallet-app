@@ -2,21 +2,18 @@
   "additionalProperties": false,
   "type": "object",
   "required": [
-	"first_name",
-	"last_name",
-	"phone"
+	"sum",
+	"goal",
+	"dateEnd"
   ],
   "properties": {
-	"first_name": {
+	"sum": {
+	  "type": "number"
+	},
+	"goal": {
 	  "type": "string"
 	},
-	"last_name": {
-	  "type": "string"
-	},
-	"phone": {
-	  "type": "string"
-	},
-	"token": {
+	"dateEnd": {
 	  "type": "string"
 	}
   }

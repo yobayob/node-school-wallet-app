@@ -26,7 +26,7 @@ export class Render extends Application {
 	 */
 	$setRoutes() {
 
-		this.router.get('(\/card|\/|\/pay)', cookieCheckerMiddleware, async (ctx) => {
+		this.router.get('(\/card|\/|\/pay|\/goals)', cookieCheckerMiddleware, async (ctx) => {
 			const user = await ctx.state.user;
 			const cards = await this.cards.filter({user_id: user.id});
 			const transactions = await this.transactions.all();

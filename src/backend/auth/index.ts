@@ -7,10 +7,8 @@ import {cookieCheckerMiddleware} from '../middlewares';
 @Singleton
 export class Auth extends Application {
 
-	constructor(
-		@Inject public router: Router,
-		@Inject public authController: AuthControllers,
-	) {
+	constructor(@Inject public router: Router,
+				@Inject public authController: AuthControllers,) {
 		super()
 	}
 
@@ -28,5 +26,10 @@ export class Auth extends Application {
 		this.router.get('/callback/:type',
 			async (ctx) => this.authController
 				.callback(ctx));
+
+		this.router.get('/token/update',
+			cookieCheckerMiddleware,
+			async (ctx) => this.authController
+				.updateToken(ctx));
 	}
 }

@@ -5,7 +5,7 @@
     "module": "commonjs", /* Specify module code generation: 'commonjs', 'amd', 'system', 'umd' or 'es2015'. */
 	"sourceMap": false,
 	"jsx": "react",
-	"allowJs": false,
+	"allowJs": true,
     "lib": [
       "dom",
       "es5",
