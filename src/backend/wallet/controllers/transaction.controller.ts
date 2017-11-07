@@ -4,6 +4,7 @@ import {Validate} from '../../common/utils';
 import {transactionCreateSchema, transactionPaySchema, transactionTransferSchema} from '../schema'
 import {TransactionModel, CardModel, ITransaction} from '../models'
 import {PassThrough, Stream} from 'stream'
+import {PushManager} from '../../push/push'
 
 @Singleton
 export class TransactionController {
@@ -33,6 +34,7 @@ export class TransactionController {
 		await Validate(ctx.request.body, transactionPaySchema);
 		const {amount, data}: any = ctx.request.body;
 		const card = await this.cards.get({id: ctx.params.cardId});
+		console.log(card);
 		ctx.body = await this.trans.pay(card, data, amount);
 		ctx.status = 201
 	}
@@ -51,6 +53,11 @@ export class TransactionController {
 		const cardIn = await this.cards.get({id: ctx.params.cardId});
 		const cardOut = await this.cards.get({id: cardId});
 		ctx.body = await this.trans.transfer(cardIn, cardOut, amount);
+		ctx.state.user = await ctx.state.user;
+		if (ctx.state.user.token) {
+			PushManager.send(ctx.state.user.token,
+				{title: 'Перевод выполнен', body: `Перевод на сумму ${amount} успешен`})
+		}
 		ctx.status = 201
 	}
 

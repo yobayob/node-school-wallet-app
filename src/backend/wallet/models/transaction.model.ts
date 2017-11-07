@@ -82,6 +82,7 @@ export class TransactionModel extends SuperModel<ITransactionModel> {
 		}
 		console.log(cardSend.balance, sum);
 		cardSend.balance -= sum;
+		console.log(cardRecieve);
 		cardRecieve.balance += sum;
 		const transSend = {
 			cardId: cardSend.id,
