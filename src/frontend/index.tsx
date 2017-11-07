@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {hydrate} from 'react-dom';
 import {Provider} from 'react-redux';
-import {App, Login, Pay, StartPage} from './components';
+import {App, Login, Pay, StartPage, Goal} from './components';
 import store from './store';
 import {Router, Route, browserHistory} from 'react-router'
 import {syncHistoryWithStore} from 'react-router-redux'
@@ -26,6 +26,7 @@ hydrate(
 			<Route path='/card' component={App}/>
 			<Route path='/pay' component={Pay}/>
 			<Route path='/login' component={Login}/>
+			<Route path='/goals' component={Goal}/>
 		</Router>
 	</Provider>,
 	document.getElementById('root'));

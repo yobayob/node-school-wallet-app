@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {renderToString} from 'react-dom/server';
-import {App, Login, StartPage, Pay} from '../../frontend/components';
+import {App, Login, StartPage, Pay, Goal} from '../../frontend/components';
 import {ServerStyleSheet} from 'styled-components'
 import * as serialize from 'serialize-javascript';
 import store from '../../frontend/store'
@@ -22,6 +22,9 @@ const routes = [
 	}, {
 		path: '/login',
 		component: Login,
+	}, {
+		path: '/goals',
+		component: Goal,
 	},
 ];
 
@@ -58,7 +61,7 @@ export function getSSR(location: string, appData?: any): Promise<React.ReactElem
 						<script type='text/javascript' src='vendor.js'/>
 						<script type='text/javascript' src='main.js'/>
 					</body>
-				</html>
+				</html>,
 			)
 		})
 	})

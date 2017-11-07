@@ -7,6 +7,7 @@ const _name = `goals`;
 export interface IGoal {
 	userId:  number,
 	amount:  number,
+	today: 	 number,
 	goal: 	 string,
 	dateEnd: string,
 }
@@ -22,6 +23,10 @@ export const GoalSchema: SequenceSchema = new Schema({
 	amount: {
 		type: Number,
 		required: true,
+	},
+	today: {
+		type: Number,
+		default: 0,
 	},
 	goal: {
 		type: String,
