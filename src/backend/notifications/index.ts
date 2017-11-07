@@ -16,11 +16,17 @@ export class NotificationServer {
     private wss: WebSocket.Server;
 
     public start(server: http.Server): void {
+
         // TODO verifyClient
-        this.wss = new WebSocket.Server({ server });
-        //this.setListeners();
+        this.wss = new WebSocket.Server({
+            verifyClient(info, done) {
+                done(true);
+            }, 
+            server });
+        this.setListeners();
     }
-    public setListeners(walletId: string): void {
+    
+    public setListeners(): void {
         this.wss.on('connection', (client, req) => {
             // TODO 
             // parse req for hash
@@ -39,7 +45,7 @@ export class NotificationServer {
             }
         });
     }
-
+    // метод для тестирования
     public notifyClientTest(message: INotifyMessage) {
         this.wss.clients.forEach(client => {
             client.send(JSON.stringify(message));

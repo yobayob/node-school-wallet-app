@@ -74,6 +74,8 @@ export class Wallet extends Application {
 
 		this.router.get('/transactions', async (ctx) => {
 			await this.transactionController.getAllTransaction(ctx);
+
+			// это здесь просто для теста
 			this.notificationServer.notifyClientTest({
 				type: 'transaction_success',
 				data: 'success'
