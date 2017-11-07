@@ -10,6 +10,7 @@ import { Prepaid } from './prepaid';
 import { Withdraw } from './withdraw'
 import { bankInfo, historyInfo } from '../utils';
 import { getCards, setCard, createCard, setAddingMode } from '../actions'
+import ReduxToastr from 'react-redux-toastr';
 
 injectGlobal`
 	html,
@@ -74,6 +75,13 @@ class App extends React.Component<IAppProps, any> {
 					</Workspace>
 					}
 				</CardPane>
+				<ReduxToastr
+					timeOut={4000}
+					newestOnTop={false}
+					position='top-right'
+					transitionIn='fadeIn'
+					transitionOut='fadeOut'
+				/>
 			</Wallet>
 		)
 	}

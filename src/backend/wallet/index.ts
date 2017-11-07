@@ -4,6 +4,8 @@ import {Inject, Singleton} from 'typescript-ioc'
 import * as controllers from './controllers'
 import * as Router from 'koa-router'
 
+import {NotificationServer} from '../notifications'
+
 /*
  Module wallet - all business logic for cards and transaction
  */
@@ -14,6 +16,7 @@ export class Wallet extends Application {
 		@Inject public router: Router,
 		@Inject private cardsController: controllers.CardsController,
 		@Inject private transactionController: controllers.TransactionController,
+		@Inject private notificationServer: NotificationServer
 	) {
 		super()
 	}
@@ -72,8 +75,14 @@ export class Wallet extends Application {
 			async (ctx) => this.transactionController
 				.getCardTransactionCSV(ctx));
 
-		this.router.get('/transactions',
-			async (ctx) => this.transactionController
-				.getAllTransaction(ctx));
+		this.router.get('/transactions', async (ctx) => {
+			await this.transactionController.getAllTransaction(ctx);
+
+			// это здесь просто для теста
+			this.notificationServer.notifyClientTest({
+				type: 'transaction_success',
+				data: 'success'
+			})
+		});
 	}
 }
