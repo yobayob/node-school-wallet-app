@@ -23,6 +23,8 @@ interface IConfig {
 
 let config: IConfig;
 
+console.log(process.env.NODE_ENV);
+
 if (process.env.NODE_ENV === `production`) {
 	console.log(`use prod config`);
 	config = (prodConfigData as any) as IConfig;

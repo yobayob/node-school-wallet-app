@@ -38,7 +38,7 @@ export class AuthControllers {
 		const user = await this.userManager.getOrCreate(userInfo);
 		const jwt = await createToken(user);
 		const body = JSON.stringify({success: true, token: jwt});
-		const origin = ctx.origin.replace(`localhost`, '127.0.0.1'); //monkey patch origin. I don't know why :(
+		const origin = ctx.origin.replace(`localhost`, '127.0.0.1').replace(`http`, `https`); //monkey patch origin. I don't know why :(
 		ctx.body = `
 		<script type="text/javascript">
 		  window.opener.postMessage(${body}, \'${origin}\');

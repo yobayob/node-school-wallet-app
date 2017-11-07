@@ -2,14 +2,14 @@
   "secret": "dsf;k4t5wefwsf-0th5",
   "oauth": {
 	"github": {
-	  "client_id": "6e6acb1b35e0ef2f1b66",
-	  "secret": "be626f9379031f9919781e91bf03ca65c4602013",
-	  "callback_uri": "https://localhost:8080/callback/github"
+	  "client_id": "2f1af705f4ba00617f91",
+	  "secret": "c5e0b841dc8b48ba6bf5580d60e3fbed90f77dca",
+	  "callback_uri": "https://wallet.artemtam.me/callback/github"
 	},
 	"yandex": {
-	  "client_id": "3dbeea2a15c14e7aa07e9bd73f618a15",
-	  "secret": "3178da72284442f691c0e6716606d6a6",
-	  "callback_uri": "https://localhost:8080/callback/yandex"
+	  "client_id": "c68ebbed949e47bd936cafd3a99df203",
+	  "secret": "c41fbf71308f4eaa83ec4f66722800f8",
+	  "callback_uri": "https://wallet.artemtam.me/callback/yandex"
 	}
   },
   "db": {
