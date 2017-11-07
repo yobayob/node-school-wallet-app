@@ -9,6 +9,7 @@ export const initialState = {
 	activeCardId: null,
 	activeCard: null,
 	isAdding: false,
+	stage: "",
 } as CardState;
 
 export default handleActions<CardState, any>({
@@ -47,6 +48,15 @@ export default handleActions<CardState, any>({
 		state.data.push(action.payload);
 		return {
 			...state,
+			stage: "success",
+			isAdding: false,
+		};
+	},
+	[actions.CARD_CREATE_FAILED]: (state: CardState, action: Action<Card>): CardState => {
+		console.log(action);
+		return {
+			...state,
+			stage: "error",
 			isAdding: false,
 		};
 	},

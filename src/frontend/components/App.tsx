@@ -46,13 +46,14 @@ interface IAppProps {
 	activeCard: any,
 	activeCardId: number | null,
 	isAdding: boolean,
+	stage: string,
 	dispatch: Dispatch<{}>;
 }
 
 class App extends React.Component<IAppProps, any> {
 
 	render() {
-		const { cards, history, activeCardId, activeCard, isAdding, dispatch}: any = this.props;
+		const { cards, history, activeCardId, activeCard, isAdding, dispatch, stage}: any = this.props;
 		return (
 			<Wallet>
 				<CardsBar
@@ -62,6 +63,7 @@ class App extends React.Component<IAppProps, any> {
 					activeCardId={activeCardId}
 					createCard={(cardNumber: string) => dispatch(createCard(cardNumber))}
 					setCard={(card: any) => dispatch(setCard(card))}
+					stage={stage}
 				/>
 				<CardPane>
 					<Header/>
@@ -86,6 +88,7 @@ const mapStateToProps = (state: any) => {
 		activeCardId: state.cards.activeCardId,
 		activeCard: state.cards.activeCard,
 		isAdding: state.cards.isAdding,
+		stage: state.cards.stage,
 		cards,
 		history,
 	};
