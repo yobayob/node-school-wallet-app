@@ -74,6 +74,7 @@ export class Wallet extends Application {
 				.fill(ctx));
 
 		this.router.post('/cards/:cardId/transfer',
+			cookieCheckerMiddleware,
 			async (ctx) => this.transactionController
 				.transfer(ctx));
 
