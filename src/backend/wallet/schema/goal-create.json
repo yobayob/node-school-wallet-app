@@ -1,0 +1,20 @@
+{
+  "additionalProperties": false,
+  "type": "object",
+  "required": [
+	"sum",
+	"goal",
+	"dateEnd"
+  ],
+  "properties": {
+	"sum": {
+	  "type": "number"
+	},
+	"goal": {
+	  "type": "string"
+	},
+	"dateEnd": {
+	  "type": "string"
+	}
+  }
+}

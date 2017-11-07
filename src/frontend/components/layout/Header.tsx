@@ -42,7 +42,7 @@ const Exit = styled.div`
 	height: 26px;
 	width: 26px;
 	margin: 5px 15px;
-	background-image: url('/assets/sign-out.svg');
+	background-image: url('/assets/logout.svg');
 	background-size: contain;
 	background-repeat: no-repeat;
 	opacity: 0.6;
@@ -60,16 +60,22 @@ interface IHeaderProps {
 		first_name: string,
 		last_name: string,
 	} | null,
+	showBalance?: any,
 	dispatch: Dispatch<{}>,
 }
 
-const Header: React.SFC<IHeaderProps> = ({activeCard, user, dispatch}: any) => {
+const Header: React.SFC<IHeaderProps> = ({activeCard, user, dispatch, showBalance}: any) => {
 	return (
 	<HeaderLayout>
-		<Balance>
-			{`${activeCard ? activeCard.bankName + ':' : ''} `}
-			<BalanceSum>{`${activeCard ? activeCard.balance  + ' ₽' : ''}` }</BalanceSum>
-		</Balance>
+		{showBalance &&
+			<Balance>
+				{`${activeCard ? activeCard.bankName + ':' : ''} `}
+				<BalanceSum>{`${activeCard ? activeCard.balance  + ' ₽' : ''}` }</BalanceSum>
+			</Balance>
+		}
+		{!showBalance &&
+			<Balance/>
+		}
 		{user && <User>
 			<Avatar src='/assets/avatar.png' />
 			{user.first_name}&nbsp;{user.last_name}

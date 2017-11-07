@@ -1,0 +1,50 @@
+- hosts: wallet.artemtam.me
+  remote_user: ansible-user
+  tasks:
+
+  - name: Pull an image
+    docker_image: name=artemtam/wallet:latest
+
+  - name: Start Mongo container
+    docker_container:
+      name: mongo
+      image: mongo:latest
+      state: started
+      restart: yes
+      ports:
+      - 27018:27018
+      command: mongod --port 27018
+      volumes:
+      - ./db:/data
+      - ./helps/dumps:/dumps
+      networks:
+      - name: WalletNet
+        aliases:
+          - mongo
+
+#  - name: Upload dumps to the server
+#    copy: src=helps/dumps/ dest=~/dumps/
+#
+#  - name: Load data into Mongo
+#    shell: |
+#        docker cp ~/dumps mongo:/
+#        docker exec mongo mongorestore --db=nodeschool --port=27018 /dumps
+
+  - name: Start NodeJS container
+    docker_container:
+      name: web
+      image: artemtam/wallet:latest
+      state: started
+      restart: yes
+      ports:
+      - 3001:3000
+      networks:
+      - name: WalletNet
+        aliases:
+          - node
+      env:
+        NODE_ENV: production
+      command: pm2-docker start ecosystem.config.js --env production
+
+  - name: Copy NGINX config
+    copy: src=ssl/nginx.conf dest=/etc/nginx/sites-available/wallet.artemtam.me.conf

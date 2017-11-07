@@ -3,6 +3,7 @@ import {Singleton} from 'typescript-ioc';
 import {SuperModel} from '../../common/models'
 import {checkLuhn} from '../../common/utils'
 import {ApplicationError} from '../../common/exceptions';
+import {getErrorByKey} from '../../../common/errors/getter';
 
 const _name = `cards`;
 
@@ -41,8 +42,10 @@ export class CardModel extends SuperModel<ICardModel> {
 
 	public create(o: { balance: number, cardNumber: string, user_id: number }) {
 		if (!checkLuhn(o.cardNumber)) {
-			throw new ApplicationError('Luhn invalid', 400)
+            console.log(getErrorByKey('logic.card.invalid'));
+            throw new ApplicationError('logic.card.invalid', 400)
 		}
+		console.log(getErrorByKey('logic.card.invalid'));
 		return super.create(o)
 	}
 }

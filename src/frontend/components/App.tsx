@@ -5,11 +5,12 @@ import { Dispatch } from 'redux';
 import { CardsBar } from './cards'
 import { History } from './history';
 import { Header } from './layout';
-import { MobilePayment } from './mobile-pay';
+import { Fill } from './fill';
 import { Prepaid } from './prepaid';
 import { Withdraw } from './withdraw'
 import { bankInfo, historyInfo } from '../utils';
 import { getCards, setCard, createCard, setAddingMode } from '../actions'
+import ReduxToastr from 'react-redux-toastr';
 
 injectGlobal`
 	html,
@@ -46,13 +47,14 @@ interface IAppProps {
 	activeCard: any,
 	activeCardId: number | null,
 	isAdding: boolean,
+	stage: string,
 	dispatch: Dispatch<{}>;
 }
 
 class App extends React.Component<IAppProps, any> {
 
 	render() {
-		const { cards, history, activeCardId, activeCard, isAdding, dispatch}: any = this.props;
+		const { cards, history, activeCardId, activeCard, isAdding, dispatch, stage}: any = this.props;
 		return (
 			<Wallet>
 				<CardsBar
@@ -62,18 +64,26 @@ class App extends React.Component<IAppProps, any> {
 					activeCardId={activeCardId}
 					createCard={(cardNumber: string) => dispatch(createCard(cardNumber))}
 					setCard={(card: any) => dispatch(setCard(card))}
+					stage={stage}
 				/>
 				<CardPane>
-					<Header/>
+					<Header showBalance={true}/>
 					{activeCard &&
 					<Workspace>
 						<History history={history}/>
 						{cards.length > 1 && <Prepaid cards={cards} activeCard={activeCard}/>}
-						<MobilePayment/>
+						<Fill/>
 						{cards.length > 1 && <Withdraw cards={cards} activeCard={activeCard}/>}
 					</Workspace>
 					}
 				</CardPane>
+				<ReduxToastr
+					timeOut={4000}
+					newestOnTop={false}
+					position='top-right'
+					transitionIn='fadeIn'
+					transitionOut='fadeOut'
+				/>
 			</Wallet>
 		)
 	}
@@ -86,6 +96,7 @@ const mapStateToProps = (state: any) => {
 		activeCardId: state.cards.activeCardId,
 		activeCard: state.cards.activeCard,
 		isAdding: state.cards.isAdding,
+		stage: state.cards.stage,
 		cards,
 		history,
 	};
