@@ -8,6 +8,7 @@ import {ApplicationError} from '../../common/exceptions/application.error';
 const CARD2CARD = `card2card`;
 const PREPAID_CARD = `prepaidCard`;
 const PAYMENT_MOBILE = `paymentMobile`;
+const CARD2WALLET = `CARD2WALLET`;
 
 const _name = `transactions`;
 

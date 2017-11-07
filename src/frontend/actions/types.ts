@@ -27,6 +27,11 @@ export const PAY_SUCCESS = 'PAY_SUCCESS';
 export const PAY_FAILED = 'PAY_FAILED';
 export const PAY_REPEAT = 'PAY_REPEAT';
 
+export const FILL_START = 'FILL_START';
+export const FILL_SUCCESS = 'FILL_SUCCESS';
+export const FILL_FAILED = 'FILL_FAILED';
+export const FILL_REPEAT = 'FILL_REPEAT';
+
 export const PREPAID_START = 'PREPAID_START';
 export const PREPAID_SUCCESS = 'PREPAID_SUCCESS';
 export const PREPAID_FAILED = 'PREPAID_FAILED';

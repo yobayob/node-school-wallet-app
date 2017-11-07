@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {hydrate} from 'react-dom';
 import { Provider } from 'react-redux';
-import {App, Login } from './components';
+import {App, Login, Pay, StartPage } from './components';
 import store from './store';
 import { Router, Route, browserHistory } from 'react-router'
 import { syncHistoryWithStore  } from 'react-router-redux'
@@ -17,7 +17,9 @@ const history = syncHistoryWithStore(browserHistory, store);
 hydrate(
 		<Provider store={store}>
 			<Router history={history}>
-				<Route path='/' component={App}/>
+				<Route path='/' component={StartPage}/>
+				<Route path='/card' component={App}/>
+				<Route path='/pay' component={Pay}/>
 				<Route path='/login' component={Login}/>
 			</Router>
 		</Provider>,

@@ -42,7 +42,7 @@ const Exit = styled.div`
 	height: 26px;
 	width: 26px;
 	margin: 5px 15px;
-	background-image: url('/assets/sign-out.svg');
+	background-image: url('/assets/logout.svg');
 	background-size: contain;
 	background-repeat: no-repeat;
 	opacity: 0.6;
