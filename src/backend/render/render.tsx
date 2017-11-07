@@ -19,19 +19,24 @@ const routes = [
 	}, {
 		path: '/card',
 		component: App,
-	},
+	}, {
+		path: '/login',
+		component: Login,
+	}
 ];
 
-export function getSSR(location: string, appData:
-	{cards: any, transactions: any, user: any} = {cards: [], transactions: [], user: null}): Promise<React.ReactElement<any>> {
+export function getSSR(location: string, appData?: any): Promise<React.ReactElement<any>> {
 	return new Promise((resolve, reject) => {
 		match({routes, location}, (err: any, redirect: any, props: any) => {
 			if (err) {
 				throw new ApplicationError(err);
 			}
 			const sheet = new ServerStyleSheet();
-			const viewData = `window.__data=${serialize(appData)};`;
-			store.dispatch(initialState(appData));
+			let viewData = '';
+			if (appData) {
+				viewData = `window.__data=${serialize(appData)};`;
+				store.dispatch(initialState(appData));
+			}
 			const html = renderToString(sheet.collectStyles(
 				<Provider store={store}>
 					<RouterContext {...props}/>

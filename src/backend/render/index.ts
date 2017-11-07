@@ -34,7 +34,7 @@ export class Render extends Application {
 		});
 
 		this.router.get('/login', async (ctx) => {
-			ctx.body = renderToStaticMarkup(renderLogin());
+			ctx.body = renderToStaticMarkup(await getSSR(ctx.url));
 		})
 	}
 }
