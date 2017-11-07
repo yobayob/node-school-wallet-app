@@ -2,7 +2,7 @@ import {Application} from '../common/models'
 import {Inject, Singleton} from 'typescript-ioc';
 import * as Router from 'koa-router';
 import {CardModel, TransactionModel} from '../wallet/models'
-import {renderLogin, getSSR} from './render'
+import {getSSR} from './render'
 import {renderToStaticMarkup} from 'react-dom/server'
 import {cookieCheckerMiddleware} from '../middlewares'
 import {UserModel} from '../auth/models';

@@ -22,7 +22,7 @@ const routes = [
 	}, {
 		path: '/login',
 		component: Login,
-	}
+	},
 ];
 
 export function getSSR(location: string, appData?: any): Promise<React.ReactElement<any>> {
@@ -64,27 +64,3 @@ export function getSSR(location: string, appData?: any): Promise<React.ReactElem
 	})
 }
 
-export function renderLogin() {
-	const sheet = new ServerStyleSheet();
-	const html = renderToString(sheet.collectStyles(
-	<Provider store={store}>
-			<Login/>
-	</Provider>));
-	const style = sheet.getStyleTags();
-	return (
-		<html>
-			<head>
-				<title>Node School App</title>
-				<link rel='shortcut icon' href='/public/favicon.ico'/>
-				<link rel='stylesheet' type='text/css' href='styles.css'/>
-				<style type='text/css' dangerouslySetInnerHTML={{__html: style}}/>
-			</head>
-			<body>
-				<div id='root' dangerouslySetInnerHTML={{__html: html}}/>
-				<script type='text/javascript' src='react.js'/>
-				<script type='text/javascript' src='vendor.js'/>
-				<script type='text/javascript' src='main.js'/>
-			</body>
-		</html>
-	);
-}
