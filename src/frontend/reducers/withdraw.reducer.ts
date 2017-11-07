@@ -25,6 +25,14 @@ export default handleActions<TransferState, any>({
 			stage: 'success',
 		};
 	},
+	[actions.WITHDRAW_FAILED]: (state: TransferState, action: Action<any>): TransferState => {
+		console.log(action);
+		return {
+			...state,
+			transaction: null,
+			stage: 'error',
+		};
+	},
 	[actions.WITHDRAW_REPEAT]: (state: TransferState, action: Action<any>): TransferState => {
 		console.log(action);
 		return {
